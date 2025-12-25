@@ -6,71 +6,70 @@
     <title>GR CLAN - كلان ببجي</title>
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    <!-- الهيدر -->
-    <header class="main-header">
-        <div class="header-left">
-            <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo">
-            <span class="clan-name">GR CLAN</span>
-        </div>
-        <div class="header-right">
-            <span id="user-id-display">زائر</span>
-            <div class="auth-buttons">
-                <a href="login.html" class="btn btn-login">تسجيل الدخول</a>
-                <a href="register.html" class="btn btn-register">إنشاء حساب</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- المحتوى الرئيسي -->
-    <main class="main-content">
-        <section class="clan-intro">
-            <h1>مرحباً بك في GR CLAN</h1>
-            <p>نحن كلان عربي محترف في لعبة PUBG Mobile، نهدف إلى بناء مجتمع قوي من اللاعبين المتميزين.</p>
-            <div class="clan-stats">
-                <div class="stat">
-                    <h3>عدد الأعضاء</h3>
-                    <p>3+</p>
-                </div>
-                <div class="stat">
-                    <h3>المستوى</h3>
-                    <p>Platinum</p>
-                </div>
-                <div class="stat">
-                    <h3>الفوز</h3>
-                    <p>75%</p>
+    <!-- الصفحة الرئيسية - واجهة البداية -->
+    <div class="landing-page">
+        <!-- الخلفية -->
+        <div class="bg-overlay"></div>
+        
+        <!-- المحتوى الرئيسي -->
+        <div class="landing-content">
+            <!-- شعار الكلان -->
+            <div class="clan-hero">
+                <div class="clan-logo-container">
+                    <div class="logo-placeholder">
+                        <span class="logo-text">GR</span>
+                        <div class="logo-glow"></div>
+                    </div>
+                    <h1 class="clan-title">GR CLAN</h1>
+                    <p class="clan-subtitle">كلان عربي محترف في PUBG Mobile</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- الشريط السفلي (مشابه لشريط Windows 11) -->
-    <nav class="taskbar">
-        <div class="taskbar-items">
-            <a href="index.html" class="taskbar-item active">
-                <span>🏠</span>
-                <span>الرئيسية</span>
-            </a>
-            <a href="account.html" class="taskbar-item">
-                <span>👤</span>
-                <span>حسابك</span>
-            </a>
-            <a href="#" class="taskbar-item">
-                <span>🏆</span>
-                <span>البطولات</span>
-            </a>
-            <a href="#" class="taskbar-item">
-                <span>👥</span>
-                <span>الأعضاء</span>
-            </a>
-            <a href="#" class="taskbar-item">
-                <span>⚙️</span>
-                <span>الإعدادات</span>
-            </a>
+            
+            <!-- أزرار الدخول -->
+            <div class="landing-buttons">
+                <a href="login.html" class="landing-btn login-btn">
+                    <span class="btn-icon">🔐</span>
+                    <span class="btn-text">تسجيل الدخول</span>
+                </a>
+                
+                <a href="register.html" class="landing-btn register-btn">
+                    <span class="btn-icon">👤</span>
+                    <span class="btn-text">إنشاء حساب</span>
+                </a>
+            </div>
+            
+            <!-- معلومات الكلان -->
+            <div class="clan-info">
+                <div class="info-card">
+                    <span class="info-icon">🏆</span>
+                    <h3>بطولات متنوعة</h3>
+                    <p>نشارك في البطولات المحلية والدولية</p>
+                </div>
+                
+                <div class="info-card">
+                    <span class="info-icon">👥</span>
+                    <h3>مجتمع نشط</h3>
+                    <p>أكثر من 50 لاعب محترف</p>
+                </div>
+                
+                <div class="info-card">
+                    <span class="info-icon">⚡</span>
+                    <h3>تدريب مستمر</h3>
+                    <p>جلسات تدريبية يومية</p>
+                </div>
+            </div>
         </div>
-    </nav>
+        
+        <!-- الذيل -->
+        <footer class="landing-footer">
+            <p>© 2024 GR CLAN - جميع الحقوق محفوظة</p>
+            <p>PUBG Mobile هو علامة تجارية مسجلة لشركة KRAFTON, Inc.</p>
+        </footer>
+    </div>
 
     <script src="js/main.js"></script>
 </body>
-  </html>
+</html>
