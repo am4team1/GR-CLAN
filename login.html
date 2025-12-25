@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - GR CLAN</title>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .error-message {
+            color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+            border: 1px solid #ff6b6b;
+        }
+        
+        .success-message {
+            color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+            border: 1px solid #4CAF50;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .forgot-password {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-form">
+            <div class="auth-header">
+                <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo" style="width: 80px; height: 80px; margin-bottom: 15px;">
+                <h2>تسجيل الدخول</h2>
+                <p>أدخل بياناتك للوصول إلى حسابك</p>
+            </div>
+            
+            <!-- رسالة الخطأ -->
+            <div id="errorMessage" class="error-message">
+                اسم المستخدم أو كلمة المرور غير صحيحة!
+            </div>
+            
+            <!-- رسالة النجاح -->
+            <div id="successMessage" class="success-message">
+                تم تسجيل الدخول بنجاح!
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">اسم المستخدم</label>
+                    <input type="text" id="loginUsername" required placeholder="أدخل اسم المستخدم">
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" required placeholder="أدخل كلمة المرور">
+                    <div style="text-align: left; margin-top: 5px;">
+                        <input type="checkbox" id="showPassword" style="width: auto; margin-right: 5px;">
+                        <label for="showPassword" style="display: inline; color: var(--gold); font-size: 0.9rem;">إظهار كلمة المرور</label>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe" style="width: auto;">
+                        <label for="rememberMe" style="display: inline; margin: 0;">تذكرني</label>
+                    </div>
+                    <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                
+                <div style="text-align: center; margin: 20px 0; position: relative;">
+                    <span style="background-color: rgba(255, 255, 255, 0.05); padding: 0 15px; position: relative; z-index: 1;">أو</span>
+                    <div style="height: 1px; background-color: rgba(212, 175, 55, 0.3); position: absolute; top: 50%; left: 0; right: 0; z-index: 0;"></div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <p>ليس لديك حساب؟ <a href="register.html" style="color: var(--gold); font-weight: bold;">إنشاء حساب جديد</a></p>
+                </div>
+            </form>
+            
+            <div class="auth-footer">
+                <a href="index.html" class="btn btn-secondary" style="margin-top: 15px;">العودة للرئيسية</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script>
+        // إظهار/إخفاء كلمة المرور
+        document.getElementById('showPassword').addEventListener('change', function() {
+            const passwordInput = document.getElementById('loginPassword');
+            if (this.checked) {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+        
+        // معالجة تسجيل الدخول
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // استدعاء دالة تسجيل الدخول من app.js
+            const result = loginUser(username, password, rememberMe);
+            
+            if (result.success) {
+                // إظهار رسالة النجاح
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+                
+                // الانتقال للصفحة الرئيسية بعد ثانيتين
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                // إظهار رسالة الخطأ
+                document.getElementById('errorMessage').textContent = result.message;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
