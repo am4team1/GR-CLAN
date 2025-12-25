@@ -24,7 +24,9 @@
                         <div class="gold-circle"></div>
                         
                         <!-- الشعار داخل الدائرة -->
-                        <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo-main">
+                        <div class="logo-image-container">
+                            <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo-main" id="mainLogo">
+                        </div>
                         
                         <!-- تأثيرات التوهج -->
                         <div class="logo-glow"></div>
@@ -88,15 +90,50 @@
 
     <script src="js/main.js"></script>
     <script>
-        // إضافة تأثيرات تفاعلية للشعار
+        // التحقق من تحميل الصورة وإصلاحها إذا لم تظهر
         document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.getElementById('mainLogo');
+            
+            // التحقق إذا فشل تحميل الصورة
+            logo.onerror = function() {
+                console.log('❌ فشل تحميل صورة الشعار، جارٍ التحقق من المسار...');
+                
+                // محاولة مسارات بديلة
+                const possiblePaths = [
+                    'assets/images/clan-logo.png',
+                    '../assets/images/clan-logo.png',
+                    'images/clan-logo.png',
+                    './assets/images/clan-logo.png',
+                    'clan-logo.png'
+                ];
+                
+                let currentIndex = 0;
+                const tryNextPath = () => {
+                    if (currentIndex < possiblePaths.length) {
+                        logo.src = possiblePaths[currentIndex];
+                        console.log(`🔍 محاولة المسار: ${possiblePaths[currentIndex]}`);
+                        currentIndex++;
+                    }
+                };
+                
+                // محاولة المسارات البديلة
+                setTimeout(tryNextPath, 100);
+            };
+            
+            // تحميل ناجح
+            logo.onload = function() {
+                console.log('✅ تم تحميل صورة الشعار بنجاح');
+                logo.style.opacity = '1';
+            };
+            
+            // إضافة تأثيرات تفاعلية للشعار
             const logoContainer = document.querySelector('.logo-container');
-            const logo = document.querySelector('.clan-logo-main');
             const sparkles = document.querySelectorAll('.sparkle');
             
             // تأثير عند تحميل الصفحة
             setTimeout(() => {
-                logoContainer.style.animation = 'float 2s ease';
+                logoContainer.style.opacity = '1';
+                logoContainer.style.transform = 'scale(1)';
             }, 500);
             
             // تأثيرات عشوائية للشرارات
