@@ -6,123 +6,141 @@
     <title>تسجيل الدخول - GR CLAN</title>
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
     <style>
-        .error-message {
-            color: #ff6b6b;
-            background-color: rgba(255, 107, 107, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+        /* تخصيصات إضافية */
+        .login-header {
             text-align: center;
-            display: none;
-            border: 1px solid #ff6b6b;
+            margin-bottom: 40px;
         }
         
-        .success-message {
-            color: #4CAF50;
-            background-color: rgba(76, 175, 80, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
-            display: none;
-            border: 1px solid #4CAF50;
-        }
-        
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .forgot-password {
+        .login-title {
             color: var(--gold);
-            text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
         }
         
-        .forgot-password:hover {
-            text-decoration: underline;
+        .login-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
         }
     </style>
 </head>
-<body>
-    <div class="auth-container">
-        <div class="auth-form">
-            <div class="auth-header">
-                <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo" style="width: 80px; height: 80px; margin-bottom: 15px;">
-                <h2>تسجيل الدخول</h2>
-                <p>أدخل بياناتك للوصول إلى حسابك</p>
+<body class="auth-page">
+    <!-- زر العودة للرئيسية -->
+    <a href="index.html" class="back-home-btn">
+        <span>🏠</span>
+        العودة
+    </a>
+    
+    <!-- حاوية تسجيل الدخول -->
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <!-- الرأس -->
+            <div class="login-header">
+                <div class="clan-logo-small">
+                    <span>GR</span>
+                </div>
+                <h1 class="login-title">تسجيل الدخول</h1>
+                <p class="login-subtitle">أدخل بيانات حسابك للدخول</p>
             </div>
             
-            <!-- رسالة الخطأ -->
-            <div id="errorMessage" class="error-message">
-                اسم المستخدم أو كلمة المرور غير صحيحة!
-            </div>
+            <!-- رسائل الخطأ ستظهر هنا -->
             
-            <!-- رسالة النجاح -->
-            <div id="successMessage" class="success-message">
-                تم تسجيل الدخول بنجاح!
-            </div>
-            
-            <form id="loginForm">
+            <!-- نموذج تسجيل الدخول -->
+            <form id="loginForm" class="auth-form">
+                <!-- اسم المستخدم -->
                 <div class="form-group">
-                    <label for="loginUsername">اسم المستخدم</label>
-                    <input type="text" id="loginUsername" required placeholder="أدخل اسم المستخدم">
+                    <label for="loginUsername" class="form-label">
+                        اسم المستخدم
+                    </label>
+                    <input 
+                        type="text" 
+                        id="loginUsername" 
+                        class="form-input"
+                        placeholder="أدخل اسم المستخدم"
+                        required
+                    >
+                    <div class="input-error" id="usernameError"></div>
                 </div>
                 
+                <!-- كلمة المرور -->
                 <div class="form-group">
-                    <label for="loginPassword">كلمة المرور</label>
-                    <input type="password" id="loginPassword" required placeholder="أدخل كلمة المرور">
-                    <div style="text-align: left; margin-top: 5px;">
-                        <input type="checkbox" id="showPassword" style="width: auto; margin-right: 5px;">
-                        <label for="showPassword" style="display: inline; color: var(--gold); font-size: 0.9rem;">إظهار كلمة المرور</label>
+                    <label for="loginPassword" class="form-label">
+                        كلمة المرور
+                    </label>
+                    <div class="password-container">
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            class="form-input password-input"
+                            placeholder="أدخل كلمة المرور"
+                            required
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            👁️
+                        </button>
+                    </div>
+                    <div class="input-error" id="passwordError"></div>
+                    
+                    <!-- خيار إظهار كلمة المرور -->
+                    <div class="form-option">
+                        <input type="checkbox" id="showPasswordCheck">
+                        <label for="showPasswordCheck">إظهار كلمة المرور</label>
                     </div>
                 </div>
                 
+                <!-- خيارات إضافية -->
                 <div class="form-options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="rememberMe" style="width: auto;">
-                        <label for="rememberMe" style="display: inline; margin: 0;">تذكرني</label>
+                    <div class="form-option">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">تذكرني</label>
                     </div>
-                    <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+                    
+                    <a href="#" class="forgot-link">نسيت كلمة المرور؟</a>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                <!-- زر تسجيل الدخول -->
+                <button type="submit" class="submit-btn">
+                    <span class="btn-icon">🔐</span>
+                    تسجيل الدخول
+                </button>
                 
-                <div style="text-align: center; margin: 20px 0; position: relative;">
-                    <span style="background-color: rgba(255, 255, 255, 0.05); padding: 0 15px; position: relative; z-index: 1;">أو</span>
-                    <div style="height: 1px; background-color: rgba(212, 175, 55, 0.3); position: absolute; top: 50%; left: 0; right: 0; z-index: 0;"></div>
-                </div>
-                
-                <div style="text-align: center;">
-                    <p>ليس لديك حساب؟ <a href="register.html" style="color: var(--gold); font-weight: bold;">إنشاء حساب جديد</a></p>
+                <!-- رابط إنشاء حساب -->
+                <div class="auth-link">
+                    <p>ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a></p>
                 </div>
             </form>
-            
-            <div class="auth-footer">
-                <a href="index.html" class="btn btn-secondary" style="margin-top: 15px;">العودة للرئيسية</a>
-            </div>
+        </div>
+        
+        <!-- تصميم خلفية -->
+        <div class="auth-design">
+            <div class="design-element de1"></div>
+            <div class="design-element de2"></div>
+            <div class="design-element de3"></div>
         </div>
     </div>
-    
-    <script src="js/app.js"></script>
+
+    <script src="js/auth.js"></script>
     <script>
-        // إظهار/إخفاء كلمة المرور
-        document.getElementById('showPassword').addEventListener('change', function() {
-            const passwordInput = document.getElementById('loginPassword');
+        // التحكم في إظهار/إخفاء كلمة المرور
+        const passwordInput = document.getElementById('loginPassword');
+        const togglePassword = document.getElementById('togglePassword');
+        const showPasswordCheck = document.getElementById('showPasswordCheck');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+        
+        showPasswordCheck.addEventListener('change', function() {
             if (this.checked) {
-                passwordInput.type = 'text';
+                passwordInput.setAttribute('type', 'text');
+                togglePassword.textContent = '🙈';
             } else {
-                passwordInput.type = 'password';
+                passwordInput.setAttribute('type', 'password');
+                togglePassword.textContent = '👁️';
             }
         });
         
@@ -130,28 +148,88 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('loginUsername').value;
+            // مسح أخطاء سابقة
+            clearErrors();
+            
+            const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
             
-            // استدعاء دالة تسجيل الدخول من app.js
-            const result = loginUser(username, password, rememberMe);
+            let hasError = false;
             
-            if (result.success) {
-                // إظهار رسالة النجاح
-                document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('errorMessage').style.display = 'none';
-                
-                // الانتقال للصفحة الرئيسية بعد ثانيتين
-                setTimeout(function() {
-                    window.location.href = 'index.html';
-                }, 1500);
-            } else {
-                // إظهار رسالة الخطأ
-                document.getElementById('errorMessage').textContent = result.message;
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
+            // التحقق من اسم المستخدم
+            if (!username) {
+                showError('usernameError', 'يرجى إدخال اسم المستخدم');
+                hasError = true;
+            } else if (username.length < 3) {
+                showError('usernameError', 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل');
+                hasError = true;
             }
+            
+            // التحقق من كلمة المرور
+            if (!password) {
+                showError('passwordError', 'يرجى إدخال كلمة المرور');
+                hasError = true;
+            } else if (password.length < 6) {
+                showError('passwordError', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                hasError = true;
+            }
+            
+            if (!hasError) {
+                // محاكاة تسجيل الدخول (سيتم استبدالها بالدالة الحقيقية)
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(u => u.username === username && u.password === password);
+                
+                if (user) {
+                    // تسجيل الدخول الناجح
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        username: user.username,
+                        pubgId: user.pubgId
+                    }));
+                    
+                    // توجيه إلى الصفحة الرئيسية
+                    window.location.href = 'main.html'; // صفحة بعد تسجيل الدخول
+                } else {
+                    showError('passwordError', 'اسم المستخدم أو كلمة المرور غير صحيحة');
+                }
+            }
+        });
+        
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // إضافة كلاس خطأ للحقل
+            const inputId = elementId.replace('Error', '');
+            const inputElement = document.getElementById(inputId);
+            if (inputElement) {
+                inputElement.classList.add('error');
+            }
+        }
+        
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.input-error');
+            errorElements.forEach(el => {
+                el.textContent = '';
+                el.style.display = 'none';
+            });
+            
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+        
+        // مسح الخطأ عند الكتابة
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                const errorId = this.id + 'Error';
+                const errorElement = document.getElementById(errorId);
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>
