@@ -47,61 +47,124 @@ body {
     animation: fadeIn 1s ease;
 }
 
+/* ===== تعديلات الشعار في الصفحة الرئيسية ===== */
+
+/* حاوية الشعار المعدلة */
+.logo-container {
+    position: relative;
+    width: 250px; /* تم تكبير الحجم */
+    height: 250px; /* تم تكبير الحجم */
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* الدائرة الذهبية الخارجية */
+.gold-circle {
+    position: absolute;
+    width: 280px; /* أكبر من الشعار */
+    height: 280px; /* أكبر من الشعار */
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    z-index: 1;
+    animation: pulse 2s infinite ease-in-out;
+    box-shadow: 0 0 80px rgba(212, 175, 55, 0.6);
+}
+
+/* الشعار داخل الدائرة */
+.clan-logo-main {
+    width: 220px; /* أصغر من الدائرة */
+    height: 220px; /* أصغر من الدائرة */
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+    border: 8px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 0 40px rgba(212, 175, 55, 0.8),
+        inset 0 0 20px rgba(212, 175, 55, 0.4);
+    transition: all 0.5s ease;
+}
+
+/* تأثير التوهج حول الدائرة */
+.logo-glow {
+    position: absolute;
+    width: 320px; /* أكبر من الدائرة */
+    height: 320px; /* أكبر من الدائرة */
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(212, 175, 55, 0.4) 0%,
+        rgba(212, 175, 55, 0.2) 40%,
+        transparent 70%
+    );
+    z-index: 0;
+    animation: glow 3s infinite alternate;
+    filter: blur(20px);
+}
+
+/* تأثير التوهج الإضافي */
+.glow-effect {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 215, 0, 0.3) 0%,
+        rgba(255, 215, 0, 0.1) 30%,
+        transparent 60%
+    );
+    z-index: 0;
+    animation: glow2 4s infinite alternate-reverse;
+    filter: blur(25px);
+}
+
+/* تأثيرات متحركة إضافية */
+.sparkle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--gold-light);
+    border-radius: 50%;
+    animation: sparkle 3s infinite;
+    z-index: 3;
+}
+
+.sparkle:nth-child(1) { top: 10%; left: 10%; }
+.sparkle:nth-child(2) { top: 10%; right: 10%; }
+.sparkle:nth-child(3) { bottom: 10%; left: 10%; }
+.sparkle:nth-child(4) { bottom: 10%; right: 10%; }
+.sparkle:nth-child(5) { top: 50%; left: 5%; }
+.sparkle:nth-child(6) { top: 50%; right: 5%; }
+
 /* شعار الكلان في الصفحة الرئيسية */
 .clan-hero {
-    margin-bottom: 60px;
+    margin-bottom: 40px; /* تقليل المسافة */
+    padding: 20px 0;
 }
 
 .clan-logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
-}
-
-.logo-placeholder {
-    width: 160px;
-    height: 160px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 0 60px var(--shadow-gold);
-    animation: pulse 2s infinite ease-in-out;
-}
-
-.logo-text {
-    font-size: 4rem;
-    font-weight: 900;
-    color: var(--dark-blue);
-    z-index: 2;
-    text-shadow: 2px 2px 4px var(--shadow-dark);
-}
-
-.logo-glow {
-    position: absolute;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
-    animation: glow 3s infinite alternate;
+    gap: 15px; /* تقليل المسافة بين العناصر */
 }
 
 .clan-title {
-    font-size: 4rem;
+    font-size: 3.5rem; /* تصغير حجم العنوان قليلاً */
     color: var(--gold);
-    margin: 0;
+    margin: 10px 0 0 0;
     text-shadow: 0 2px 15px var(--shadow-gold);
     letter-spacing: 2px;
     animation: slideDown 1s ease 0.3s both;
 }
 
 .clan-subtitle {
-    font-size: 1.5rem;
+    font-size: 1.3rem; /* تصغير حجم النص الفرعي */
     color: var(--light-gray);
-    margin-top: 15px;
+    margin-top: 5px;
     animation: slideDown 1s ease 0.5s both;
 }
 
@@ -110,7 +173,7 @@ body {
     display: flex;
     gap: 30px;
     justify-content: center;
-    margin: 60px 0;
+    margin: 40px 0;
     flex-wrap: wrap;
     animation: slideUp 1s ease 0.7s both;
 }
@@ -173,7 +236,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
-    margin: 40px 0;
+    margin: 30px 0;
     animation: slideUp 1s ease 0.9s both;
 }
 
@@ -237,11 +300,13 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* زر العودة للرئيسية */
 .back-home-btn {
-    position: absolute;
+    position: fixed;
     top: 25px;
     left: 25px;
     background: rgba(212, 175, 55, 0.15);
@@ -267,7 +332,7 @@ body {
 }
 
 /* حاوية المصادقة */
-.auth-wrapper {
+.auth-wrapper, .login-wrapper, .register-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -275,6 +340,13 @@ body {
     max-width: 500px;
     position: relative;
     z-index: 2;
+}
+
+.login-wrapper, .register-wrapper {
+    min-height: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
 }
 
 .auth-container {
@@ -306,10 +378,11 @@ body {
     box-shadow: 0 0 40px var(--shadow-gold);
 }
 
-.auth-header .clan-logo-small span {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--dark-blue);
+.auth-header .clan-logo-small img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .auth-title {
@@ -327,6 +400,7 @@ body {
 /* النماذج */
 .auth-form {
     margin-top: 40px;
+    min-height: 400px;
 }
 
 .form-group {
@@ -351,6 +425,8 @@ body {
     color: var(--white);
     font-size: 1.1rem;
     transition: all 0.3s ease;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .form-input:focus {
@@ -371,6 +447,20 @@ body {
     color: var(--medium-gray);
     margin-top: 8px;
     font-style: italic;
+}
+
+/* تلميحات */
+.form-tip {
+    color: var(--gold);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-tip::before {
+    content: "💡";
 }
 
 /* حاوية كلمة المرور */
@@ -413,10 +503,11 @@ body {
     border-radius: 8px;
     border-right: 4px solid var(--error);
     animation: slideInRight 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 /* متطلبات كلمة المرور */
-.password-requirements {
+.password-requirements, .requirements {
     margin-top: 15px;
     padding: 15px;
     background: rgba(255, 255, 255, 0.05);
@@ -431,6 +522,11 @@ body {
     margin: 8px 0;
     color: var(--medium-gray);
     font-size: 0.95rem;
+}
+
+.requirement-icon {
+    font-size: 1.2rem;
+    min-width: 25px;
 }
 
 .requirement.valid {
@@ -453,10 +549,13 @@ body {
 .strength-bar {
     height: 100%;
     width: 0%;
-    background: var(--error);
     border-radius: 4px;
     transition: all 0.5s ease;
 }
+
+.strength-bar.weak { background: var(--error); }
+.strength-bar.medium { background: var(--warning); }
+.strength-bar.strong { background: var(--success); }
 
 .strength-text {
     font-size: 0.9rem;
@@ -520,8 +619,7 @@ body {
 }
 
 /* زر الإرسال */
-.submit-btn {
-    width: 100%;
+.submit-btn, .nav-btn {
     padding: 20px;
     background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
     border: none;
@@ -535,18 +633,49 @@ body {
     justify-content: center;
     gap: 15px;
     transition: all 0.3s ease;
-    margin-top: 30px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.submit-btn:hover {
+.submit-btn {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.submit-btn:hover, .nav-btn:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px var(--shadow-gold);
 }
 
-.submit-btn:active {
+.submit-btn:active, .nav-btn:active {
     transform: translateY(-2px);
+}
+
+.nav-btn {
+    padding: 12px 25px;
+    border: 2px solid var(--gold);
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+    font-size: 1rem;
+    text-transform: none;
+}
+
+.nav-btn.primary {
+    background: var(--gold);
+    color: var(--dark-blue);
+}
+
+.nav-btn.primary:hover {
+    background: var(--gold-light);
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
 }
 
 /* رابط المصادقة */
@@ -822,6 +951,97 @@ body {
     font-weight: 600;
 }
 
+/* ===== إشعارات وتأثيرات إضافية ===== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--success);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    display: none;
+    z-index: 1001;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideInRight 0.3s ease;
+}
+
+.performance-tip {
+    background: rgba(212,175,55,0.1);
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 0.9rem;
+    color: var(--gold);
+}
+
+.test-credentials {
+    background: rgba(212,175,55,0.05);
+    border: 1px dashed var(--gold);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.test-credentials h4 {
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.test-credential {
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    font-family: monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.test-credential:hover {
+    background: rgba(212,175,55,0.1);
+}
+
+.extra-info {
+    background: rgba(212,175,55,0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px dashed var(--gold);
+}
+
+.extra-info h4 {
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.forgot-password-btn {
+    background: rgba(212,175,55,0.1);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.forgot-password-btn:hover {
+    background: var(--gold);
+    color: var(--dark-blue);
+}
+
+/* الخطوات المتعددة */
+.form-step {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
 /* ===== الرسوم المتحركة ===== */
 @keyframes fadeIn {
     from {
@@ -890,11 +1110,33 @@ body {
 @keyframes glow {
     from {
         opacity: 0.5;
-        transform: scale(0.95);
+        transform: scale(0.9);
     }
     to {
         opacity: 1;
-        transform: scale(1.05);
+        transform: scale(1.1);
+    }
+}
+
+@keyframes glow2 {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.95) rotate(0deg);
+    }
+    100% {
+        opacity: 0.7;
+        transform: scale(1.05) rotate(180deg);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
@@ -925,6 +1167,29 @@ body {
     }
 }
 
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* تأثير تحويم على الشعار */
+.logo-container:hover .clan-logo-main {
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 
+        0 0 60px rgba(212, 175, 55, 1),
+        inset 0 0 30px rgba(212, 175, 55, 0.6);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.logo-container:hover .gold-circle {
+    animation: pulse 0.5s infinite ease-in-out;
+    box-shadow: 0 0 100px rgba(212, 175, 55, 0.8);
+}
+
 /* ===== التصميم المتجاوب ===== */
 @media (max-width: 1200px) {
     .clan-title {
@@ -950,13 +1215,31 @@ body {
         font-size: 1.2rem;
     }
     
-    .logo-placeholder {
-        width: 130px;
-        height: 130px;
+    /* تعديلات الشعار للشاشات الصغيرة */
+    .logo-container {
+        width: 200px;
+        height: 200px;
     }
     
-    .logo-text {
-        font-size: 3rem;
+    .gold-circle {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .clan-logo-main {
+        width: 180px;
+        height: 180px;
+        border-width: 6px;
+    }
+    
+    .logo-glow {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .glow-effect {
+        width: 280px;
+        height: 280px;
     }
     
     .landing-buttons {
@@ -1015,20 +1298,38 @@ body {
 
 @media (max-width: 480px) {
     .clan-title {
-        font-size: 2.2rem;
+        font-size: 2.3rem;
     }
     
     .clan-subtitle {
         font-size: 1rem;
     }
     
-    .logo-placeholder {
-        width: 100px;
-        height: 100px;
+    /* تعديلات الشعار للشاشات الصغيرة جداً */
+    .logo-container {
+        width: 180px;
+        height: 180px;
     }
     
-    .logo-text {
-        font-size: 2.2rem;
+    .gold-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .clan-logo-main {
+        width: 160px;
+        height: 160px;
+        border-width: 5px;
+    }
+    
+    .logo-glow {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .glow-effect {
+        width: 240px;
+        height: 240px;
     }
     
     .landing-btn {
@@ -1053,5 +1354,54 @@ body {
     
     .taskbar-item span:last-child {
         font-size: 0.8rem;
+    }
+}
+
+/* تحسين أداء الصفحات */
+.form-input, .submit-btn, .landing-btn, .nav-btn {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* تحسين أداء التحقق */
+.input-error {
+    transition: all 0.3s ease;
+}
+
+/* تحسين أداء الرسوم المتحركة */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* تحسين التمرير */
+.login-wrapper::-webkit-scrollbar,
+.register-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.login-wrapper::-webkit-scrollbar-track,
+.register-wrapper::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+.login-wrapper::-webkit-scrollbar-thumb,
+.register-wrapper::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 4px;
+}
+
+/* تحسين الأداء للشاشات الصغيرة */
+@media (max-height: 700px) {
+    .landing-buttons {
+        margin: 30px 0;
+    }
+    
+    .clan-info {
+        margin: 20px 0;
     }
 }
