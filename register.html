@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - GR CLAN</title>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-form">
+            <div class="auth-header">
+                <h2>إنشاء حساب جديد</h2>
+                <p>انضم إلى GR CLAN الآن</p>
+            </div>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="pubg-id">معرف الببجي (PUBG ID)</label>
+                    <input type="text" id="pubg-id" required placeholder="أدخل معرف الببجي الخاص بك">
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" required placeholder="اختر اسم مستخدم">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required placeholder="اختر كلمة مرور قوية">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirm-password" required placeholder="أعد إدخال كلمة المرور">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">إنشاء حساب</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a></p>
+                <a href="index.html" class="btn btn-secondary">العودة للرئيسية</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+</body>
+</html>
