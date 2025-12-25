@@ -1405,3 +1405,162 @@ body {
         margin: 20px 0;
     }
 }
+
+/* ===== إصلاحات الأزرار والحقول ===== */
+
+/* إصلاح زر العودة */
+.back-home-btn {
+    position: fixed !important;
+    top: 20px !important;
+    left: 20px !important;
+    z-index: 1000 !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 20px !important;
+    border-radius: 50px !important;
+    background: rgba(212, 175, 55, 0.2) !important;
+    border: 2px solid var(--gold) !important;
+    color: var(--gold) !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.back-home-btn:hover {
+    background: var(--gold) !important;
+    color: var(--dark-blue) !important;
+    transform: translateX(-5px) !important;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* إصلاح الأزرار */
+.submit-btn, .btn {
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.submit-btn:disabled, .btn:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* إصلاح الحقول */
+.form-input {
+    width: 100% !important;
+    padding: 15px 20px !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-input:focus {
+    outline: none !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* إصلاح رسائل الخطأ */
+.input-error {
+    color: var(--error) !important;
+    font-size: 0.85rem !important;
+    margin-top: 8px !important;
+    padding: 8px 12px !important;
+    background: rgba(255, 71, 87, 0.1) !important;
+    border-radius: 5px !important;
+    border-right: 3px solid var(--error) !important;
+    display: none !important;
+    animation: slideInRight 0.3s ease !important;
+}
+
+/* إصلاح حاوية المصادقة */
+.auth-wrapper {
+    width: 100% !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+}
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 20px !important;
+    padding: 40px 30px !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    width: 100% !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* إصلاح التمرير */
+.auth-page {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* إصلاح الروابط */
+.auth-link a {
+    color: var(--gold) !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.auth-link a:hover {
+    text-decoration: underline !important;
+    opacity: 0.8 !important;
+}
+
+/* إصلاح الشعار الصغير */
+.clan-logo-small {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50% !important;
+    margin: 0 auto 20px !important;
+    overflow: hidden !important;
+    border: 3px solid var(--gold) !important;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.4) !important;
+}
+
+.clan-logo-small img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* ===== تحسينات للجوال ===== */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 30px 20px !important;
+    }
+    
+    .back-home-btn {
+        top: 10px !important;
+        left: 10px !important;
+        padding: 8px 15px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .submit-btn {
+        padding: 15px !important;
+        font-size: 1.1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 25px 15px !important;
+    }
+    
+    .auth-title {
+        font-size: 1.8rem !important;
+    }
+    
+    .auth-subtitle {
+        font-size: 1rem !important;
+    }
+    }
