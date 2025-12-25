@@ -18,11 +18,27 @@
             <!-- شعار الكلان -->
             <div class="clan-hero">
                 <div class="clan-logo-container">
-                    <!-- شعار الكلان الحقيقي -->
+                    <!-- حاوية الشعار مع الدائرة الذهبية -->
                     <div class="logo-container">
+                        <!-- الدائرة الذهبية الخارجية -->
+                        <div class="gold-circle"></div>
+                        
+                        <!-- الشعار داخل الدائرة -->
                         <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo-main">
+                        
+                        <!-- تأثيرات التوهج -->
                         <div class="logo-glow"></div>
+                        <div class="glow-effect"></div>
+                        
+                        <!-- تأثيرات براقة -->
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
                     </div>
+                    
                     <h1 class="clan-title">GR CLAN</h1>
                     <p class="clan-subtitle">كلان عربي محترف في PUBG Mobile</p>
                 </div>
@@ -71,5 +87,49 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script>
+        // إضافة تأثيرات تفاعلية للشعار
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoContainer = document.querySelector('.logo-container');
+            const logo = document.querySelector('.clan-logo-main');
+            const sparkles = document.querySelectorAll('.sparkle');
+            
+            // تأثير عند تحميل الصفحة
+            setTimeout(() => {
+                logoContainer.style.animation = 'float 2s ease';
+            }, 500);
+            
+            // تأثيرات عشوائية للشرارات
+            setInterval(() => {
+                sparkles.forEach(sparkle => {
+                    if (Math.random() > 0.7) {
+                        sparkle.style.animation = 'sparkle 1s ease';
+                        setTimeout(() => {
+                            sparkle.style.animation = 'sparkle 3s infinite';
+                        }, 1000);
+                    }
+                });
+            }, 2000);
+            
+            // تأثير عند المرور على الشعار
+            logoContainer.addEventListener('mouseenter', function() {
+                const title = document.querySelector('.clan-title');
+                const subtitle = document.querySelector('.clan-subtitle');
+                
+                title.style.transform = 'scale(1.05)';
+                title.style.color = 'var(--gold-light)';
+                subtitle.style.transform = 'scale(1.05)';
+            });
+            
+            logoContainer.addEventListener('mouseleave', function() {
+                const title = document.querySelector('.clan-title');
+                const subtitle = document.querySelector('.clan-subtitle');
+                
+                title.style.transform = 'scale(1)';
+                title.style.color = 'var(--gold)';
+                subtitle.style.transform = 'scale(1)';
+            });
+        });
+    </script>
 </body>
 </html>
