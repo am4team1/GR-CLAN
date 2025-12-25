@@ -6,46 +6,148 @@
     <title>تسجيل الدخول - GR CLAN</title>
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
     <style>
-        /* تخصيصات إضافية */
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
+        /* تصميم متجاوب مع التمرير */
+        .login-page {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
         }
         
-        .login-title {
+        /* حاوية أكبر لاحتواء المحتوى */
+        .login-wrapper {
+            min-height: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+        
+        /* تعديلات للتمرير */
+        .auth-form {
+            min-height: 400px;
+        }
+        
+        /* زر العودة */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideInRight 0.3s ease;
+        }
+        
+        /* تصميم حقل البيانات */
+        .data-input {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(212,175,55,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .data-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(212,175,55,0.3);
+        }
+        
+        /* تلميحات */
+        .form-tip {
             color: var(--gold);
-            font-size: 2.2rem;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .form-tip::before {
+            content: "💡";
+        }
+        
+        /* زر نسيت كلمة المرور */
+        .forgot-password-btn {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password-btn:hover {
+            background: var(--gold);
+            color: var(--dark-blue);
+        }
+        
+        /* اختبار بيانات */
+        .test-credentials {
+            background: rgba(212,175,55,0.05);
+            border: 1px dashed var(--gold);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .test-credentials h4 {
+            color: var(--gold);
             margin-bottom: 10px;
         }
         
-        .login-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
+        .test-credential {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-family: monospace;
         }
     </style>
 </head>
-<body class="auth-page">
+<body class="auth-page login-page">
     <!-- زر العودة للرئيسية -->
     <a href="index.html" class="back-home-btn">
         <span>🏠</span>
         العودة
     </a>
     
+    <!-- إشعارات -->
+    <div id="notification" class="notification"></div>
+    
     <!-- حاوية تسجيل الدخول -->
-    <div class="auth-wrapper">
+    <div class="login-wrapper">
         <div class="auth-container">
             <!-- الرأس -->
-            <div class="login-header">
+            <div class="auth-header">
                 <div class="clan-logo-small">
-                    <span>GR</span>
+                    <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" style="width: 60px; height: 60px; border-radius: 50%;">
                 </div>
-                <h1 class="login-title">تسجيل الدخول</h1>
-                <p class="login-subtitle">أدخل بيانات حسابك للدخول</p>
+                <h1 class="auth-title">تسجيل الدخول</h1>
+                <p class="auth-subtitle">أدخل بيانات حسابك للدخول إلى GR CLAN</p>
             </div>
-            
-            <!-- رسائل الخطأ ستظهر هنا -->
             
             <!-- نموذج تسجيل الدخول -->
             <form id="loginForm" class="auth-form">
@@ -58,10 +160,11 @@
                         type="text" 
                         id="loginUsername" 
                         class="form-input"
-                        placeholder="أدخل اسم المستخدم"
+                        placeholder="أدخل اسم المستخدم الخاص بك"
                         required
                     >
                     <div class="input-error" id="usernameError"></div>
+                    <div class="form-tip">يمكنك استخدام اسم المستخدم المسجل</div>
                 </div>
                 
                 <!-- كلمة المرور -->
@@ -74,7 +177,7 @@
                             type="password" 
                             id="loginPassword" 
                             class="form-input password-input"
-                            placeholder="أدخل كلمة المرور"
+                            placeholder="أدخل كلمة المرور الخاصة بك"
                             required
                         >
                         <button type="button" class="toggle-password" id="togglePassword">
@@ -83,28 +186,39 @@
                     </div>
                     <div class="input-error" id="passwordError"></div>
                     
-                    <!-- خيار إظهار كلمة المرور -->
-                    <div class="form-option">
-                        <input type="checkbox" id="showPasswordCheck">
-                        <label for="showPasswordCheck">إظهار كلمة المرور</label>
+                    <!-- خيارات كلمة المرور -->
+                    <div class="form-options">
+                        <div class="form-option">
+                            <input type="checkbox" id="showPasswordCheck">
+                            <label for="showPasswordCheck">إظهار كلمة المرور</label>
+                        </div>
+                        
+                        <button type="button" class="forgot-password-btn" id="forgotPasswordBtn">
+                            نسيت كلمة المرور؟
+                        </button>
                     </div>
                 </div>
                 
-                <!-- خيارات إضافية -->
-                <div class="form-options">
-                    <div class="form-option">
-                        <input type="checkbox" id="rememberMe">
-                        <label for="rememberMe">تذكرني</label>
-                    </div>
-                    
-                    <a href="#" class="forgot-link">نسيت كلمة المرور؟</a>
+                <!-- تذكرني -->
+                <div class="form-option" style="margin: 20px 0;">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">تذكرني على هذا الجهاز</label>
                 </div>
                 
                 <!-- زر تسجيل الدخول -->
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="loginSubmitBtn">
                     <span class="btn-icon">🔐</span>
                     تسجيل الدخول
                 </button>
+                
+                <!-- بيانات تجريبية للاختبار -->
+                <div class="test-credentials">
+                    <h4>📋 بيانات تجريبية للاختبار:</h4>
+                    <div class="test-credential">👤 المستخدم: test_user</div>
+                    <div class="test-credential">🔐 كلمة المرور: 123456</div>
+                    <div class="test-credential">👤 المستخدم: player1</div>
+                    <div class="test-credential">🔐 كلمة المرور: password123</div>
+                </div>
                 
                 <!-- رابط إنشاء حساب -->
                 <div class="auth-link">
@@ -123,6 +237,34 @@
 
     <script src="js/auth.js"></script>
     <script>
+        // تهيئة بيانات تجريبية إذا لم تكن موجودة
+        function initializeTestData() {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // إضافة بيانات تجريبية إذا لم تكن موجودة
+            const testUsers = [
+                { username: 'test_user', password: '123456', pubgId: '5123456789' },
+                { username: 'player1', password: 'password123', pubgId: '5123456790' }
+            ];
+            
+            testUsers.forEach(testUser => {
+                if (!users.find(user => user.username === testUser.username)) {
+                    users.push({
+                        id: Date.now() + Math.random(),
+                        username: testUser.username,
+                        password: testUser.password,
+                        pubgId: testUser.pubgId,
+                        joinDate: new Date().toISOString()
+                    });
+                }
+            });
+            
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        
+        // استدعاء الدالة عند تحميل الصفحة
+        initializeTestData();
+        
         // التحكم في إظهار/إخفاء كلمة المرور
         const passwordInput = document.getElementById('loginPassword');
         const togglePassword = document.getElementById('togglePassword');
@@ -144,6 +286,18 @@
             }
         });
         
+        // عرض إشعار
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            notification.style.background = type === 'success' ? 'var(--success)' : 'var(--error)';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
         // معالجة تسجيل الدخول
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -153,45 +307,101 @@
             
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
             
             let hasError = false;
             
             // التحقق من اسم المستخدم
             if (!username) {
-                showError('usernameError', 'يرجى إدخال اسم المستخدم');
+                showError('usernameError', '⚠️ يرجى إدخال اسم المستخدم');
                 hasError = true;
             } else if (username.length < 3) {
-                showError('usernameError', 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل');
+                showError('usernameError', '⚠️ اسم المستخدم يجب أن يكون 3 أحرف على الأقل');
                 hasError = true;
             }
             
             // التحقق من كلمة المرور
             if (!password) {
-                showError('passwordError', 'يرجى إدخال كلمة المرور');
+                showError('passwordError', '⚠️ يرجى إدخال كلمة المرور');
                 hasError = true;
             } else if (password.length < 6) {
-                showError('passwordError', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                showError('passwordError', '⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل');
                 hasError = true;
             }
             
             if (!hasError) {
-                // محاكاة تسجيل الدخول (سيتم استبدالها بالدالة الحقيقية)
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                const user = users.find(u => u.username === username && u.password === password);
+                // تعطيل الزر أثناء المعالجة
+                const submitBtn = document.getElementById('loginSubmitBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="btn-icon">⏳</span> جاري تسجيل الدخول...';
                 
-                if (user) {
-                    // تسجيل الدخول الناجح
-                    localStorage.setItem('currentUser', JSON.stringify({
-                        username: user.username,
-                        pubgId: user.pubgId
-                    }));
+                // محاكاة تأخير للمعالجة
+                setTimeout(() => {
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const user = users.find(u => u.username === username && u.password === password);
                     
-                    // توجيه إلى الصفحة الرئيسية
-                    window.location.href = 'main.html'; // صفحة بعد تسجيل الدخول
-                } else {
-                    showError('passwordError', 'اسم المستخدم أو كلمة المرور غير صحيحة');
-                }
+                    if (user) {
+                        // تسجيل الدخول الناجح
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            username: user.username,
+                            pubgId: user.pubgId,
+                            joinDate: user.joinDate
+                        }));
+                        
+                        // إذا طلب تذكرني
+                        if (rememberMe) {
+                            localStorage.setItem('rememberedUser', JSON.stringify({
+                                username: user.username,
+                                timestamp: Date.now()
+                            }));
+                        }
+                        
+                        showNotification('✅ تم تسجيل الدخول بنجاح!', 'success');
+                        
+                        // توجيه إلى الصفحة الرئيسية بعد تسجيل الدخول
+                        setTimeout(() => {
+                            window.location.href = 'main.html';
+                        }, 1500);
+                        
+                    } else {
+                        showError('passwordError', '❌ اسم المستخدم أو كلمة المرور غير صحيحة');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<span class="btn-icon">🔐</span> تسجيل الدخول';
+                    }
+                }, 1000);
             }
+        });
+        
+        // زر نسيت كلمة المرور
+        document.getElementById('forgotPasswordBtn').addEventListener('click', function() {
+            const username = document.getElementById('loginUsername').value.trim();
+            
+            if (!username) {
+                showNotification('⚠️ يرجى إدخال اسم المستخدم أولاً', 'error');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username);
+            
+            if (user) {
+                showNotification(`🔑 تلميح: كلمة المرور الخاصة بـ ${username} تحتوي على ${user.password.length} حرف`, 'success');
+            } else {
+                showNotification('❌ لم يتم العثور على اسم المستخدم', 'error');
+            }
+        });
+        
+        // ملء بيانات تجريبية عند النقر عليها
+        document.querySelectorAll('.test-credential').forEach(credential => {
+            credential.addEventListener('click', function() {
+                const text = this.textContent.trim();
+                
+                if (text.includes('👤')) {
+                    document.getElementById('loginUsername').value = text.split(':')[1].trim();
+                } else if (text.includes('🔐')) {
+                    document.getElementById('loginPassword').value = text.split(':')[1].trim();
+                }
+            });
         });
         
         function showError(elementId, message) {
@@ -230,6 +440,22 @@
                     errorElement.style.display = 'none';
                 }
             });
+        });
+        
+        // التحقق من بيانات تذكرني عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            const remembered = localStorage.getItem('rememberedUser');
+            if (remembered) {
+                const userData = JSON.parse(remembered);
+                const oneWeek = 7 * 24 * 60 * 60 * 1000; // أسبوع واحد
+                
+                if (Date.now() - userData.timestamp < oneWeek) {
+                    document.getElementById('loginUsername').value = userData.username;
+                    document.getElementById('rememberMe').checked = true;
+                } else {
+                    localStorage.removeItem('rememberedUser');
+                }
+            }
         });
     </script>
 </body>
