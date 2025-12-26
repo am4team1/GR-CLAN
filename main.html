@@ -6,378 +6,1008 @@
     <title>معلومات العشيرة - GR CLAN</title>
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ===== تصميم صفحة المعلومات الأسطوري ===== */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #FFD700;
+            --dark-bg: #0A1931;
+            --darker-bg: #061025;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-glow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        body {
+            background: linear-gradient(45deg, 
+                var(--darker-bg) 0%, 
+                var(--dark-bg) 50%, 
+                #0f2a5c 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* تأثيرات خلفية متحركة */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s infinite alternate;
+        }
+        
+        @keyframes backgroundShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(1deg); }
+        }
+        
+        /* ===== الهيدر المعدل ===== */
+        .main-header {
+            background: rgba(6, 16, 37, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid var(--primary-gold);
+            padding: 15px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .clan-logo-small {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            position: relative;
+            animation: logoGlow 2s infinite alternate;
+        }
+        
+        @keyframes logoGlow {
+            0% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+            100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+        }
+        
+        .clan-logo-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .clan-name-header {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        #user-id-display {
+            background: rgba(212, 175, 55, 0.15);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--primary-gold);
+            font-weight: 700;
+            color: var(--secondary-gold);
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        /* ===== محتوى الصفحة الرئيسي ===== */
+        .main-content {
+            padding-top: 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px 40px;
+        }
+        
+        /* البانر الرئيسي */
+        .hero-section {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 50px;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        
+        .hero-overlay {
+            background: linear-gradient(135deg, 
+                rgba(6, 16, 37, 0.9) 0%, 
+                rgba(10, 25, 49, 0.7) 100%);
+            padding: 80px 60px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: var(--text-glow);
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* شبكة البطاقات */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+        
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px 35px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+        }
+        
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+        }
+        
+        .info-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary-gold);
+            box-shadow: 0 25px 70px rgba(212, 175, 55, 0.2);
+        }
+        
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            display: block;
+            text-align: center;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+        }
+        
+        .card-title {
+            color: var(--primary-gold);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 800;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 15px;
+        }
+        
+        .card-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        /* قسم الأخبار */
+        .news-section {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            margin: 60px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            color: var(--primary-gold);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 900;
+            text-shadow: var(--text-glow);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .news-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .news-card:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+        }
+        
+        .news-date {
+            color: var(--secondary-gold);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .news-title {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .news-content {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        /* إحصائيات الكلان */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .stat-item {
+            background: linear-gradient(135deg, 
+                rgba(212, 175, 55, 0.1), 
+                rgba(10, 25, 49, 0.3));
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            border-color: var(--primary-gold);
+            transform: scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 10px 0;
+            text-shadow: var(--text-glow);
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        /* ===== شريط ويندوز 11 المتحكم فيه ===== */
+        .taskbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(6, 16, 37, 0.85);
+            backdrop-filter: blur(30px);
+            border-radius: 15px;
+            padding: 15px 30px;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .taskbar.hidden {
+            transform: translateX(-50%) translateY(150px);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .taskbar-items {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+        
+        .taskbar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            position: relative;
+        }
+        
+        .taskbar-item:hover {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--secondary-gold);
+            transform: translateY(-5px);
+        }
+        
+        .taskbar-item.active {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--secondary-gold);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .taskbar-item.hidden-item {
+            display: none;
+        }
+        
+        .taskbar-item.admin-only {
+            border: 2px dashed var(--primary-gold);
+        }
+        
+        .taskbar-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .taskbar-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* زر التحكم في الشريط */
+        .taskbar-toggle {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .taskbar-toggle:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: scale(1.1);
+        }
+        
+        /* ===== تأثيرات خاصة ===== */
+        .floating-element {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: float 15s infinite linear;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, 50px) rotate(90deg); }
+            50% { transform: translate(0, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+        }
+        
+        .gold-text {
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        /* ===== التصميم المتجاوب ===== */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .hero-overlay {
+                padding: 50px 30px;
+            }
+            
+            .main-content {
+                padding: 120px 20px 40px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .taskbar {
+                padding: 10px 15px;
+                bottom: 10px;
+            }
+            
+            .taskbar-items {
+                gap: 10px;
+            }
+            
+            .taskbar-item {
+                min-width: 70px;
+                padding: 10px 15px;
+            }
+            
+            .taskbar-icon {
+                font-size: 1.5rem;
+            }
+            
+            .taskbar-label {
+                font-size: 0.8rem;
+            }
+            
+            .taskbar-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                right: 15px;
+                bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .info-card {
+                padding: 30px 20px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
-<body class="main-page">
+<body>
     <!-- الهيدر -->
     <header class="main-header">
-        <!-- الشعار على اليسار -->
         <div class="header-left">
-            <div class="clan-logo-header">
+            <div class="clan-logo-small">
                 <img src="assets/images/clan-logo2.png" alt="شعار GR CLAN">
             </div>
             <span class="clan-name-header">GR CLAN</span>
         </div>
         
-        <!-- معلومات المستخدم على اليمين -->
         <div class="header-right">
-            <span id="user-id-display" class="user-display">
-                <span id="username-display">زائر</span>
-                <span id="user-badge" class="user-badge"></span>
-            </span>
-            <div class="header-actions">
-                <button id="toggleTaskbarBtn" class="header-btn" title="إظهار/إخفاء الشريط">
-                    📋
-                </button>
-                <button id="logoutBtn" class="header-btn logout-btn" title="تسجيل الخروج">
-                    🚪
-                </button>
-            </div>
+            <div id="user-id-display">زائر</div>
+            <button id="logoutBtn" class="btn-logout">تسجيل الخروج</button>
         </div>
     </header>
 
     <!-- المحتوى الرئيسي -->
     <main class="main-content">
-        <!-- قسم معلومات تأسيس الكلان -->
-        <section class="clan-section">
-            <h1 class="section-title">🏰 معلومات تأسيس GR CLAN</h1>
-            <div class="clan-info-card">
-                <div class="foundation-info">
-                    <h2>📅 تاريخ التأسيس</h2>
-                    <p>تم تأسيس GR CLAN في <strong>15 يناير 2023</strong> بواسطة مجموعة من اللاعبين المحترفين الذين شاركوا في العديد من البطولات المحلية والدولية.</p>
-                    
-                    <h2>🎯 الهدف</h2>
-                    <p>نهدف إلى بناء مجتمع عربي قوي في لعبة PUBG Mobile يجمع بين المتعة والاحترافية، وخلق بيئة تنافسية صحية تساعد الأعضاء على تطوير مهاراتهم.</p>
-                    
-                    <h2>⭐ القيم</h2>
-                    <ul class="values-list">
-                        <li>✅ <strong>الاحترام:</strong> احترام جميع الأعضاء والفرق المنافسة</li>
-                        <li>✅ <strong>التعاون:</strong> العمل كفريق واحد لتحقيق الأهداف</li>
-                        <li>✅ <strong>التطوير:</strong> التدريب المستمر لتحسين المهارات</li>
-                        <li>✅ <strong>الانضباط:</strong> الالتزام بالقوانين والمواعيد</li>
-                    </ul>
-                </div>
-                
-                <div class="foundation-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">2023</span>
-                        <span class="stat-label">سنة التأسيس</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">عضو نشط</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">15</span>
-                        <span class="stat-label">بطولة فاز بها</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">100%</span>
-                        <span class="stat-label">التزام بالقيم</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم آخر الأخبار -->
-        <section class="clan-section">
-            <div class="section-header">
-                <h1 class="section-title">📢 آخر الأخبار</h1>
-                <button id="addNewsBtn" class="admin-only" style="display: none;">
-                    + إضافة خبر
-                </button>
+        <!-- البانر الرئيسي -->
+        <section class="hero-section">
+            <div class="hero-overlay">
+                <h1 class="hero-title">معلومات العشيرة</h1>
+                <p class="hero-subtitle">
+                    مرحباً بك في GR CLAN - أقوى كلان عربي في لعبة PUBG Mobile
+                    <br>نحن عائلة واحدة، نلعب معاً، ونربح معاً، ونبني مستقبل الألعاب معاً
+                </p>
             </div>
             
-            <div class="news-container" id="newsContainer">
-                <!-- الأخبار ستظهر هنا ديناميكياً -->
-                <div class="loading-news">جارٍ تحميل الأخبار...</div>
-            </div>
+            <!-- عناصر متحركة في الخلفية -->
+            <div class="floating-element" style="top: 10%; left: 10%;"></div>
+            <div class="floating-element" style="top: 20%; right: 15%; animation-delay: -5s;"></div>
+            <div class="floating-element" style="bottom: 30%; left: 20%; animation-delay: -10s;"></div>
         </section>
 
-        <!-- قسم معلومات الكلان -->
-        <section class="clan-section">
-            <h1 class="section-title">📊 معلومات الكلان</h1>
-            
-            <div class="clan-details-grid">
-                <div class="detail-card">
-                    <div class="detail-icon">🏆</div>
-                    <h3>البطولات</h3>
-                    <p>شاركنا في <strong>25+</strong> بطولة محلية ودولية</p>
-                    <ul class="detail-list">
-                        <li>بطولة PUBG العربية - المركز الثاني</li>
-                        <li>بطولة مصر الوطنية - المركز الأول</li>
-                        <li>بطولة الأندية العربية - نصف النهائي</li>
-                    </ul>
-                </div>
-                
-                <div class="detail-card">
-                    <div class="detail-icon">👥</div>
-                    <h3>الهيكل التنظيمي</h3>
-                    <p>نظام إداري منظم وفعال</p>
-                    <ul class="detail-list">
-                        <li>المؤسس (الأونر): قائد عام</li>
-                        <li>الأدمنز: 3 إداريين</li>
-                        <li>الأعضاء: لاعبون محترفون</li>
-                        <li>المتدربين: لاعبون جدد</li>
-                    </ul>
-                </div>
-                
-                <div class="detail-card">
-                    <div class="detail-icon">⚡</div>
-                    <h3>الأنشطة</h3>
-                    <p>أنشطة أسبوعية ومنتظمة</p>
-                    <ul class="detail-list">
-                        <li>جلسات تدريب يومية</li>
-                        <li>مباريات ودية أسبوعية</li>
-                        <li>بطولات داخلية شهرية</li>
-                        <li>ورش عمل استراتيجية</li>
-                    </ul>
-                </div>
-                
-                <div class="detail-card">
-                    <div class="detail-icon">📈</div>
-                    <h3>الإنجازات</h3>
-                    <p>سجل حافل بالإنجازات</p>
-                    <ul class="detail-list">
-                        <li>أفضل كلان ناشئ 2023</li>
-                        <li>أعلى نسبة فوز 75%</li>
-                        <li>أكثر كلان نشاطاً</li>
-                        <li>أفضل مجتمع لاعبين</li>
-                    </ul>
+        <!-- معلومات التأسيس -->
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="card-icon">🏰</div>
+                <h2 class="card-title">التأسيس</h2>
+                <div class="card-content">
+                    <p><span class="gold-text">GR CLAN</span> تأسس في عام 2020 على يد مجموعة من اللاعبين المحترفين الذين يجمعهم حب اللعبة والعمل الجماعي.</p>
+                    <p>بدأنا كفريق صغير من الأصدقاء، وتطورنا لنصبح أحد أقوى الكلانات العربية في PUBG Mobile.</p>
+                    <p>رسالتنا: بناء مجتمع لاعبين محترفين يلتزمون بأخلاقيات اللعب ويعملون كفريق واحد.</p>
                 </div>
             </div>
-        </section>
+            
+            <div class="info-card">
+                <div class="card-icon">🎯</div>
+                <h2 class="card-title">أهدافنا</h2>
+                <div class="card-content">
+                    <p>• تحقيق المراكز المتقدمة في البطولات المحلية والدولية</p>
+                    <p>• تطوير مهارات الأعضاء من خلال التدريبات المستمرة</p>
+                    <p>• بناء مجتمع قوي ومتماسك من اللاعبين العرب</p>
+                    <p>• نشر روح التنافس الشريفة والعمل الجماعي</p>
+                    <p>• تمثيل العالم العربي بأفضل صورة في المسابقات الدولية</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="card-icon">⚔️</div>
+                <h2 class="card-title">انجازاتنا</h2>
+                <div class="card-content">
+                    <p>🏆 المركز الأول في بطولة العربية (2023)</p>
+                    <p>🥈 المركز الثاني في بطولة الشرق الأوسط (2022)</p>
+                    <p>🥉 المركز الثالث في بطولة PUBG Mobile Pro League</p>
+                    <p>⭐ أكثر من 50 بطولة محلية تم الفوز بها</p>
+                    <p>👑 20 لاعب وصلوا إلى رتبة Conqueror</p>
+                </div>
+            </div>
+        </div>
 
         <!-- إحصائيات الكلان -->
-        <section class="clan-section">
-            <h1 class="section-title">📈 إحصائيات الكلان</h1>
+        <div class="stats-section">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">لاعب محترف</div>
+            </div>
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🎮</div>
-                    <div class="stat-number" id="totalMatches">1,250</div>
-                    <div class="stat-label">المباريات المنفذة</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">🏆</div>
-                    <div class="stat-number" id="totalWins">487</div>
-                    <div class="stat-label">المباريات الفائزة</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-number" id="winRate">39%</div>
-                    <div class="stat-label">نسبة الفوز</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">⭐</div>
-                    <div class="stat-number" id="clanLevel">45</div>
-                    <div class="stat-label">مستوى الكلان</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">👑</div>
-                    <div class="stat-number" id="topPlayers">5</div>
-                    <div class="stat-label">لاعبين في TOP 100</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-number" id="activeDays">365</div>
-                    <div class="stat-label">يوم من النشاط</div>
+            <div class="stat-item">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">بطولة شاركنا بها</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number">75%</div>
+                <div class="stat-label">نسبة الفوز</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">مباراة تم لعبها</div>
+            </div>
+        </div>
+
+        <!-- آخر الأخبار -->
+        <section class="news-section">
+            <h2 class="section-title">آخر الأخبار</h2>
+            <div class="news-grid" id="newsContainer">
+                <!-- سيتم ملؤها ديناميكياً -->
+                <div class="news-card">
+                    <div class="news-date">📅 اليوم</div>
+                    <h3 class="news-title">جارٍ تحميل الأخبار...</h3>
+                    <p class="news-content">يتم الآن تحميل آخر أخبار الكلان، الرجاء الانتظار</p>
                 </div>
             </div>
         </section>
+        
+        <!-- معلومات إضافية -->
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="card-icon">📋</div>
+                <h2 class="card-title">شروط الانضمام</h2>
+                <div class="card-content">
+                    <p>1. أن يكون عمر اللاعب 16 سنة على الأقل</p>
+                    <p>2. أن يكون لديه رتبة Diamond أو أعلى</p>
+                    <p>3. أن يلتزم بحضور جلسات التدريب</p>
+                    <p>4. أن يلتزم بأخلاقيات اللعب</p>
+                    <p>5. أن يكون متاحاً للمشاركة في البطولات</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="card-icon">🕒</div>
+                <h2 class="card-title">أوقات التدريب</h2>
+                <div class="card-content">
+                    <p>📅 الإثنين - الأربعاء - الجمعة</p>
+                    <p>⏰ من الساعة 8:00 مساءً حتى 11:00 مساءً</p>
+                    <p>📍 جلسات تدريبية متخصصة لكل مستوى</p>
+                    <p>🎮 تدريب تكتيكات متقدمة يوم السبت</p>
+                    <p>🏆 مباريات ودية يوم الأحد</p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- شريط ويندوز 11 -->
-    <nav class="taskbar" id="taskbar">
-        <div class="taskbar-content">
-            <!-- العناصر الأساسية للجميع -->
-            <a href="main.html" class="taskbar-item active" data-page="main">
-                <span class="taskbar-icon">🏠</span>
-                <span class="taskbar-label">المعلومات</span>
-            </a>
-            
-            <a href="members.html" class="taskbar-item" data-page="members">
-                <span class="taskbar-icon">👥</span>
-                <span class="taskbar-label">الأعضاء</span>
-                <span class="badge">قريباً</span>
-            </a>
-            
-            <a href="apply.html" class="taskbar-item" data-page="apply">
-                <span class="taskbar-icon">📝</span>
-                <span class="taskbar-label">التقديم</span>
-                <span class="badge">قريباً</span>
-            </a>
-            
-            <a href="account.html" class="taskbar-item" data-page="account">
-                <span class="taskbar-icon">👤</span>
-                <span class="taskbar-label">حسابي</span>
-            </a>
-            
-            <!-- العناصر المخفية للأدمنز والأونر -->
-            <a href="admin/news.html" class="taskbar-item admin-only" data-page="news" style="display: none;">
-                <span class="taskbar-icon">📢</span>
-                <span class="taskbar-label">وضع الأخبار</span>
-            </a>
-            
-            <a href="admin/manage-apply.html" class="taskbar-item admin-only" data-page="manage-apply" style="display: none;">
-                <span class="taskbar-icon">⚙️</span>
-                <span class="taskbar-label">ضبط التقديم</span>
-            </a>
-            
-            <a href="admin/manage-members.html" class="taskbar-item admin-only" data-page="manage-members" style="display: none;">
-                <span class="taskbar-icon">👑</span>
-                <span class="taskbar-label">ضبط الأعضاء</span>
-            </a>
-        </div>
-        
-        <!-- زر التحكم بالشريط -->
-        <div class="taskbar-controls">
-            <button id="hideTaskbarBtn" class="taskbar-control-btn" title="إخفاء الشريط">
-                ◀️
-            </button>
+    <nav class="taskbar">
+        <div class="taskbar-items" id="taskbarItems">
+            <!-- سيتم ملؤها ديناميكياً حسب الصلاحيات -->
         </div>
     </nav>
+    
+    <!-- زر التحكم في الشريط -->
+    <div class="taskbar-toggle" id="taskbarToggle">⬇️</div>
 
-    <!-- نافذة إضافة خبر (للأدمنز فقط) -->
-    <div id="addNewsModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h2>📢 إضافة خبر جديد</h2>
-            <form id="newsForm">
-                <div class="form-group">
-                    <label for="newsTitle">عنوان الخبر</label>
-                    <input type="text" id="newsTitle" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="newsContent">محتوى الخبر</label>
-                    <textarea id="newsContent" class="form-input" rows="5" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="newsImage">صورة الخبر (اختياري)</label>
-                    <input type="text" id="newsImage" class="form-input" placeholder="رابط الصورة">
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="submit" class="btn btn-primary">نشر الخبر</button>
-                    <button type="button" id="cancelNewsBtn" class="btn btn-secondary">إلغاء</button>
-                </div>
-            </form>
-        </div>
+    <!-- نافذة الأدمن (للتجربة) -->
+    <div id="adminPanel" style="display: none; position: fixed; top: 100px; right: 20px; background: rgba(0,0,0,0.8); color: white; padding: 15px; border-radius: 10px; border: 2px solid gold; z-index: 9999;">
+        <h3 style="margin-bottom: 10px; color: gold;">🎮 لوحة الأدمن</h3>
+        <p style="margin-bottom: 5px;">ID: <span id="adminIdDisplay"></span></p>
+        <p style="margin-bottom: 5px;">المستوى: <span id="adminLevelDisplay"></span></p>
+        <p>الصفحات المخفية: <span id="hiddenPagesCount">0</span></p>
     </div>
 
-    <!-- الروابط -->
     <script src="js/main.js"></script>
-    <script src="js/app.js"></script>
     <script src="js/admin.js"></script>
-    <script src="js/taskbar.js"></script>
-    
     <script>
-        // تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🏰 صفحة معلومات العشيرة محملة');
-            
-            // تحميل الأخبار
-            loadNews();
-            
-            // تهيئة الأزرار
-            initButtons();
-            
-            // التحقق من صلاحيات الأدمن
-            checkAdminPermissions();
-        });
+        // ===== نظام الصفحة الرئيسية بعد الدخول =====
         
-        function loadNews() {
-            const newsContainer = document.getElementById('newsContainer');
-            const news = JSON.parse(localStorage.getItem('clanNews')) || [];
+        // 1. تحميل بيانات المستخدم
+        let currentUser = null;
+        let userRole = 'member'; // member, admin, owner
+        
+        // الأيدي المميزة (سيتم تحديثها في admin.js)
+        const SPECIAL_IDS = {
+            owner: 'GR_OWNER_001', // إيدي المالك
+            admins: ['GR_ADMIN_001', 'GR_ADMIN_002', 'GR_ADMIN_003'] // 3 أدمنز
+        };
+        
+        // 2. التحقق من تسجيل الدخول
+        function checkLogin() {
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return false;
+            }
             
-            if (news.length === 0) {
-                newsContainer.innerHTML = `
-                    <div class="no-news">
-                        <div class="no-news-icon">📰</div>
-                        <h3>لا توجد أخبار حالياً</h3>
-                        <p>سيتم نشر الأخبار قريباً</p>
-                    </div>
-                `;
-            } else {
-                newsContainer.innerHTML = news.map((item, index) => `
-                    <div class="news-card ${index === 0 ? 'featured' : ''}">
-                        ${item.image ? `<img src="${item.image}" alt="${item.title}" class="news-image">` : ''}
-                        <div class="news-content">
-                            <div class="news-header">
-                                <h3 class="news-title">${item.title}</h3>
-                                <span class="news-date">${item.date}</span>
-                            </div>
-                            <p class="news-text">${item.content}</p>
-                            <div class="news-author">
-                                <span class="author-badge">${item.author}</span>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
+            try {
+                currentUser = JSON.parse(userData);
+                document.getElementById('user-id-display').textContent = currentUser.username;
+                
+                // تحديد دور المستخدم
+                if (currentUser.id === SPECIAL_IDS.owner) {
+                    userRole = 'owner';
+                } else if (SPECIAL_IDS.admins.includes(currentUser.id)) {
+                    userRole = 'admin';
+                } else {
+                    userRole = 'member';
+                }
+                
+                console.log(`👤 المستخدم: ${currentUser.username}`);
+                console.log(`🎭 الدور: ${userRole}`);
+                
+                return true;
+            } catch (error) {
+                console.error('❌ خطأ في تحليل بيانات المستخدم:', error);
+                window.location.href = 'index.html';
+                return false;
             }
         }
         
-        function initButtons() {
-            // زر تسجيل الخروج
-            document.getElementById('logoutBtn').addEventListener('click', function() {
+        // 3. تسجيل الخروج
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
                 localStorage.removeItem('currentUser');
                 window.location.href = 'index.html';
+            }
+        });
+        
+        // 4. تحميل الأخبار
+        function loadNews() {
+            const newsContainer = document.getElementById('newsContainer');
+            const news = JSON.parse(localStorage.getItem('clanNews')) || [
+                {
+                    date: 'اليوم',
+                    title: 'مرحباً بكم في GR CLAN!',
+                    content: 'تم إطلاق الموقع الرسمي للكلان، يمكنكم الآن الاطلاع على كافة المعلومات.'
+                },
+                {
+                    date: 'أمس',
+                    title: 'بدء جلسات التدريب',
+                    content: 'تبدأ جلسات التدريب الأسبوعية غداً الساعة 8:00 مساءً.'
+                },
+                {
+                    date: 'قبل 3 أيام',
+                    title: 'نتائج البطولة الأخيرة',
+                    content: 'فريقنا حصل على المركز الثاني في بطولة نهاية الأسبوع.'
+                }
+            ];
+            
+            newsContainer.innerHTML = '';
+            
+            news.forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.innerHTML = `
+                    <div class="news-date">📅 ${item.date}</div>
+                    <h3 class="news-title">${item.title}</h3>
+                    <p class="news-content">${item.content}</p>
+                `;
+                newsContainer.appendChild(newsCard);
+            });
+        }
+        
+        // 5. تحديث شريط المهام حسب الصلاحيات
+        function updateTaskbar() {
+            const taskbarItems = document.getElementById('taskbarItems');
+            
+            // العناصر الأساسية للجميع
+            const baseItems = [
+                { icon: '🏠', label: 'المعلومات', href: 'main.html', class: 'active' },
+                { icon: '👥', label: 'الأعضاء', href: '#', class: 'coming-soon' },
+                { icon: '📝', label: 'التقديم', href: '#', class: 'coming-soon' },
+                { icon: '👤', label: 'حسابي', href: 'account.html' }
+            ];
+            
+            // العناصر الإدارية (للأدمن والأونر)
+            const adminItems = [
+                { icon: '📢', label: 'وضع الأخبار', href: 'admin-pages/news.html', class: 'admin-only' },
+                { icon: '⚙️', label: 'ضبط التقديم', href: 'admin-pages/manage-apply.html', class: 'admin-only' },
+                { icon: '👑', label: 'ضبط الأعضاء', href: 'admin-pages/manage-members.html', class: 'admin-only' }
+            ];
+            
+            // مسح المحتوى الحالي
+            taskbarItems.innerHTML = '';
+            
+            // إضافة العناصر الأساسية
+            baseItems.forEach(item => {
+                const link = document.createElement('a');
+                link.href = item.href;
+                link.className = `taskbar-item ${item.class || ''}`;
+                link.innerHTML = `
+                    <span class="taskbar-icon">${item.icon}</span>
+                    <span class="taskbar-label">${item.label}</span>
+                `;
+                
+                // إذا كان "قريباً"، إضافة فئة خاصة
+                if (item.class === 'coming-soon') {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('🚧 هذه الصفحة قيد التطوير، ستكون متاحة قريباً!');
+                    });
+                }
+                
+                taskbarItems.appendChild(link);
             });
             
-            // زر إضافة خبر (للأدمنز)
-            const addNewsBtn = document.getElementById('addNewsBtn');
-            if (addNewsBtn) {
-                addNewsBtn.addEventListener('click', function() {
-                    document.getElementById('addNewsModal').style.display = 'flex';
+            // إضافة العناصر الإدارية إذا كان المستخدم أدمن أو أونر
+            if (userRole === 'admin' || userRole === 'owner') {
+                adminItems.forEach(item => {
+                    const link = document.createElement('a');
+                    link.href = item.href;
+                    link.className = `taskbar-item ${item.class || ''}`;
+                    link.innerHTML = `
+                        <span class="taskbar-icon">${item.icon}</span>
+                        <span class="taskbar-label">${item.label}</span>
+                    `;
+                    taskbarItems.appendChild(link);
                 });
             }
             
-            // إلغاء إضافة خبر
-            document.getElementById('cancelNewsBtn').addEventListener('click', function() {
-                document.getElementById('addNewsModal').style.display = 'none';
-            });
-            
-            // نشر خبر جديد
-            document.getElementById('newsForm').addEventListener('submit', function(e) {
-                e.preventDefault();
+            // إذا كان أونر، إضافة صفحات إضافية
+            if (userRole === 'owner') {
+                const ownerItems = [
+                    { icon: '⚡', label: 'إحصائيات', href: '#', class: 'admin-only' },
+                    { icon: '🔧', label: 'إعدادات', href: '#', class: 'admin-only' }
+                ];
                 
-                const title = document.getElementById('newsTitle').value;
-                const content = document.getElementById('newsContent').value;
-                const image = document.getElementById('newsImage').value;
-                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                
-                const newNews = {
-                    id: Date.now(),
-                    title: title,
-                    content: content,
-                    image: image || null,
-                    date: new Date().toLocaleDateString('ar-SA'),
-                    author: currentUser ? currentUser.username : 'مسؤول',
-                    timestamp: Date.now()
-                };
-                
-                let news = JSON.parse(localStorage.getItem('clanNews')) || [];
-                news.unshift(newNews); // إضافة في البداية
-                localStorage.setItem('clanNews', JSON.stringify(news));
-                
-                // إغلاق النافذة وإعادة التحميل
-                document.getElementById('newsForm').reset();
-                document.getElementById('addNewsModal').style.display = 'none';
-                loadNews();
-                
-                alert('✅ تم نشر الخبر بنجاح!');
-            });
+                ownerItems.forEach(item => {
+                    const link = document.createElement('a');
+                    link.href = item.href;
+                    link.className = `taskbar-item ${item.class || ''}`;
+                    link.innerHTML = `
+                        <span class="taskbar-icon">${item.icon}</span>
+                        <span class="taskbar-label">${item.label}</span>
+                    `;
+                    
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('🔐 هذه الصفحة متاحة فقط للمالك');
+                    });
+                    
+                    taskbarItems.appendChild(link);
+                });
+            }
         }
         
-        function checkAdminPermissions() {
-            // هذه الوظيفة سيتم تفعيلها في ملف admin.js
-            console.log('🔍 جاري التحقق من صلاحيات المستخدم...');
+        // 6. التحكم في إظهار/إخفاء شريط المهام
+        const taskbar = document.querySelector('.taskbar');
+        const taskbarToggle = document.getElementById('taskbarToggle');
+        let isTaskbarVisible = true;
+        
+        taskbarToggle.addEventListener('click', function() {
+            if (isTaskbarVisible) {
+                taskbar.classList.add('hidden');
+                this.textContent = '⬆️';
+                this.style.transform = 'rotate(180deg)';
+            } else {
+                taskbar.classList.remove('hidden');
+                this.textContent = '⬇️';
+                this.style.transform = 'rotate(0deg)';
+            }
+            isTaskbarVisible = !isTaskbarVisible;
+            
+            // حفظ حالة الشريط
+            localStorage.setItem('taskbarVisible', isTaskbarVisible);
+        });
+        
+        // 7. إخفاء الشريط عند التمرير لأسفل
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // التمرير لأسفل
+                taskbar.classList.add('hidden');
+                taskbarToggle.textContent = '⬆️';
+                taskbarToggle.style.transform = 'rotate(180deg)';
+                isTaskbarVisible = false;
+            } else if (scrollTop < lastScrollTop) {
+                // التمرير لأعلى
+                taskbar.classList.remove('hidden');
+                taskbarToggle.textContent = '⬇️';
+                taskbarToggle.style.transform = 'rotate(0deg)';
+                isTaskbarVisible = true;
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // 8. عرض لوحة الأدمن (للتجربة فقط)
+        function showAdminPanel() {
+            if (userRole !== 'member') {
+                const adminPanel = document.getElementById('adminPanel');
+                document.getElementById('adminIdDisplay').textContent = currentUser.id;
+                document.getElementById('adminLevelDisplay').textContent = 
+                    userRole === 'owner' ? 'المالك' : 'أدمن';
+                
+                // حساب عدد الصفحات المخفية
+                const hiddenPages = document.querySelectorAll('.admin-only').length;
+                document.getElementById('hiddenPagesCount').textContent = hiddenPages;
+                
+                adminPanel.style.display = 'block';
+                
+                // إخفاء اللوحة بعد 10 ثواني
+                setTimeout(() => {
+                    adminPanel.style.display = 'none';
+                }, 10000);
+            }
         }
+        
+        // 9. تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 صفحة معلومات العشيرة محملة');
+            
+            // التحقق من تسجيل الدخول
+            if (!checkLogin()) return;
+            
+            // تحميل البيانات
+            loadNews();
+            updateTaskbar();
+            
+            // استعادة حالة الشريط
+            const savedState = localStorage.getItem('taskbarVisible');
+            if (savedState === 'false') {
+                taskbar.classList.add('hidden');
+                taskbarToggle.textContent = '⬆️';
+                taskbarToggle.style.transform = 'rotate(180deg)';
+                isTaskbarVisible = false;
+            }
+            
+            // عرض لوحة الأدمن (للتجربة)
+            showAdminPanel();
+            
+            // إضافة تأثيرات عند تحميل الصفحة
+            setTimeout(() => {
+                document.querySelectorAll('.info-card').forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                });
+            }, 500);
+            
+            // رسالة ترحيب
+            console.log(`🎉 مرحباً ${currentUser.username} في GR CLAN!`);
+            console.log(`🔐 لديك صلاحيات: ${userRole}`);
+        });
+        
+        // 10. تحديث دوري للإحصائيات (محاكاة)
+        setInterval(() => {
+            if (userRole === 'owner') {
+                const stats = document.querySelectorAll('.stat-number');
+                stats.forEach(stat => {
+                    const current = parseInt(stat.textContent);
+                    if (!isNaN(current)) {
+                        const change = Math.random() > 0.5 ? 1 : -1;
+                        const newValue = current + change;
+                        if (newValue > 0) {
+                            stat.textContent = newValue + (stat.textContent.includes('%') ? '%' : '+');
+                        }
+                    }
+                });
+            }
+        }, 10000);
     </script>
 </body>
 </html>
