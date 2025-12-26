@@ -25,4 +25,17 @@
     --shadow-medium: rgba(0, 0, 0, 0.2);
     --shadow-dark: rgba(0, 0, 0, 0.3);
     --shadow-gold: rgba(212, 175, 55, 0.3);
+    
+    /* ألوان الأدمن */
+    --admin-gold: #D4AF37;
+    --admin-gold-light: #FFD700;
+    --admin-dark: #0A1931;
+    --admin-darker: #061025;
+    --admin-success: #2ed573;
+    --admin-error: #ff4757;
+    --admin-warning: #ffa502;
+    
+    /* ظلال الأدمن */
+    --admin-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    --admin-glow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
