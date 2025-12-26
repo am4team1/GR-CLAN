@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GR CLAN - كلان ببجي</title>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- الصفحة الرئيسية -->
+    <div class="landing-page">
+        <!-- الخلفية المتحركة -->
+        <div class="bg-overlay"></div>
+        
+        <!-- المحتوى الرئيسي -->
+        <div class="landing-content">
+            <!-- شعار الكلان -->
+            <div class="clan-hero">
+                <div class="clan-logo-container">
+                    <!-- حاوية الشعار مع الدائرة الذهبية -->
+                    <div class="logo-container">
+                        <!-- الدائرة الذهبية الخارجية -->
+                        <div class="gold-circle"></div>
+                        
+                        <!-- الشعار داخل الدائرة -->
+                        <div class="logo-image-container">
+                            <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo-main" id="mainLogo">
+                        </div>
+                        
+                        <!-- تأثيرات التوهج -->
+                        <div class="logo-glow"></div>
+                        <div class="glow-effect"></div>
+                        
+                        <!-- تأثيرات براقة -->
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                    </div>
+                    
+                    <h1 class="clan-title">GR CLAN</h1>
+                    <p class="clan-subtitle">كلان عربي محترف في PUBG Mobile</p>
+                </div>
+            </div>
+            
+            <!-- أزرار الدخول -->
+            <div class="landing-buttons">
+                <a href="login.html" class="landing-btn login-btn">
+                    <span class="btn-icon">🔐</span>
+                    <span class="btn-text">تسجيل الدخول</span>
+                </a>
+                
+                <a href="register.html" class="landing-btn register-btn">
+                    <span class="btn-icon">👤</span>
+                    <span class="btn-text">إنشاء حساب</span>
+                </a>
+            </div>
+            
+            <!-- معلومات الكلان -->
+            <div class="clan-info">
+                <div class="info-card">
+                    <span class="info-icon">🏆</span>
+                    <h3>بطولات متنوعة</h3>
+                    <p>نشارك في البطولات المحلية والدولية</p>
+                </div>
+                
+                <div class="info-card">
+                    <span class="info-icon">👥</span>
+                    <h3>مجتمع نشط</h3>
+                    <p>أكثر من 50 لاعب محترف</p>
+                </div>
+                
+                <div class="info-card">
+                    <span class="info-icon">⚡</span>
+                    <h3>تدريب مستمر</h3>
+                    <p>جلسات تدريبية يومية</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- الذيل -->
+        <footer class="landing-footer">
+            <p>© 2024 GR CLAN - جميع الحقوق محفوظة</p>
+            <p>PUBG Mobile هو علامة تجارية مسجلة لشركة KRAFTON, Inc.</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // التحقق من تحميل الصورة وإصلاحها إذا لم تظهر
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.getElementById('mainLogo');
+            
+            // التحقق إذا فشل تحميل الصورة
+            logo.onerror = function() {
+                console.log('❌ فشل تحميل صورة الشعار، جارٍ التحقق من المسار...');
+                
+                // محاولة مسارات بديلة
+                const possiblePaths = [
+                    'assets/images/clan-logo.png',
+                    '../assets/images/clan-logo.png',
+                    'images/clan-logo.png',
+                    './assets/images/clan-logo.png',
+                    'clan-logo.png'
+                ];
+                
+                let currentIndex = 0;
+                const tryNextPath = () => {
+                    if (currentIndex < possiblePaths.length) {
+                        logo.src = possiblePaths[currentIndex];
+                        console.log(`🔍 محاولة المسار: ${possiblePaths[currentIndex]}`);
+                        currentIndex++;
+                    }
+                };
+                
+                // محاولة المسارات البديلة
+                setTimeout(tryNextPath, 100);
+            };
+            
+            // تحميل ناجح
+            logo.onload = function() {
+                console.log('✅ تم تحميل صورة الشعار بنجاح');
+                logo.style.opacity = '1';
+            };
+            
+            // إضافة تأثيرات تفاعلية للشعار
+            const logoContainer = document.querySelector('.logo-container');
+            const sparkles = document.querySelectorAll('.sparkle');
+            
+            // تأثير عند تحميل الصفحة
+            setTimeout(() => {
+                logoContainer.style.opacity = '1';
+                logoContainer.style.transform = 'scale(1)';
+            }, 500);
+            
+            // تأثيرات عشوائية للشرارات
+            setInterval(() => {
+                sparkles.forEach(sparkle => {
+                    if (Math.random() > 0.7) {
+                        sparkle.style.animation = 'sparkle 1s ease';
+                        setTimeout(() => {
+                            sparkle.style.animation = 'sparkle 3s infinite';
+                        }, 1000);
+                    }
+                });
+            }, 2000);
+            
+            // تأثير عند المرور على الشعار
+            logoContainer.addEventListener('mouseenter', function() {
+                const title = document.querySelector('.clan-title');
+                const subtitle = document.querySelector('.clan-subtitle');
+                
+                title.style.transform = 'scale(1.05)';
+                title.style.color = 'var(--gold-light)';
+                subtitle.style.transform = 'scale(1.05)';
+            });
+            
+            logoContainer.addEventListener('mouseleave', function() {
+                const title = document.querySelector('.clan-title');
+                const subtitle = document.querySelector('.clan-subtitle');
+                
+                title.style.transform = 'scale(1)';
+                title.style.color = 'var(--gold)';
+                subtitle.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
