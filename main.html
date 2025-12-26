@@ -143,6 +143,170 @@
             background: linear-gradient(135deg, #ff6b81, #ff4757);
         }
         
+        /* ===== قائمة البرجر الجديدة ===== */
+        .burger-menu-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(212, 175, 55, 0.25);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        .burger-menu-btn:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: scale(1.15);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.5);
+        }
+        
+        .burger-line {
+            width: 25px;
+            height: 3px;
+            background: currentColor;
+            margin: 3px 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .burger-menu-btn.active .burger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .burger-menu-btn.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .burger-menu-btn.active .burger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        /* قائمة البرجر المنبثقة */
+        .burger-menu {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: rgba(6, 16, 37, 0.95);
+            backdrop-filter: blur(30px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            width: 300px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .burger-menu.active {
+            display: block;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .burger-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .burger-item {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            gap: 15px;
+        }
+        
+        .burger-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--secondary-gold);
+            transform: translateX(-5px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+        }
+        
+        .burger-item.active {
+            background: rgba(212, 175, 55, 0.3);
+            color: var(--secondary-gold);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .burger-item.coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+            position: relative;
+        }
+        
+        .burger-item.coming-soon::after {
+            content: 'قريباً';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .burger-item.admin-only {
+            border: 2px dashed var(--primary-gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .burger-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .burger-label {
+            font-size: 1rem;
+            font-weight: 700;
+            flex: 1;
+        }
+        
+        .burger-badge {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        /* فاصل بين العناصر */
+        .burger-divider {
+            height: 1px;
+            background: rgba(212, 175, 55, 0.3);
+            margin: 10px 0;
+        }
+        
         /* ===== محتوى الصفحة الرئيسي ===== */
         .main-content {
             padding-top: 100px;
@@ -367,123 +531,6 @@
             font-weight: 600;
         }
         
-        /* ===== شريط ويندوز 11 المتحكم فيه ===== */
-        .taskbar {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(6, 16, 37, 0.95);
-            backdrop-filter: blur(30px);
-            border-radius: 20px;
-            padding: 18px 35px;
-            border: 2px solid var(--primary-gold);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .taskbar.hidden {
-            transform: translateX(-50%) translateY(150px);
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .taskbar-items {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-        }
-        
-        .taskbar-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 15px 25px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            min-width: 100px;
-            position: relative;
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .taskbar-item:hover {
-            background: rgba(212, 175, 55, 0.2);
-            color: var(--secondary-gold);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
-        }
-        
-        .taskbar-item.active {
-            background: rgba(212, 175, 55, 0.3);
-            color: var(--secondary-gold);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-        
-        .taskbar-item.coming-soon {
-            opacity: 0.6;
-            cursor: not-allowed;
-            position: relative;
-        }
-        
-        .taskbar-item.coming-soon::after {
-            content: 'قريباً';
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            background: var(--primary-gold);
-            color: var(--dark-bg);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-        
-        .taskbar-item.admin-only {
-            border: 2px dashed var(--primary-gold);
-            background: rgba(212, 175, 55, 0.1);
-        }
-        
-        .taskbar-icon {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .taskbar-label {
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-        
-        /* زر التحكم في الشريط */
-        .taskbar-toggle {
-            position: fixed;
-            bottom: 15px;
-            right: 20px;
-            background: rgba(212, 175, 55, 0.25);
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-        }
-        
-        .taskbar-toggle:hover {
-            background: var(--primary-gold);
-            color: var(--dark-bg);
-            transform: scale(1.15);
-            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.5);
-        }
-        
         /* ===== نافذة تأكيد تسجيل الخروج ===== */
         .confirm-modal {
             display: none;
@@ -637,15 +684,6 @@
             .cards-grid {
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             }
-            
-            .taskbar-items {
-                gap: 15px;
-            }
-            
-            .taskbar-item {
-                min-width: 85px;
-                padding: 12px 20px;
-            }
         }
         
         @media (max-width: 768px) {
@@ -689,37 +727,17 @@
                 grid-template-columns: 1fr;
             }
             
-            .taskbar {
-                padding: 15px 20px;
-                bottom: 15px;
-                width: 90%;
-            }
-            
-            .taskbar-items {
-                gap: 8px;
-                flex-wrap: wrap;
-            }
-            
-            .taskbar-item {
-                min-width: 70px;
-                padding: 10px 15px;
-                margin-bottom: 5px;
-            }
-            
-            .taskbar-icon {
-                font-size: 1.8rem;
-            }
-            
-            .taskbar-label {
-                font-size: 0.8rem;
-            }
-            
-            .taskbar-toggle {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+            .burger-menu {
+                width: 280px;
                 right: 15px;
-                bottom: 10px;
+                bottom: 85px;
+            }
+            
+            .burger-menu-btn {
+                width: 55px;
+                height: 55px;
+                right: 15px;
+                bottom: 15px;
             }
             
             .confirm-box {
@@ -774,23 +792,22 @@
                 font-size: 2rem;
             }
             
-            .taskbar {
+            .burger-menu {
+                width: 250px;
+                right: 10px;
+                bottom: 80px;
+            }
+            
+            .burger-item {
                 padding: 12px 15px;
-                border-radius: 15px;
             }
             
-            .taskbar-item {
-                min-width: 60px;
-                padding: 8px 12px;
+            .burger-icon {
+                font-size: 1.3rem;
             }
             
-            .taskbar-icon {
-                font-size: 1.5rem;
-                margin-bottom: 5px;
-            }
-            
-            .taskbar-label {
-                font-size: 0.7rem;
+            .burger-label {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -933,16 +950,17 @@
         </div>
     </main>
 
-    <!-- شريط ويندوز 11 -->
-    <nav class="taskbar" id="taskbar">
-        <div class="taskbar-items" id="taskbarItems">
+    <!-- قائمة البرجر -->
+    <div class="burger-menu-btn" id="burgerBtn">
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+    </div>
+    
+    <div class="burger-menu" id="burgerMenu">
+        <div class="burger-items" id="burgerItems">
             <!-- سيتم ملؤها ديناميكياً حسب الصلاحيات -->
         </div>
-    </nav>
-    
-    <!-- زر التحكم في الشريط -->
-    <div class="taskbar-toggle" id="taskbarToggle">
-        <span id="toggleIcon">⬇️</span>
     </div>
 
     <!-- نافذة تأكيد تسجيل الخروج -->
@@ -966,18 +984,13 @@
 
     <script src="js/main.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/auth-admin.js"></script> <!-- ملف جديد للأدمن -->
     <script>
         // ===== نظام الصفحة الرئيسية بعد الدخول =====
         
         // 1. تحميل بيانات المستخدم
         let currentUser = null;
         let userRole = 'member'; // member, admin, owner
-        
-        // الأيدي المميزة (سيتم تحديثها في admin.js)
-        const SPECIAL_IDS = {
-            owner: 'GR_OWNER_001', // إيدي المالك
-            admins: ['GR_ADMIN_001', 'GR_ADMIN_002', 'GR_ADMIN_003'] // 3 أدمنز
-        };
         
         // 2. التحقق من تسجيل الدخول
         function checkLogin() {
@@ -992,11 +1005,11 @@
                 document.getElementById('user-id-display').textContent = currentUser.username;
                 
                 // تحديد دور المستخدم
-                if (currentUser.id === SPECIAL_IDS.owner) {
-                    userRole = 'owner';
+                userRole = getUserRole(currentUser.id);
+                
+                if (userRole === 'owner') {
                     document.getElementById('user-id-display').innerHTML = currentUser.username + ' 👑';
-                } else if (SPECIAL_IDS.admins.includes(currentUser.id)) {
-                    userRole = 'admin';
+                } else if (userRole === 'admin') {
                     document.getElementById('user-id-display').innerHTML = currentUser.username + ' ⭐';
                 } else {
                     userRole = 'member';
@@ -1013,7 +1026,32 @@
             }
         }
         
-        // 3. نافذة تأكيد تسجيل الخروج
+        // 3. تحديد دور المستخدم بناءً على النظام الإداري
+        function getUserRole(userId) {
+            // أولاً تحقق من نظام الأدمن الجديد
+            if (window.AdminAuth && window.AdminAuth.checkAdminLogin) {
+                const adminInfo = window.AdminAuth.checkAdminLogin();
+                if (adminInfo && adminInfo.role) {
+                    return adminInfo.role;
+                }
+            }
+            
+            // إذا فشل، استخدم النظام القديم
+            const SPECIAL_IDS = {
+                owner: 'GR_OWNER_001',
+                admins: ['GR_ADMIN_001', 'GR_ADMIN_002', 'GR_ADMIN_003']
+            };
+            
+            if (userId === SPECIAL_IDS.owner) {
+                return 'owner';
+            } else if (SPECIAL_IDS.admins.includes(userId)) {
+                return 'admin';
+            }
+            
+            return 'member';
+        }
+        
+        // 4. نافذة تأكيد تسجيل الخروج
         const logoutConfirmModal = document.getElementById('logoutConfirmModal');
         const confirmLogoutBtn = document.getElementById('confirmLogout');
         const cancelLogoutBtn = document.getElementById('cancelLogout');
@@ -1024,6 +1062,7 @@
         
         confirmLogoutBtn.addEventListener('click', function() {
             localStorage.removeItem('currentUser');
+            localStorage.removeItem('adminSession');
             window.location.href = 'index.html';
         });
         
@@ -1038,7 +1077,139 @@
             }
         });
         
-        // 4. تحميل الأخبار
+        // 5. قائمة البرجر
+        const burgerBtn = document.getElementById('burgerBtn');
+        const burgerMenu = document.getElementById('burgerMenu');
+        
+        burgerBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            burgerBtn.classList.toggle('active');
+            burgerMenu.classList.toggle('active');
+        });
+        
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            if (!burgerMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+                burgerBtn.classList.remove('active');
+                burgerMenu.classList.remove('active');
+            }
+        });
+        
+        // 6. تحديث قائمة البرجر حسب الصلاحيات
+        function updateBurgerMenu() {
+            const burgerItems = document.getElementById('burgerItems');
+            
+            // العناصر الأساسية للجميع
+            const baseItems = [
+                { icon: '🏠', label: 'معلومات العشيرة', href: 'main.html', class: 'active' },
+                { icon: '👥', label: 'الأعضاء', href: '#', class: 'coming-soon' },
+                { icon: '📝', label: 'التقديم', href: '#', class: 'coming-soon' },
+                { icon: '👤', label: 'حسابي', href: 'account.html' }
+            ];
+            
+            // العناصر الإدارية (للأدمن والأونر)
+            const adminItems = [
+                { icon: '📢', label: 'وضع الأخبار', href: 'admin-pages/news.html', class: 'admin-only' },
+                { icon: '⚙️', label: 'ضبط التقديم', href: 'admin-pages/manage-apply.html', class: 'admin-only' },
+                { icon: '👑', label: 'ضبط الأعضاء', href: 'admin-pages/manage-members.html', class: 'admin-only' }
+            ];
+            
+            // العناصر الخاصة بالملاك
+            const ownerItems = [
+                { icon: '📊', label: 'إحصائيات', href: '#', class: 'admin-only owner-only' },
+                { icon: '🔧', label: 'إعدادات', href: '#', class: 'admin-only owner-only' }
+            ];
+            
+            // مسح المحتوى الحالي
+            burgerItems.innerHTML = '';
+            
+            // إضافة العناصر الأساسية
+            baseItems.forEach(item => {
+                const link = document.createElement('a');
+                link.href = item.href;
+                link.className = `burger-item ${item.class || ''}`;
+                link.innerHTML = `
+                    <span class="burger-icon">${item.icon}</span>
+                    <span class="burger-label">${item.label}</span>
+                `;
+                
+                // إذا كان "قريباً"، إضافة فئة خاصة
+                if (item.class === 'coming-soon') {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('🚧 هذه الصفحة قيد التطوير، ستكون متاحة قريباً!');
+                        burgerBtn.classList.remove('active');
+                        burgerMenu.classList.remove('active');
+                    });
+                }
+                
+                burgerItems.appendChild(link);
+            });
+            
+            // إضافة فاصل إذا كان هناك عناصر إدارية
+            if (userRole === 'admin' || userRole === 'owner') {
+                const divider = document.createElement('div');
+                divider.className = 'burger-divider';
+                burgerItems.appendChild(divider);
+                
+                const adminTitle = document.createElement('div');
+                adminTitle.className = 'burger-item';
+                adminTitle.innerHTML = `
+                    <span class="burger-icon">⚡</span>
+                    <span class="burger-label">لوحة الأدمن</span>
+                    <span class="burger-badge">خاص</span>
+                `;
+                adminTitle.style.background = 'rgba(212, 175, 55, 0.1)';
+                adminTitle.style.color = 'var(--secondary-gold)';
+                adminTitle.style.cursor = 'default';
+                burgerItems.appendChild(adminTitle);
+                
+                // إضافة العناصر الإدارية
+                adminItems.forEach(item => {
+                    const link = document.createElement('a');
+                    link.href = item.href;
+                    link.className = `burger-item ${item.class || ''}`;
+                    link.innerHTML = `
+                        <span class="burger-icon">${item.icon}</span>
+                        <span class="burger-label">${item.label}</span>
+                    `;
+                    
+                    link.addEventListener('click', function() {
+                        burgerBtn.classList.remove('active');
+                        burgerMenu.classList.remove('active');
+                    });
+                    
+                    burgerItems.appendChild(link);
+                });
+            }
+            
+            // إذا كان أونر، إضافة صفحات إضافية
+            if (userRole === 'owner') {
+                ownerItems.forEach(item => {
+                    const link = document.createElement('a');
+                    link.href = item.href;
+                    link.className = `burger-item ${item.class || ''}`;
+                    link.innerHTML = `
+                        <span class="burger-icon">${item.icon}</span>
+                        <span class="burger-label">${item.label}</span>
+                        <span class="burger-badge">مالك</span>
+                    `;
+                    
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('👑 هذه الصفحة متاحة فقط للمالك');
+                        burgerBtn.classList.remove('active');
+                        burgerMenu.classList.remove('active');
+                    });
+                    
+                    burgerItems.appendChild(link);
+                });
+            }
+            
+            console.log(`🍔 تم تحديث قائمة البرجر بـ ${burgerItems.children.length} عنصر`);
+        }
+        
+        // 7. تحميل الأخبار
         function loadNews() {
             const newsContainer = document.getElementById('newsContainer');
             const news = JSON.parse(localStorage.getItem('clanNews')) || [
@@ -1073,149 +1244,7 @@
             });
         }
         
-        // 5. تحديث شريط المهام حسب الصلاحيات
-        function updateTaskbar() {
-            const taskbarItems = document.getElementById('taskbarItems');
-            
-            // العناصر الأساسية للجميع
-            const baseItems = [
-                { icon: '🏠', label: 'المعلومات', href: 'main.html', class: 'active' },
-                { icon: '👥', label: 'الأعضاء', href: '#', class: 'coming-soon' },
-                { icon: '📝', label: 'التقديم', href: '#', class: 'coming-soon' },
-                { icon: '👤', label: 'حسابي', href: 'account.html' }
-            ];
-            
-            // العناصر الإدارية (للأدمن والأونر)
-            const adminItems = [
-                { icon: '📢', label: 'وضع الأخبار', href: 'admin-pages/news.html', class: 'admin-only' },
-                { icon: '⚙️', label: 'ضبط التقديم', href: 'admin-pages/manage-apply.html', class: 'admin-only' },
-                { icon: '👑', label: 'ضبط الأعضاء', href: 'admin-pages/manage-members.html', class: 'admin-only' }
-            ];
-            
-            // العناصر الخاصة بالملاك
-            const ownerItems = [
-                { icon: '📊', label: 'إحصائيات', href: '#', class: 'admin-only owner-only' },
-                { icon: '🔧', label: 'إعدادات', href: '#', class: 'admin-only owner-only' }
-            ];
-            
-            // مسح المحتوى الحالي
-            taskbarItems.innerHTML = '';
-            
-            // إضافة العناصر الأساسية
-            baseItems.forEach(item => {
-                const link = document.createElement('a');
-                link.href = item.href;
-                link.className = `taskbar-item ${item.class || ''}`;
-                link.innerHTML = `
-                    <span class="taskbar-icon">${item.icon}</span>
-                    <span class="taskbar-label">${item.label}</span>
-                `;
-                
-                // إذا كان "قريباً"، إضافة فئة خاصة
-                if (item.class === 'coming-soon') {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        alert('🚧 هذه الصفحة قيد التطوير، ستكون متاحة قريباً!');
-                    });
-                }
-                
-                taskbarItems.appendChild(link);
-            });
-            
-            // إضافة العناصر الإدارية إذا كان المستخدم أدمن أو أونر
-            if (userRole === 'admin' || userRole === 'owner') {
-                adminItems.forEach(item => {
-                    const link = document.createElement('a');
-                    link.href = item.href;
-                    link.className = `taskbar-item ${item.class || ''}`;
-                    link.innerHTML = `
-                        <span class="taskbar-icon">${item.icon}</span>
-                        <span class="taskbar-label">${item.label}</span>
-                    `;
-                    taskbarItems.appendChild(link);
-                });
-            }
-            
-            // إذا كان أونر، إضافة صفحات إضافية
-            if (userRole === 'owner') {
-                ownerItems.forEach(item => {
-                    const link = document.createElement('a');
-                    link.href = item.href;
-                    link.className = `taskbar-item ${item.class || ''}`;
-                    link.innerHTML = `
-                        <span class="taskbar-icon">${item.icon}</span>
-                        <span class="taskbar-label">${item.label}</span>
-                    `;
-                    
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        alert('👑 هذه الصفحة متاحة فقط للمالك');
-                    });
-                    
-                    taskbarItems.appendChild(link);
-                });
-            }
-            
-            console.log(`📌 تم تحديث شريط المهام بـ ${taskbarItems.children.length} عنصر`);
-        }
-        
-        // 6. التحكم في إظهار/إخفاء شريط المهام
-        const taskbar = document.getElementById('taskbar');
-        const taskbarToggle = document.getElementById('taskbarToggle');
-        const toggleIcon = document.getElementById('toggleIcon');
-        let isTaskbarVisible = true;
-        
-        taskbarToggle.addEventListener('click', function() {
-            if (isTaskbarVisible) {
-                taskbar.classList.add('hidden');
-                toggleIcon.textContent = '⬆️';
-                this.style.transform = 'rotate(180deg)';
-            } else {
-                taskbar.classList.remove('hidden');
-                toggleIcon.textContent = '⬇️';
-                this.style.transform = 'rotate(0deg)';
-            }
-            isTaskbarVisible = !isTaskbarVisible;
-            
-            // حفظ حالة الشريط
-            localStorage.setItem('taskbarVisible', isTaskbarVisible);
-        });
-        
-        // 7. إخفاء الشريط عند التمرير لأسفل
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', function() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                // التمرير لأسفل - إخفاء الشريط
-                if (isTaskbarVisible) {
-                    taskbar.classList.add('hidden');
-                    toggleIcon.textContent = '⬆️';
-                    taskbarToggle.style.transform = 'rotate(180deg)';
-                    isTaskbarVisible = false;
-                }
-            } else if (scrollTop < lastScrollTop) {
-                // التمرير لأعلى - إظهار الشريط
-                if (!isTaskbarVisible) {
-                    taskbar.classList.remove('hidden');
-                    toggleIcon.textContent = '⬇️';
-                    taskbarToggle.style.transform = 'rotate(0deg)';
-                    isTaskbarVisible = true;
-                }
-            }
-            
-            lastScrollTop = scrollTop;
-        });
-        
-        // 8. إخفاء/إظهار الشريط عند النقر في أي مكان
-        document.addEventListener('click', function(e) {
-            // إذا كان النقر ليس على الشريط ولا على زر التحكم
-            if (!taskbar.contains(e.target) && !taskbarToggle.contains(e.target)) {
-                // يمكن إضافة منطق إضافي هنا إذا لزم
-            }
-        });
-        
-        // 9. تهيئة الصفحة
+        // 8. تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 صفحة معلومات العشيرة محملة');
             
@@ -1224,37 +1253,14 @@
             
             // تحميل البيانات
             loadNews();
-            updateTaskbar();
-            
-            // استعادة حالة الشريط
-            const savedState = localStorage.getItem('taskbarVisible');
-            if (savedState === 'false') {
-                taskbar.classList.add('hidden');
-                toggleIcon.textContent = '⬆️';
-                taskbarToggle.style.transform = 'rotate(180deg)';
-                isTaskbarVisible = false;
-            } else {
-                taskbar.classList.remove('hidden');
-                toggleIcon.textContent = '⬇️';
-                taskbarToggle.style.transform = 'rotate(0deg)';
-                isTaskbarVisible = true;
-            }
-            
-            // إضافة تأثيرات عند تحميل الصفحة
-            setTimeout(() => {
-                document.querySelectorAll('.info-card').forEach((card, index) => {
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                });
-            }, 500);
+            updateBurgerMenu();
             
             // رسالة ترحيب
             setTimeout(() => {
                 console.log(`🎉 مرحباً ${currentUser.username} في GR CLAN!`);
                 console.log(`🔐 لديك صلاحيات: ${userRole}`);
                 
-                // إشعار ترحيب صغير
+                // إشعار ترحيب
                 if (userRole === 'owner') {
                     console.log('👑 أنت المالك - لديك صلاحيات كاملة');
                 } else if (userRole === 'admin') {
@@ -1266,29 +1272,7 @@
             setInterval(loadNews, 30000);
         });
         
-        // 10. تحديث دوري للإحصائيات (محاكاة)
-        setInterval(() => {
-            if (userRole === 'owner') {
-                const stats = document.querySelectorAll('.stat-number');
-                stats.forEach(stat => {
-                    const text = stat.textContent;
-                    const number = parseInt(text);
-                    if (!isNaN(number)) {
-                        const change = Math.random() > 0.7 ? 1 : -1;
-                        const newValue = Math.max(1, number + change);
-                        stat.textContent = newValue + (text.includes('%') ? '%' : '+');
-                        
-                        // تأثير مرئي
-                        stat.style.transform = 'scale(1.1)';
-                        setTimeout(() => {
-                            stat.style.transform = 'scale(1)';
-                        }, 300);
-                    }
-                });
-            }
-        }, 15000);
-        
-        // 11. تأثيرات عند المرور على العناصر
+        // 9. تأثيرات عند المرور على العناصر
         document.querySelectorAll('.info-card, .stat-item, .news-card').forEach(element => {
             element.addEventListener('mouseenter', function() {
                 this.style.zIndex = '10';
@@ -1297,15 +1281,6 @@
             element.addEventListener('mouseleave', function() {
                 this.style.zIndex = '';
             });
-        });
-        
-        // 12. تأثيرات صوتية (اختياري)
-        function playClickSound() {
-            // يمكن إضافة صوت نقر هنا
-        }
-        
-        document.querySelectorAll('button, .taskbar-item').forEach(btn => {
-            btn.addEventListener('click', playClickSound);
         });
     </script>
 </body>
