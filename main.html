@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معلومات العشيرة - GR CLAN</title>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="main-page">
+    <!-- الهيدر -->
+    <header class="main-header">
+        <!-- الشعار على اليسار -->
+        <div class="header-left">
+            <div class="clan-logo-header">
+                <img src="assets/images/clan-logo.png" alt="شعار GR CLAN">
+            </div>
+            <span class="clan-name-header">GR CLAN</span>
+        </div>
+        
+        <!-- معلومات المستخدم على اليمين -->
+        <div class="header-right">
+            <span id="user-id-display" class="user-display">
+                <span id="username-display">زائر</span>
+                <span id="user-badge" class="user-badge"></span>
+            </span>
+            <div class="header-actions">
+                <button id="toggleTaskbarBtn" class="header-btn" title="إظهار/إخفاء الشريط">
+                    📋
+                </button>
+                <button id="logoutBtn" class="header-btn logout-btn" title="تسجيل الخروج">
+                    🚪
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- قسم معلومات تأسيس الكلان -->
+        <section class="clan-section">
+            <h1 class="section-title">🏰 معلومات تأسيس GR CLAN</h1>
+            <div class="clan-info-card">
+                <div class="foundation-info">
+                    <h2>📅 تاريخ التأسيس</h2>
+                    <p>تم تأسيس GR CLAN في <strong>15 يناير 2023</strong> بواسطة مجموعة من اللاعبين المحترفين الذين شاركوا في العديد من البطولات المحلية والدولية.</p>
+                    
+                    <h2>🎯 الهدف</h2>
+                    <p>نهدف إلى بناء مجتمع عربي قوي في لعبة PUBG Mobile يجمع بين المتعة والاحترافية، وخلق بيئة تنافسية صحية تساعد الأعضاء على تطوير مهاراتهم.</p>
+                    
+                    <h2>⭐ القيم</h2>
+                    <ul class="values-list">
+                        <li>✅ <strong>الاحترام:</strong> احترام جميع الأعضاء والفرق المنافسة</li>
+                        <li>✅ <strong>التعاون:</strong> العمل كفريق واحد لتحقيق الأهداف</li>
+                        <li>✅ <strong>التطوير:</strong> التدريب المستمر لتحسين المهارات</li>
+                        <li>✅ <strong>الانضباط:</strong> الالتزام بالقوانين والمواعيد</li>
+                    </ul>
+                </div>
+                
+                <div class="foundation-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">2023</span>
+                        <span class="stat-label">سنة التأسيس</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">عضو نشط</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">بطولة فاز بها</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">التزام بالقيم</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم آخر الأخبار -->
+        <section class="clan-section">
+            <div class="section-header">
+                <h1 class="section-title">📢 آخر الأخبار</h1>
+                <button id="addNewsBtn" class="admin-only" style="display: none;">
+                    + إضافة خبر
+                </button>
+            </div>
+            
+            <div class="news-container" id="newsContainer">
+                <!-- الأخبار ستظهر هنا ديناميكياً -->
+                <div class="loading-news">جارٍ تحميل الأخبار...</div>
+            </div>
+        </section>
+
+        <!-- قسم معلومات الكلان -->
+        <section class="clan-section">
+            <h1 class="section-title">📊 معلومات الكلان</h1>
+            
+            <div class="clan-details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">🏆</div>
+                    <h3>البطولات</h3>
+                    <p>شاركنا في <strong>25+</strong> بطولة محلية ودولية</p>
+                    <ul class="detail-list">
+                        <li>بطولة PUBG العربية - المركز الثاني</li>
+                        <li>بطولة مصر الوطنية - المركز الأول</li>
+                        <li>بطولة الأندية العربية - نصف النهائي</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">👥</div>
+                    <h3>الهيكل التنظيمي</h3>
+                    <p>نظام إداري منظم وفعال</p>
+                    <ul class="detail-list">
+                        <li>المؤسس (الأونر): قائد عام</li>
+                        <li>الأدمنز: 3 إداريين</li>
+                        <li>الأعضاء: لاعبون محترفون</li>
+                        <li>المتدربين: لاعبون جدد</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">⚡</div>
+                    <h3>الأنشطة</h3>
+                    <p>أنشطة أسبوعية ومنتظمة</p>
+                    <ul class="detail-list">
+                        <li>جلسات تدريب يومية</li>
+                        <li>مباريات ودية أسبوعية</li>
+                        <li>بطولات داخلية شهرية</li>
+                        <li>ورش عمل استراتيجية</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-icon">📈</div>
+                    <h3>الإنجازات</h3>
+                    <p>سجل حافل بالإنجازات</p>
+                    <ul class="detail-list">
+                        <li>أفضل كلان ناشئ 2023</li>
+                        <li>أعلى نسبة فوز 75%</li>
+                        <li>أكثر كلان نشاطاً</li>
+                        <li>أفضل مجتمع لاعبين</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- إحصائيات الكلان -->
+        <section class="clan-section">
+            <h1 class="section-title">📈 إحصائيات الكلان</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-number" id="totalMatches">1,250</div>
+                    <div class="stat-label">المباريات المنفذة</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-number" id="totalWins">487</div>
+                    <div class="stat-label">المباريات الفائزة</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-number" id="winRate">39%</div>
+                    <div class="stat-label">نسبة الفوز</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number" id="clanLevel">45</div>
+                    <div class="stat-label">مستوى الكلان</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">👑</div>
+                    <div class="stat-number" id="topPlayers">5</div>
+                    <div class="stat-label">لاعبين في TOP 100</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-number" id="activeDays">365</div>
+                    <div class="stat-label">يوم من النشاط</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- شريط ويندوز 11 -->
+    <nav class="taskbar" id="taskbar">
+        <div class="taskbar-content">
+            <!-- العناصر الأساسية للجميع -->
+            <a href="main.html" class="taskbar-item active" data-page="main">
+                <span class="taskbar-icon">🏠</span>
+                <span class="taskbar-label">المعلومات</span>
+            </a>
+            
+            <a href="members.html" class="taskbar-item" data-page="members">
+                <span class="taskbar-icon">👥</span>
+                <span class="taskbar-label">الأعضاء</span>
+                <span class="badge">قريباً</span>
+            </a>
+            
+            <a href="apply.html" class="taskbar-item" data-page="apply">
+                <span class="taskbar-icon">📝</span>
+                <span class="taskbar-label">التقديم</span>
+                <span class="badge">قريباً</span>
+            </a>
+            
+            <a href="account.html" class="taskbar-item" data-page="account">
+                <span class="taskbar-icon">👤</span>
+                <span class="taskbar-label">حسابي</span>
+            </a>
+            
+            <!-- العناصر المخفية للأدمنز والأونر -->
+            <a href="admin/news.html" class="taskbar-item admin-only" data-page="news" style="display: none;">
+                <span class="taskbar-icon">📢</span>
+                <span class="taskbar-label">وضع الأخبار</span>
+            </a>
+            
+            <a href="admin/manage-apply.html" class="taskbar-item admin-only" data-page="manage-apply" style="display: none;">
+                <span class="taskbar-icon">⚙️</span>
+                <span class="taskbar-label">ضبط التقديم</span>
+            </a>
+            
+            <a href="admin/manage-members.html" class="taskbar-item admin-only" data-page="manage-members" style="display: none;">
+                <span class="taskbar-icon">👑</span>
+                <span class="taskbar-label">ضبط الأعضاء</span>
+            </a>
+        </div>
+        
+        <!-- زر التحكم بالشريط -->
+        <div class="taskbar-controls">
+            <button id="hideTaskbarBtn" class="taskbar-control-btn" title="إخفاء الشريط">
+                ◀️
+            </button>
+        </div>
+    </nav>
+
+    <!-- نافذة إضافة خبر (للأدمنز فقط) -->
+    <div id="addNewsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>📢 إضافة خبر جديد</h2>
+            <form id="newsForm">
+                <div class="form-group">
+                    <label for="newsTitle">عنوان الخبر</label>
+                    <input type="text" id="newsTitle" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newsContent">محتوى الخبر</label>
+                    <textarea id="newsContent" class="form-input" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newsImage">صورة الخبر (اختياري)</label>
+                    <input type="text" id="newsImage" class="form-input" placeholder="رابط الصورة">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">نشر الخبر</button>
+                    <button type="button" id="cancelNewsBtn" class="btn btn-secondary">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- الروابط -->
+    <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/taskbar.js"></script>
+    
+    <script>
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏰 صفحة معلومات العشيرة محملة');
+            
+            // تحميل الأخبار
+            loadNews();
+            
+            // تهيئة الأزرار
+            initButtons();
+            
+            // التحقق من صلاحيات الأدمن
+            checkAdminPermissions();
+        });
+        
+        function loadNews() {
+            const newsContainer = document.getElementById('newsContainer');
+            const news = JSON.parse(localStorage.getItem('clanNews')) || [];
+            
+            if (news.length === 0) {
+                newsContainer.innerHTML = `
+                    <div class="no-news">
+                        <div class="no-news-icon">📰</div>
+                        <h3>لا توجد أخبار حالياً</h3>
+                        <p>سيتم نشر الأخبار قريباً</p>
+                    </div>
+                `;
+            } else {
+                newsContainer.innerHTML = news.map((item, index) => `
+                    <div class="news-card ${index === 0 ? 'featured' : ''}">
+                        ${item.image ? `<img src="${item.image}" alt="${item.title}" class="news-image">` : ''}
+                        <div class="news-content">
+                            <div class="news-header">
+                                <h3 class="news-title">${item.title}</h3>
+                                <span class="news-date">${item.date}</span>
+                            </div>
+                            <p class="news-text">${item.content}</p>
+                            <div class="news-author">
+                                <span class="author-badge">${item.author}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function initButtons() {
+            // زر تسجيل الخروج
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+            
+            // زر إضافة خبر (للأدمنز)
+            const addNewsBtn = document.getElementById('addNewsBtn');
+            if (addNewsBtn) {
+                addNewsBtn.addEventListener('click', function() {
+                    document.getElementById('addNewsModal').style.display = 'flex';
+                });
+            }
+            
+            // إلغاء إضافة خبر
+            document.getElementById('cancelNewsBtn').addEventListener('click', function() {
+                document.getElementById('addNewsModal').style.display = 'none';
+            });
+            
+            // نشر خبر جديد
+            document.getElementById('newsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('newsTitle').value;
+                const content = document.getElementById('newsContent').value;
+                const image = document.getElementById('newsImage').value;
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                
+                const newNews = {
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    image: image || null,
+                    date: new Date().toLocaleDateString('ar-SA'),
+                    author: currentUser ? currentUser.username : 'مسؤول',
+                    timestamp: Date.now()
+                };
+                
+                let news = JSON.parse(localStorage.getItem('clanNews')) || [];
+                news.unshift(newNews); // إضافة في البداية
+                localStorage.setItem('clanNews', JSON.stringify(news));
+                
+                // إغلاق النافذة وإعادة التحميل
+                document.getElementById('newsForm').reset();
+                document.getElementById('addNewsModal').style.display = 'none';
+                loadNews();
+                
+                alert('✅ تم نشر الخبر بنجاح!');
+            });
+        }
+        
+        function checkAdminPermissions() {
+            // هذه الوظيفة سيتم تفعيلها في ملف admin.js
+            console.log('🔍 جاري التحقق من صلاحيات المستخدم...');
+        }
+    </script>
+</body>
+</html>
