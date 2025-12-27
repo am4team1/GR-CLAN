@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حسابي - GR CLAN</title>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="assets/images/clan-logo2.png" type="image/png">
     <style>
         /* ===== تصميم صفحة الحساب الأسطوري ===== */
         :root {
@@ -16,14 +19,7 @@
             --text-glow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
+        .account-page {
             background: linear-gradient(45deg, 
                 var(--darker-bg) 0%, 
                 var(--dark-bg) 50%, 
@@ -31,11 +27,10 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            color: white;
         }
         
         /* تأثيرات خلفية متحركة */
-        body::before {
+        .account-page::before {
             content: '';
             position: fixed;
             top: 0;
@@ -56,7 +51,7 @@
         }
         
         /* ===== الهيدر ===== */
-        .main-header {
+        .account-header {
             background: rgba(6, 16, 37, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 3px solid var(--primary-gold);
@@ -76,6 +71,28 @@
             display: flex;
             align-items: center;
             gap: 15px;
+        }
+        
+        .back-home-btn {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--secondary-gold);
+            border: 2px solid var(--primary-gold);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .back-home-btn:hover {
+            background: rgba(212, 175, 55, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
         }
         
         .clan-logo-small {
@@ -693,20 +710,46 @@
         .notification-close:hover {
             color: var(--primary-gold);
         }
+        
+        /* زر العودة للشاشة الرئيسية */
+        .back-to-home {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--dark-bg);
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .back-to-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
     </style>
 </head>
-<body>
+<body class="account-page">
     <!-- الهيدر -->
-    <header class="main-header">
+    <header class="account-header">
         <div class="header-left">
+            <a href="main.html" class="back-home-btn">
+                <i class="fas fa-arrow-right"></i>
+                الصفحة الرئيسية
+            </a>
             <div class="clan-logo-small">
-                <img id="header-profile-pic" src="https://randomuser.me/api/portraits/men/32.jpg" alt="GR CLAN Logo">
+                <img id="header-profile-pic" src="assets/images/clan-logo2.png" alt="GR CLAN Logo">
             </div>
             <div class="clan-name-header">GR CLAN</div>
         </div>
         
         <div class="header-right">
-            <div id="user-id-display">GR#2024001</div>
+            <div id="user-id-display">جاري التحميل...</div>
             <button class="logout-btn" id="logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
                 تسجيل الخروج
@@ -730,7 +773,7 @@
             <div class="profile-card">
                 <div class="profile-picture-container">
                     <div class="profile-picture-frame">
-                        <img id="profile-picture" src="https://randomuser.me/api/portraits/men/32.jpg" alt="صورة الملف الشخصي" class="profile-picture">
+                        <img id="profile-picture" src="" alt="صورة الملف الشخصي" class="profile-picture">
                     </div>
                     <button class="change-photo-btn" id="change-photo-btn">
                         <i class="fas fa-camera"></i>
@@ -738,43 +781,36 @@
                     <input type="file" id="photo-input" accept="image/*" style="display: none;">
                 </div>
                 
-                <h2 class="user-name" id="display-name">محمد أحمد</h2>
-                <div class="user-role" id="user-role">قائد الفريق</div>
+                <h2 class="user-name" id="display-name">جاري التحميل...</h2>
+                <div class="user-role" id="user-role">عضو</div>
                 
                 <div class="user-stats">
                     <div class="stat-item">
                         <span class="stat-label">معرف اللاعب:</span>
-                        <span class="stat-value" id="user-id">GR#2024001</span>
+                        <span class="stat-value" id="user-id">-</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">البريد الإلكتروني:</span>
-                        <span class="stat-value" id="user-email">mohamed@gr-clan.com</span>
+                        <span class="stat-value" id="user-email">-</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">رقم الهاتف:</span>
-                        <span class="stat-value" id="user-phone">+201234567890</span>
+                        <span class="stat-value" id="user-phone">-</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">تاريخ الانضمام:</span>
-                        <span class="stat-value" id="user-join-date">2023-10-15</span>
+                        <span class="stat-value" id="user-join-date">-</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">المباريات الملعوبة:</span>
-                        <span class="stat-value" id="user-matches">1,567</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">نسبة الفوز:</span>
-                        <span class="stat-value" id="user-win-rate">68.5%</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">الرتبة:</span>
-                        <span class="stat-value" id="user-rank">الماس</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">المستوى:</span>
-                        <span class="stat-value" id="user-level">85</span>
+                        <span class="stat-label">آخر دخول:</span>
+                        <span class="stat-value" id="last-login">-</span>
                     </div>
                 </div>
+                
+                <a href="main.html" class="back-to-home" style="margin-top: 30px;">
+                    <i class="fas fa-home"></i>
+                    العودة للشاشة الرئيسية
+                </a>
             </div>
 
             <!-- قسم الإعدادات -->
@@ -806,7 +842,7 @@
                                 <i class="fas fa-user"></i>
                                 الاسم الكامل
                             </label>
-                            <input type="text" id="edit-name" class="form-input" value="محمد أحمد">
+                            <input type="text" id="edit-name" class="form-input" placeholder="أدخل اسمك الكامل">
                         </div>
                         
                         <div class="form-group">
@@ -814,7 +850,7 @@
                                 <i class="fas fa-envelope"></i>
                                 البريد الإلكتروني
                             </label>
-                            <input type="email" id="edit-email" class="form-input" value="mohamed@gr-clan.com">
+                            <input type="email" id="edit-email" class="form-input" placeholder="example@email.com">
                         </div>
                         
                         <div class="form-group">
@@ -822,7 +858,7 @@
                                 <i class="fas fa-phone"></i>
                                 رقم الهاتف
                             </label>
-                            <input type="tel" id="edit-phone" class="form-input" value="+201234567890">
+                            <input type="tel" id="edit-phone" class="form-input" placeholder="+201234567890">
                         </div>
                         
                         <div class="form-group">
@@ -830,7 +866,7 @@
                                 <i class="fas fa-gamepad"></i>
                                 معرف ببجي (PUBG ID)
                             </label>
-                            <input type="text" id="edit-pubg-id" class="form-input" value="GR#2024001">
+                            <input type="text" id="edit-pubg-id" class="form-input" placeholder="GR#XXXXXXX">
                         </div>
                         
                         <button type="button" class="save-btn" id="save-account-info">
@@ -938,302 +974,385 @@
         <div class="notification-container" id="notification-container"></div>
     </main>
 
+    <!-- ملفات JavaScript -->
+    <script src="js/main.js"></script>
     <script>
         // ===== ملف JavaScript مصحح لصفحة الحساب =====
 
         document.addEventListener('DOMContentLoaded', function() {
-            // بيانات المستخدم الافتراضية
-            const userData = {
-                id: "GR#2024001",
-                name: "محمد أحمد",
-                role: "قائد الفريق",
-                email: "mohamed@gr-clan.com",
-                phone: "+201234567890",
-                joinDate: "2023-10-15",
-                matchesPlayed: 1567,
-                winRate: "68.5%",
-                rank: "الماس",
-                level: 85,
-                profilePic: "https://randomuser.me/api/portraits/men/32.jpg",
-                pubgId: "GR#2024001"
-            };
-
-            // ===== تهيئة عناصر الصفحة =====
-            function initializePage() {
-                // تعبئة بيانات المستخدم
-                document.getElementById('user-id-display').textContent = userData.pubgId;
-                document.getElementById('display-name').textContent = userData.name;
-                document.getElementById('user-role').textContent = userData.role;
-                document.getElementById('user-id').textContent = userData.id;
-                document.getElementById('user-email').textContent = userData.email;
-                document.getElementById('user-phone').textContent = userData.phone;
-                document.getElementById('user-join-date').textContent = userData.joinDate;
-                document.getElementById('user-matches').textContent = userData.matchesPlayed.toLocaleString();
-                document.getElementById('user-win-rate').textContent = userData.winRate;
-                document.getElementById('user-rank').textContent = userData.rank;
-                document.getElementById('user-level').textContent = userData.level;
-                
-                // تعيين صورة الملف الشخصي
-                document.getElementById('profile-picture').src = userData.profilePic;
-                document.getElementById('header-profile-pic').src = userData.profilePic;
-                
-                // تعبئة حقول التعديل
-                document.getElementById('edit-name').value = userData.name;
-                document.getElementById('edit-email').value = userData.email;
-                document.getElementById('edit-phone').value = userData.phone;
-                document.getElementById('edit-pubg-id').value = userData.pubgId;
-                
-                // تهيئة التبويبات
-                initializeTabs();
-                
-                // إضافة المستمعين للأحداث
-                setupEventListeners();
+            // التحقق من تسجيل الدخول
+            if (!checkLogin()) {
+                window.location.href = 'login.html';
+                return;
             }
 
-            // ===== التبديل بين تبويبات الإعدادات =====
-            function initializeTabs() {
-                const tabs = document.querySelectorAll('.settings-tab');
-                const tabContents = document.querySelectorAll('.tab-content');
-                
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        const tabId = this.getAttribute('data-tab');
-                        
-                        // إزالة النشاط من جميع التبويبات
-                        tabs.forEach(t => t.classList.remove('active'));
-                        tabContents.forEach(content => content.classList.remove('active'));
-                        
-                        // إضافة النشاط للتبويب المحدد
-                        this.classList.add('active');
-                        document.getElementById(tabId).classList.add('active');
-                    });
-                });
-            }
-
-            // ===== تغيير صورة الملف الشخصي =====
-            function setupEventListeners() {
-                const changePhotoBtn = document.getElementById('change-photo-btn');
-                const photoInput = document.getElementById('photo-input');
-                
-                changePhotoBtn.addEventListener('click', function() {
-                    photoInput.click();
-                });
-                
-                photoInput.addEventListener('change', function(e) {
-                    if (e.target.files.length > 0) {
-                        const file = e.target.files[0];
-                        
-                        // التحقق من نوع الملف
-                        if (!file.type.match('image.*')) {
-                            showNotification('خطأ', 'الرجاء اختيار ملف صورة فقط', 'error');
-                            return;
-                        }
-                        
-                        // التحقق من حجم الملف (5MB كحد أقصى)
-                        if (file.size > 5 * 1024 * 1024) {
-                            showNotification('خطأ', 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'error');
-                            return;
-                        }
-                        
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            // تحديث الصورة في الملف الشخصي
-                            document.getElementById('profile-picture').src = event.target.result;
-                            
-                            // تحديث الصورة في الهيدر
-                            document.getElementById('header-profile-pic').src = event.target.result;
-                            
-                            // إشعار النجاح
-                            showNotification('تم التحديث', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-
-                // حفظ معلومات الحساب
-                document.getElementById('save-account-info').addEventListener('click', saveProfileInfo);
-                
-                // حفظ إعدادات الإشعارات
-                document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
-                
-                // تغيير كلمة المرور
-                document.getElementById('save-password').addEventListener('click', changePassword);
-                
-                // حذف الحساب
-                document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
-                
-                // تسجيل الخروج
-                document.getElementById('logout-btn').addEventListener('click', logout);
-            }
-
-            // ===== حفظ معلومات الحساب =====
-            function saveProfileInfo() {
-                const newName = document.getElementById('edit-name').value;
-                const newEmail = document.getElementById('edit-email').value;
-                const newPhone = document.getElementById('edit-phone').value;
-                const newPubgId = document.getElementById('edit-pubg-id').value;
-                
-                // التحقق من صحة البيانات
-                if (!newName || !newEmail || !newPhone || !newPubgId) {
-                    showNotification('خطأ', 'الرجاء ملء جميع الحقول المطلوبة', 'error');
-                    return;
-                }
-                
-                // تحديث الاسم في البطاقة الشخصية
-                document.getElementById('display-name').textContent = newName;
-                document.getElementById('user-name').textContent = newName;
-                
-                // تحديث PUBG ID في الهيدر
-                document.getElementById('user-id-display').textContent = newPubgId;
-                document.getElementById('user-id').textContent = newPubgId;
-                
-                // تحديث البيانات الأخرى
-                document.getElementById('user-email').textContent = newEmail;
-                document.getElementById('user-phone').textContent = newPhone;
-                
-                // تحديث بيانات المستخدم
-                userData.name = newName;
-                userData.email = newEmail;
-                userData.phone = newPhone;
-                userData.pubgId = newPubgId;
-                userData.id = newPubgId;
-                
-                // إشعار النجاح
-                showNotification('تم الحفظ', 'تم تحديث معلومات الحساب بنجاح', 'success');
-            }
-
-            // ===== حفظ إعدادات الإشعارات =====
-            function saveNotificationSettings() {
-                const emailNotifications = document.getElementById('email-notifications').checked;
-                const paymentNotifications = document.getElementById('payment-notifications').checked;
-                const teamNotifications = document.getElementById('team-notifications').checked;
-                
-                // هنا يمكنك إرسال البيانات إلى الخادم
-                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
-            }
-
-            // ===== تغيير كلمة المرور =====
-            function changePassword() {
-                const currentPassword = document.getElementById('current-password').value;
-                const newPassword = document.getElementById('new-password').value;
-                const confirmPassword = document.getElementById('confirm-password').value;
-                
-                // التحقق من صحة البيانات
-                if (!currentPassword || !newPassword || !confirmPassword) {
-                    showNotification('خطأ', 'الرجاء ملء جميع الحقول', 'error');
-                    return;
-                }
-                
-                if (newPassword !== confirmPassword) {
-                    showNotification('خطأ', 'كلمة المرور الجديدة وتأكيدها غير متطابقين', 'error');
-                    return;
-                }
-                
-                if (newPassword.length < 6) {
-                    showNotification('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
-                    return;
-                }
-                
-                // هنا يمكنك إرسال البيانات إلى الخادم
-                
-                // إفراغ الحقول بعد النجاح
-                document.getElementById('current-password').value = '';
-                document.getElementById('new-password').value = '';
-                document.getElementById('confirm-password').value = '';
-                
-                showNotification('تم التغيير', 'تم تغيير كلمة المرور بنجاح', 'success');
-            }
-
-            // ===== حذف الحساب =====
-            function deleteAccount() {
-                if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
-                    // هنا يمكنك إرسال طلب حذف الحساب إلى الخادم
-                    showNotification('تم الحذف', 'تم حذف الحساب بنجاح، سيتم توجيهك إلى الصفحة الرئيسية', 'info');
-                    
-                    // إعادة التوجيه بعد 3 ثواني
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 3000);
-                }
-            }
-
-            // ===== تسجيل الخروج =====
-            function logout() {
-                if (confirm('هل تريد تسجيل الخروج؟')) {
-                    // هنا يمكنك مسح بيانات الجلسة وإعادة التوجيه
-                    showNotification('تم الخروج', 'تم تسجيل الخروج بنجاح', 'info');
-                    
-                    // إعادة التوجيه بعد 2 ثانية
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                }
-            }
-
-            // ===== نظام الإشعارات =====
-            function showNotification(title, message, type = 'info') {
-                const container = document.getElementById('notification-container');
-                
-                // إنشاء الإشعار
-                const notification = document.createElement('div');
-                notification.className = 'notification';
-                
-                // تحديد أيقونة حسب النوع
-                let icon = 'fa-info-circle';
-                if (type === 'success') icon = 'fa-check-circle';
-                if (type === 'error') icon = 'fa-exclamation-circle';
-                if (type === 'warning') icon = 'fa-exclamation-triangle';
-                
-                notification.innerHTML = `
-                    <div class="notification-icon">
-                        <i class="fas ${icon}"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-title">${title}</div>
-                        <div class="notification-message">${message}</div>
-                    </div>
-                    <button class="notification-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                
-                // إضافة الإشعار إلى الحاوية
-                container.appendChild(notification);
-                
-                // إظهار الإشعار بعد إضافته مباشرة
-                setTimeout(() => {
-                    notification.classList.add('show');
-                }, 10);
-                
-                // إغلاق الإشعار عند النقر على الزر
-                const closeBtn = notification.querySelector('.notification-close');
-                closeBtn.addEventListener('click', () => {
-                    closeNotification(notification);
-                });
-                
-                // إغلاق الإشعار تلقائياً بعد 5 ثواني
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        closeNotification(notification);
-                    }
-                }, 5000);
-            }
-
-            function closeNotification(notification) {
-                notification.classList.remove('show');
-                notification.classList.add('hide');
-                
-                // إزالة الإشعار من الـ DOM بعد انتهاء الرسوم المتحركة
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 500);
-            }
-
-            // ===== تهيئة الصفحة عند التحميل =====
+            // تحميل بيانات المستخدم الحقيقية
+            loadUserData();
+            
+            // تهيئة الصفحة
             initializePage();
+            setupEventListeners();
         });
+
+        // ===== الدوال المساعدة =====
+
+        function checkLogin() {
+            // التحقق من وجود بيانات الجلسة
+            const user = localStorage.getItem('currentUser');
+            return user !== null;
+        }
+
+        function loadUserData() {
+            // الحصول على بيانات المستخدم من localStorage
+            const userStr = localStorage.getItem('currentUser');
+            if (!userStr) return null;
+            
+            const user = JSON.parse(userStr);
+            
+            // الحصول على صورة المستخدم المحفوظة
+            const savedProfilePic = localStorage.getItem(`profilePic_${user.id}`);
+            const savedPhone = localStorage.getItem(`phone_${user.id}`);
+            const savedPubgId = localStorage.getItem(`pubgId_${user.id}`);
+            
+            // دمج البيانات
+            return {
+                ...user,
+                profilePic: savedProfilePic || 'assets/images/default-avatar.png',
+                phone: savedPhone || user.phone || '-',
+                pubgId: savedPubgId || user.pubgId || '-',
+                joinDate: user.joinDate || new Date().toISOString().split('T')[0],
+                lastLogin: new Date().toLocaleString('ar-EG')
+            };
+        }
+
+        function saveUserData(userData) {
+            // حفظ البيانات الأساسية
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            
+            // حفظ البيانات الإضافية
+            if (userData.profilePic && userData.profilePic !== 'assets/images/default-avatar.png') {
+                localStorage.setItem(`profilePic_${userData.id}`, userData.profilePic);
+            }
+            
+            if (userData.phone) {
+                localStorage.setItem(`phone_${userData.id}`, userData.phone);
+            }
+            
+            if (userData.pubgId) {
+                localStorage.setItem(`pubgId_${userData.id}`, userData.pubgId);
+            }
+        }
+
+        // ===== تهيئة الصفحة =====
+        function initializePage() {
+            const userData = loadUserData();
+            
+            if (!userData) {
+                showNotification('خطأ', 'لم يتم العثور على بيانات المستخدم', 'error');
+                setTimeout(() => window.location.href = 'login.html', 2000);
+                return;
+            }
+
+            // تعبئة بيانات المستخدم الحقيقية
+            document.getElementById('user-id-display').textContent = userData.username || 'مستخدم';
+            document.getElementById('display-name').textContent = userData.name || userData.username;
+            document.getElementById('user-role').textContent = userData.role || 'عضو';
+            document.getElementById('user-id').textContent = userData.pubgId || '-';
+            document.getElementById('user-email').textContent = userData.email || '-';
+            document.getElementById('user-phone').textContent = userData.phone || '-';
+            document.getElementById('user-join-date').textContent = formatDate(userData.joinDate);
+            document.getElementById('last-login').textContent = userData.lastLogin || '-';
+            
+            // تعيين صورة الملف الشخصي
+            const profilePic = document.getElementById('profile-picture');
+            const headerPic = document.getElementById('header-profile-pic');
+            profilePic.src = userData.profilePic;
+            headerPic.src = userData.profilePic;
+            
+            // تعبئة حقول التعديل
+            document.getElementById('edit-name').value = userData.name || userData.username;
+            document.getElementById('edit-email').value = userData.email || '';
+            document.getElementById('edit-phone').value = userData.phone || '';
+            document.getElementById('edit-pubg-id').value = userData.pubgId || '';
+            
+            // تهيئة التبويبات
+            initializeTabs();
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ar-EG', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // ===== التبديل بين تبويبات الإعدادات =====
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.settings-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // إزالة النشاط من جميع التبويبات
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // إضافة النشاط للتبويب المحدد
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        // ===== إعداد المستمعين للأحداث =====
+        function setupEventListeners() {
+            // تغيير صورة الملف الشخصي
+            const changePhotoBtn = document.getElementById('change-photo-btn');
+            const photoInput = document.getElementById('photo-input');
+            
+            changePhotoBtn.addEventListener('click', function() {
+                photoInput.click();
+            });
+            
+            photoInput.addEventListener('change', handleProfilePictureChange);
+            
+            // حفظ معلومات الحساب
+            document.getElementById('save-account-info').addEventListener('click', saveProfileInfo);
+            
+            // حفظ إعدادات الإشعارات
+            document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
+            
+            // تغيير كلمة المرور
+            document.getElementById('save-password').addEventListener('click', changePassword);
+            
+            // حذف الحساب
+            document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
+            
+            // تسجيل الخروج
+            document.getElementById('logout-btn').addEventListener('click', logout);
+        }
+
+        // ===== تغيير صورة الملف الشخصي =====
+        function handleProfilePictureChange(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                
+                // التحقق من نوع الملف
+                if (!file.type.match('image.*')) {
+                    showNotification('خطأ', 'الرجاء اختيار ملف صورة فقط', 'error');
+                    return;
+                }
+                
+                // التحقق من حجم الملف (5MB كحد أقصى)
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('خطأ', 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // تحديث الصورة في الملف الشخصي
+                    const profilePic = document.getElementById('profile-picture');
+                    const headerPic = document.getElementById('header-profile-pic');
+                    
+                    profilePic.src = event.target.result;
+                    headerPic.src = event.target.result;
+                    
+                    // حفظ الصورة في localStorage
+                    const userData = loadUserData();
+                    userData.profilePic = event.target.result;
+                    saveUserData(userData);
+                    
+                    // إشعار النجاح
+                    showNotification('تم التحديث', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ===== حفظ معلومات الحساب =====
+        function saveProfileInfo() {
+            const newName = document.getElementById('edit-name').value;
+            const newEmail = document.getElementById('edit-email').value;
+            const newPhone = document.getElementById('edit-phone').value;
+            const newPubgId = document.getElementById('edit-pubg-id').value;
+            
+            // التحقق من صحة البيانات
+            if (!newName || !newEmail) {
+                showNotification('خطأ', 'الاسم والبريد الإلكتروني حقلان مطلوبان', 'error');
+                return;
+            }
+            
+            // تحديث الاسم في البطاقة الشخصية والهيدر
+            document.getElementById('display-name').textContent = newName;
+            document.getElementById('user-id-display').textContent = newName;
+            
+            // تحديث PUBG ID في البطاقة
+            document.getElementById('user-id').textContent = newPubgId || '-';
+            
+            // تحديث البيانات الأخرى
+            document.getElementById('user-email').textContent = newEmail;
+            document.getElementById('user-phone').textContent = newPhone || '-';
+            
+            // تحديث بيانات المستخدم في localStorage
+            const userData = loadUserData();
+            userData.name = newName;
+            userData.email = newEmail;
+            userData.phone = newPhone;
+            userData.pubgId = newPubgId;
+            saveUserData(userData);
+            
+            // إشعار النجاح
+            showNotification('تم الحفظ', 'تم تحديث معلومات الحساب بنجاح', 'success');
+        }
+
+        // ===== حفظ إعدادات الإشعارات =====
+        function saveNotificationSettings() {
+            const emailNotifications = document.getElementById('email-notifications').checked;
+            const paymentNotifications = document.getElementById('payment-notifications').checked;
+            const teamNotifications = document.getElementById('team-notifications').checked;
+            
+            // حفظ في localStorage
+            const settings = {
+                emailNotifications,
+                paymentNotifications,
+                teamNotifications
+            };
+            localStorage.setItem('notificationSettings', JSON.stringify(settings));
+            
+            // إشعار النجاح
+            showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
+        }
+
+        // ===== تغيير كلمة المرور =====
+        function changePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // التحقق من صحة البيانات
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('خطأ', 'الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('خطأ', 'كلمة المرور الجديدة وتأكيدها غير متطابقين', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showNotification('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                return;
+            }
+            
+            // هنا يمكنك إرسال البيانات إلى الخادم
+            
+            // إفراغ الحقول بعد النجاح
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            
+            showNotification('تم التغيير', 'تم تغيير كلمة المرور بنجاح', 'success');
+        }
+
+        // ===== حذف الحساب =====
+        function deleteAccount() {
+            if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
+                // هنا يمكنك إرسال طلب حذف الحساب إلى الخادم
+                
+                // مسح بيانات المستخدم من localStorage
+                localStorage.removeItem('currentUser');
+                
+                showNotification('تم الحذف', 'تم حذف الحساب بنجاح، سيتم توجيهك إلى الصفحة الرئيسية', 'info');
+                
+                // إعادة التوجيه بعد 3 ثواني
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+            }
+        }
+
+        // ===== تسجيل الخروج =====
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                // مسح بيانات الجلسة
+                localStorage.removeItem('currentUser');
+                
+                showNotification('تم الخروج', 'تم تسجيل الخروج بنجاح', 'info');
+                
+                // إعادة التوجيه بعد 2 ثانية
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }
+        }
+
+        // ===== نظام الإشعارات =====
+        function showNotification(title, message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            
+            // إنشاء الإشعار
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            // تحديد أيقونة حسب النوع
+            let icon = 'fa-info-circle';
+            if (type === 'success') icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-circle';
+            if (type === 'warning') icon = 'fa-exclamation-triangle';
+            
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">${title}</div>
+                    <div class="notification-message">${message}</div>
+                </div>
+                <button class="notification-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // إضافة الإشعار إلى الحاوية
+            container.appendChild(notification);
+            
+            // إظهار الإشعار بعد إضافته مباشرة
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // إغلاق الإشعار عند النقر على الزر
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                closeNotification(notification);
+            });
+            
+            // إغلاق الإشعار تلقائياً بعد 5 ثواني
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    closeNotification(notification);
+                }
+            }, 5000);
+        }
+
+        function closeNotification(notification) {
+            notification.classList.remove('show');
+            notification.classList.add('hide');
+            
+            // إزالة الإشعار من الـ DOM بعد انتهاء الرسوم المتحركة
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 500);
+        }
     </script>
 </body>
 </html>
