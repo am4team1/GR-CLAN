@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حسابي - GR CLAN</title>
-    <link rel="stylesheet" href="css/colors.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ===== تصميم صفحة الحساب الأسطوري ===== */
         :root {
@@ -17,6 +16,13 @@
             --text-glow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
         
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
             background: linear-gradient(45deg, 
                 var(--darker-bg) 0%, 
@@ -25,6 +31,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            color: white;
         }
         
         /* تأثيرات خلفية متحركة */
@@ -685,259 +692,6 @@
         
         .notification-close:hover {
             color: var(--primary-gold);
-            background: rgba(212, 175, 55, 0.1);
-            transform: rotate(90deg);
-        }
-        
-        .notification-progress {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 3px;
-            background: var(--primary-gold);
-            width: 100%;
-            transform: scaleX(1);
-            transform-origin: left;
-            animation: progressBar 4s linear forwards;
-        }
-        
-        @keyframes progressBar {
-            from { transform: scaleX(1); }
-            to { transform: scaleX(0); }
-        }
-        
-        /* ===== نافذة تأكيد الحذف ===== */
-        .confirm-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .confirm-modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .confirm-box {
-            background: linear-gradient(135deg, #0A1931, #162447);
-            border-radius: 25px;
-            padding: 50px 40px;
-            border: 3px solid #ff6b81;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            animation: slideUp 0.4s ease;
-        }
-        
-        @keyframes slideUp {
-            from { 
-                transform: translateY(50px) scale(0.9);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .confirm-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: #ff6b81;
-            filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.5));
-        }
-        
-        .confirm-title {
-            color: #ff6b81;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            font-weight: 900;
-        }
-        
-        .confirm-message {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        
-        .confirm-input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid #ff6b81;
-            border-radius: 12px;
-            color: white;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .confirm-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        
-        .confirm-btn {
-            padding: 15px 35px;
-            border-radius: 15px;
-            border: none;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .confirm-yes {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white;
-            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
-        }
-        
-        .confirm-yes:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(255, 71, 87, 0.4);
-            background: linear-gradient(135deg, #ff6b81, #ff4757);
-        }
-        
-        .confirm-no {
-            background: rgba(212, 175, 55, 0.2);
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-        }
-        
-        .confirm-no:hover {
-            background: var(--primary-gold);
-            color: var(--dark-bg);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.3);
-        }
-        
-        /* ===== التصميم المتجاوب ===== */
-        @media (max-width: 768px) {
-            .main-header {
-                padding: 12px 20px;
-            }
-            
-            .header-right {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            #user-id-display {
-                min-width: 120px;
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .logout-btn {
-                padding: 8px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .profile-content {
-                padding: 120px 20px 60px;
-            }
-            
-            .profile-hero {
-                padding: 40px 25px;
-            }
-            
-            .profile-hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .profile-hero p {
-                font-size: 1.2rem;
-            }
-            
-            .profile-card, .settings-section {
-                padding: 30px 25px;
-            }
-            
-            .profile-picture-container {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .user-name {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .settings-tab {
-                padding: 12px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .confirm-box {
-                padding: 30px 25px;
-            }
-            
-            .confirm-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .confirm-btn {
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .clan-name-header {
-                font-size: 1.4rem;
-            }
-            
-            .clan-logo-small {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .profile-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .user-name {
-                font-size: 1.6rem;
-            }
-            
-            .section-title {
-                font-size: 1.6rem;
-            }
-            
-            .confirm-title {
-                font-size: 1.8rem;
-            }
-            
-            .confirm-message {
-                font-size: 1.1rem;
-            }
         }
     </style>
 </head>
@@ -946,149 +700,540 @@
     <header class="main-header">
         <div class="header-left">
             <div class="clan-logo-small">
-                <img src="assets/images/clan-logo2.png" alt="شعار GR CLAN">
+                <img id="header-profile-pic" src="https://randomuser.me/api/portraits/men/32.jpg" alt="GR CLAN Logo">
             </div>
-            <span class="clan-name-header">GR CLAN</span>
+            <div class="clan-name-header">GR CLAN</div>
         </div>
         
         <div class="header-right">
-            <div id="user-id-display">زائر</div>
-            <button class="logout-btn" onclick="window.location.href='main.html'">
-                <span>🏠</span>
-                العودة للرئيسية
+            <div id="user-id-display">GR#2024001</div>
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل الخروج
             </button>
         </div>
     </header>
 
-    <!-- المحتوى الرئيسي -->
+    <!-- محتوى الصفحة -->
     <main class="profile-content">
         <!-- البانر -->
         <section class="profile-hero">
             <div class="profile-hero-content">
-                <h1>👑 حسابي الشخصي</h1>
-                <p>
-                    هنا يمكنك إدارة معلومات حسابك الشخصي، تحديث بياناتك، وتغيير إعداداتك الخاصة.
-                    كل التعديلات التي تقوم بها ستظهر في جميع صفحات الكلان.
-                </p>
+                <h1>الملف الشخصي</h1>
+                <p>مرحباً بك في حسابك الشخصي في كلان GR. هنا يمكنك إدارة معلوماتك، متابعة إحصائياتك، وتخصيص تجربتك.</p>
             </div>
         </section>
 
-        <!-- شبكة الصفحة -->
+        <!-- شبكة المحتوى -->
         <div class="profile-grid">
             <!-- البطاقة الشخصية -->
-            <aside class="profile-card">
-                <!-- صورة الملف الشخصي -->
+            <div class="profile-card">
                 <div class="profile-picture-container">
                     <div class="profile-picture-frame">
-                        <img id="userProfileImage" class="profile-picture" src="assets/images/default-avatar.png" alt="صورة الملف الشخصي">
+                        <img id="profile-picture" src="https://randomuser.me/api/portraits/men/32.jpg" alt="صورة الملف الشخصي" class="profile-picture">
                     </div>
-                    <button class="change-photo-btn" onclick="document.getElementById('profileImageInput').click()">
-                        ✏️
+                    <button class="change-photo-btn" id="change-photo-btn">
+                        <i class="fas fa-camera"></i>
                     </button>
-                    <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="changeProfileImage(event)">
+                    <input type="file" id="photo-input" accept="image/*" style="display: none;">
                 </div>
                 
-                <!-- معلومات المستخدم -->
-                <h2 class="user-name" id="displayUserName">المستخدم</h2>
-                <div class="user-role" id="userRoleDisplay">👤 مستخدم</div>
+                <h2 class="user-name" id="display-name">محمد أحمد</h2>
+                <div class="user-role" id="user-role">قائد الفريق</div>
                 
-                <!-- إحصائيات المستخدم -->
                 <div class="user-stats">
                     <div class="stat-item">
-                        <span class="stat-label">📅 تاريخ الانضمام</span>
-                        <span class="stat-value" id="joinDate">اليوم</span>
+                        <span class="stat-label">معرف اللاعب:</span>
+                        <span class="stat-value" id="user-id">GR#2024001</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">🎮 حالة الحساب</span>
-                        <span class="stat-value" id="accountStatus">نشط</span>
+                        <span class="stat-label">البريد الإلكتروني:</span>
+                        <span class="stat-value" id="user-email">mohamed@gr-clan.com</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">🔔 الإشعارات</span>
-                        <span class="stat-value" id="notificationsStatus">مفعلة</span>
+                        <span class="stat-label">رقم الهاتف:</span>
+                        <span class="stat-value" id="user-phone">+201234567890</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">👥 دوري في الكلان</span>
-                        <span class="stat-value">غير معروف</span>
+                        <span class="stat-label">تاريخ الانضمام:</span>
+                        <span class="stat-value" id="user-join-date">2023-10-15</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">المباريات الملعوبة:</span>
+                        <span class="stat-value" id="user-matches">1,567</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">نسبة الفوز:</span>
+                        <span class="stat-value" id="user-win-rate">68.5%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">الرتبة:</span>
+                        <span class="stat-value" id="user-rank">الماس</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">المستوى:</span>
+                        <span class="stat-value" id="user-level">85</span>
                     </div>
                 </div>
-            </aside>
+            </div>
 
             <!-- قسم الإعدادات -->
-            <section class="settings-section">
-                <h2 class="section-title">⚙️ إعدادات الحساب</h2>
+            <div class="settings-section">
+                <h2 class="section-title">إعدادات الحساب</h2>
                 
                 <!-- تبويبات الإعدادات -->
                 <div class="settings-tabs">
-                    <div class="settings-tab active" onclick="switchTab('profile')">
-                        <span>👤</span>
-                        الملف الشخصي
+                    <div class="settings-tab active" data-tab="account-info">
+                        <i class="fas fa-user-circle"></i>
+                        معلومات الحساب
                     </div>
-                    <div class="settings-tab" onclick="switchTab('security')">
-                        <span>🔒</span>
-                        الأمان
-                    </div>
-                    <div class="settings-tab" onclick="switchTab('notifications')">
-                        <span>🔔</span>
+                    <div class="settings-tab" data-tab="notification-settings">
+                        <i class="fas fa-bell"></i>
                         الإشعارات
                     </div>
-                    <div class="settings-tab" onclick="switchTab('appearance')">
-                        <span>🎨</span>
-                        المظهر
+                    <div class="settings-tab" data-tab="security-settings">
+                        <i class="fas fa-shield-alt"></i>
+                        الأمان
                     </div>
                 </div>
-                
-                <!-- محتوى تبويب الملف الشخصي -->
-                <div class="tab-content active" id="profileTab">
-                    <form id="profileForm" class="settings-form">
+
+                <!-- محتوى التبويبات -->
+                <!-- تبويب معلومات الحساب -->
+                <div id="account-info" class="tab-content active">
+                    <form class="settings-form" id="account-form">
                         <div class="form-group">
-                            <label for="userName" class="form-label">
-                                <span>👤</span>
-                                اسم المستخدم
+                            <label class="form-label" for="edit-name">
+                                <i class="fas fa-user"></i>
+                                الاسم الكامل
                             </label>
-                            <input 
-                                type="text" 
-                                id="userName" 
-                                class="form-input"
-                                placeholder="أدخل اسمك الجديد"
-                                required
-                            >
-                            <div class="form-hint" style="color: var(--primary-gold); margin-top: 8px;">
-                                ⚡ سيظهر هذا الاسم في جميع صفحات الكلان
-                            </div>
+                            <input type="text" id="edit-name" class="form-input" value="محمد أحمد">
                         </div>
                         
                         <div class="form-group">
-                            <label for="userEmail" class="form-label">
-                                <span>📧</span>
+                            <label class="form-label" for="edit-email">
+                                <i class="fas fa-envelope"></i>
                                 البريد الإلكتروني
                             </label>
-                            <input 
-                                type="email" 
-                                id="userEmail" 
-                                class="form-input"
-                                placeholder="example@email.com"
-                                required
-                            >
+                            <input type="email" id="edit-email" class="form-input" value="mohamed@gr-clan.com">
                         </div>
                         
                         <div class="form-group">
-                            <label for="userBio" class="form-label">
-                                <span>📝</span>
-                                نبذة عنك
+                            <label class="form-label" for="edit-phone">
+                                <i class="fas fa-phone"></i>
+                                رقم الهاتف
                             </label>
-                            <textarea 
-                                id="userBio" 
-                                class="form-input"
-                                placeholder="اكتب نبذة مختصرة عن نفسك..."
-                                rows="4"
-                                style="resize: vertical; min-height: 100px;"
-                            ></textarea>
+                            <input type="tel" id="edit-phone" class="form-input" value="+201234567890">
                         </div>
                         
-                        <button type="submit" class="save-btn">
-                            <span>💾</span>
-                            حفظ التعديلات
+                        <div class="form-group">
+                            <label class="form-label" for="edit-pubg-id">
+                                <i class="fas fa-gamepad"></i>
+                                معرف ببجي (PUBG ID)
+                            </label>
+                            <input type="text" id="edit-pubg-id" class="form-input" value="GR#2024001">
+                        </div>
+                        
+                        <button type="button" class="save-btn" id="save-account-info">
+                            <i class="fas fa-save"></i>
+                            حفظ التغييرات
                         </button>
                     </form>
                 </div>
+
+                <!-- تبويب الإشعارات -->
+                <div id="notification-settings" class="tab-content">
+                    <div class="settings-form">
+                        <div class="toggle-switch">
+                            <div>
+                                <div class="toggle-label">إشعارات البريد الإلكتروني</div>
+                                <div class="toggle-description">تلقي تحديثات وإشعارات على بريدك الإلكتروني</div>
+                            </div>
+                            <div class="toggle-container">
+                                <input type="checkbox" id="email-notifications" class="toggle-checkbox" checked>
+                                <label for="email-notifications" class="toggle-slider"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="toggle-switch">
+                            <div>
+                                <div class="toggle-label">إشعارات الدفع</div>
+                                <div class="toggle-description">إشعارات عند إجراء عمليات شراء أو تجديد اشتراك</div>
+                            </div>
+                            <div class="toggle-container">
+                                <input type="checkbox" id="payment-notifications" class="toggle-checkbox" checked>
+                                <label for="payment-notifications" class="toggle-slider"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="toggle-switch">
+                            <div>
+                                <div class="toggle-label">إشعارات الفريق</div>
+                                <div class="toggle-description">إشعارات حول أنشطة الفريق والمنافسات</div>
+                            </div>
+                            <div class="toggle-container">
+                                <input type="checkbox" id="team-notifications" class="toggle-checkbox" checked>
+                                <label for="team-notifications" class="toggle-slider"></label>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="save-btn" id="save-notification-settings">
+                            <i class="fas fa-save"></i>
+                            حفظ إعدادات الإشعارات
+                        </button>
+                    </div>
+                </div>
+
+                <!-- تبويب الأمان -->
+                <div id="security-settings" class="tab-content">
+                    <form class="settings-form" id="security-form">
+                        <div class="form-group">
+                            <label class="form-label" for="current-password">
+                                <i class="fas fa-lock"></i>
+                                كلمة المرور الحالية
+                            </label>
+                            <input type="password" id="current-password" class="form-input" placeholder="أدخل كلمة المرور الحالية">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="new-password">
+                                <i class="fas fa-key"></i>
+                                كلمة المرور الجديدة
+                            </label>
+                            <input type="password" id="new-password" class="form-input" placeholder="أدخل كلمة المرور الجديدة">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="confirm-password">
+                                <i class="fas fa-key"></i>
+                                تأكيد كلمة المرور الجديدة
+                            </label>
+                            <input type="password" id="confirm-password" class="form-input" placeholder="أعد إدخال كلمة المرور الجديدة">
+                        </div>
+                        
+                        <button type="button" class="save-btn" id="save-password">
+                            <i class="fas fa-save"></i>
+                            تغيير كلمة المرور
+                        </button>
+                    </form>
+                    
+                    <!-- قسم حذف الحساب -->
+                    <div class="danger-zone">
+                        <h3 class="danger-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            منطقة الخطر
+                        </h3>
+                        <p class="danger-text">
+                            حذف حسابك إجراء دائم لا يمكن التراجع عنه. سيتم مسح جميع بياناتك وإحصائياتك بشكل نهائي.
+                        </p>
+                        <button class="delete-btn" id="delete-account-btn">
+                            <i class="fas fa-trash-alt"></i>
+                            حذف الحساب نهائياً
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- حاوية الإشعارات -->
+        <div class="notification-container" id="notification-container"></div>
+    </main>
+
+    <script>
+        // ===== ملف JavaScript مصحح لصفحة الحساب =====
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // بيانات المستخدم الافتراضية
+            const userData = {
+                id: "GR#2024001",
+                name: "محمد أحمد",
+                role: "قائد الفريق",
+                email: "mohamed@gr-clan.com",
+                phone: "+201234567890",
+                joinDate: "2023-10-15",
+                matchesPlayed: 1567,
+                winRate: "68.5%",
+                rank: "الماس",
+                level: 85,
+                profilePic: "https://randomuser.me/api/portraits/men/32.jpg",
+                pubgId: "GR#2024001"
+            };
+
+            // ===== تهيئة عناصر الصفحة =====
+            function initializePage() {
+                // تعبئة بيانات المستخدم
+                document.getElementById('user-id-display').textContent = userData.pubgId;
+                document.getElementById('display-name').textContent = userData.name;
+                document.getElementById('user-role').textContent = userData.role;
+                document.getElementById('user-id').textContent = userData.id;
+                document.getElementById('user-email').textContent = userData.email;
+                document.getElementById('user-phone').textContent = userData.phone;
+                document.getElementById('user-join-date').textContent = userData.joinDate;
+                document.getElementById('user-matches').textContent = userData.matchesPlayed.toLocaleString();
+                document.getElementById('user-win-rate').textContent = userData.winRate;
+                document.getElementById('user-rank').textContent = userData.rank;
+                document.getElementById('user-level').textContent = userData.level;
                 
+                // تعيين صورة الملف الشخصي
+                document.getElementById('profile-picture').src = userData.profilePic;
+                document.getElementById('header-profile-pic').src = userData.profilePic;
+                
+                // تعبئة حقول التعديل
+                document.getElementById('edit-name').value = userData.name;
+                document.getElementById('edit-email').value = userData.email;
+                document.getElementById('edit-phone').value = userData.phone;
+                document.getElementById('edit-pubg-id').value = userData.pubgId;
+                
+                // تهيئة التبويبات
+                initializeTabs();
+                
+                // إضافة المستمعين للأحداث
+                setupEventListeners();
+            }
+
+            // ===== التبديل بين تبويبات الإعدادات =====
+            function initializeTabs() {
+                const tabs = document.querySelectorAll('.settings-tab');
+                const tabContents = document.querySelectorAll('.tab-content');
+                
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        
+                        // إزالة النشاط من جميع التبويبات
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+                        
+                        // إضافة النشاط للتبويب المحدد
+                        this.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+            }
+
+            // ===== تغيير صورة الملف الشخصي =====
+            function setupEventListeners() {
+                const changePhotoBtn = document.getElementById('change-photo-btn');
+                const photoInput = document.getElementById('photo-input');
+                
+                changePhotoBtn.addEventListener('click', function() {
+                    photoInput.click();
+                });
+                
+                photoInput.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        
+                        // التحقق من نوع الملف
+                        if (!file.type.match('image.*')) {
+                            showNotification('خطأ', 'الرجاء اختيار ملف صورة فقط', 'error');
+                            return;
+                        }
+                        
+                        // التحقق من حجم الملف (5MB كحد أقصى)
+                        if (file.size > 5 * 1024 * 1024) {
+                            showNotification('خطأ', 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'error');
+                            return;
+                        }
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            // تحديث الصورة في الملف الشخصي
+                            document.getElementById('profile-picture').src = event.target.result;
+                            
+                            // تحديث الصورة في الهيدر
+                            document.getElementById('header-profile-pic').src = event.target.result;
+                            
+                            // إشعار النجاح
+                            showNotification('تم التحديث', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // حفظ معلومات الحساب
+                document.getElementById('save-account-info').addEventListener('click', saveProfileInfo);
+                
+                // حفظ إعدادات الإشعارات
+                document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
+                
+                // تغيير كلمة المرور
+                document.getElementById('save-password').addEventListener('click', changePassword);
+                
+                // حذف الحساب
+                document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
+                
+                // تسجيل الخروج
+                document.getElementById('logout-btn').addEventListener('click', logout);
+            }
+
+            // ===== حفظ معلومات الحساب =====
+            function saveProfileInfo() {
+                const newName = document.getElementById('edit-name').value;
+                const newEmail = document.getElementById('edit-email').value;
+                const newPhone = document.getElementById('edit-phone').value;
+                const newPubgId = document.getElementById('edit-pubg-id').value;
+                
+                // التحقق من صحة البيانات
+                if (!newName || !newEmail || !newPhone || !newPubgId) {
+                    showNotification('خطأ', 'الرجاء ملء جميع الحقول المطلوبة', 'error');
+                    return;
+                }
+                
+                // تحديث الاسم في البطاقة الشخصية
+                document.getElementById('display-name').textContent = newName;
+                document.getElementById('user-name').textContent = newName;
+                
+                // تحديث PUBG ID في الهيدر
+                document.getElementById('user-id-display').textContent = newPubgId;
+                document.getElementById('user-id').textContent = newPubgId;
+                
+                // تحديث البيانات الأخرى
+                document.getElementById('user-email').textContent = newEmail;
+                document.getElementById('user-phone').textContent = newPhone;
+                
+                // تحديث بيانات المستخدم
+                userData.name = newName;
+                userData.email = newEmail;
+                userData.phone = newPhone;
+                userData.pubgId = newPubgId;
+                userData.id = newPubgId;
+                
+                // إشعار النجاح
+                showNotification('تم الحفظ', 'تم تحديث معلومات الحساب بنجاح', 'success');
+            }
+
+            // ===== حفظ إعدادات الإشعارات =====
+            function saveNotificationSettings() {
+                const emailNotifications = document.getElementById('email-notifications').checked;
+                const paymentNotifications = document.getElementById('payment-notifications').checked;
+                const teamNotifications = document.getElementById('team-notifications').checked;
+                
+                // هنا يمكنك إرسال البيانات إلى الخادم
+                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
+            }
+
+            // ===== تغيير كلمة المرور =====
+            function changePassword() {
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                // التحقق من صحة البيانات
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    showNotification('خطأ', 'الرجاء ملء جميع الحقول', 'error');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showNotification('خطأ', 'كلمة المرور الجديدة وتأكيدها غير متطابقين', 'error');
+                    return;
+                }
+                
+                if (newPassword.length < 6) {
+                    showNotification('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                    return;
+                }
+                
+                // هنا يمكنك إرسال البيانات إلى الخادم
+                
+                // إفراغ الحقول بعد النجاح
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+                
+                showNotification('تم التغيير', 'تم تغيير كلمة المرور بنجاح', 'success');
+            }
+
+            // ===== حذف الحساب =====
+            function deleteAccount() {
+                if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
+                    // هنا يمكنك إرسال طلب حذف الحساب إلى الخادم
+                    showNotification('تم الحذف', 'تم حذف الحساب بنجاح، سيتم توجيهك إلى الصفحة الرئيسية', 'info');
+                    
+                    // إعادة التوجيه بعد 3 ثواني
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                }
+            }
+
+            // ===== تسجيل الخروج =====
+            function logout() {
+                if (confirm('هل تريد تسجيل الخروج؟')) {
+                    // هنا يمكنك مسح بيانات الجلسة وإعادة التوجيه
+                    showNotification('تم الخروج', 'تم تسجيل الخروج بنجاح', 'info');
+                    
+                    // إعادة التوجيه بعد 2 ثانية
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                }
+            }
+
+            // ===== نظام الإشعارات =====
+            function showNotification(title, message, type = 'info') {
+                const container = document.getElementById('notification-container');
+                
+                // إنشاء الإشعار
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                
+                // تحديد أيقونة حسب النوع
+                let icon = 'fa-info-circle';
+                if (type === 'success') icon = 'fa-check-circle';
+                if (type === 'error') icon = 'fa-exclamation-circle';
+                if (type === 'warning') icon = 'fa-exclamation-triangle';
+                
+                notification.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                    <button class="notification-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                // إضافة الإشعار إلى الحاوية
+                container.appendChild(notification);
+                
+                // إظهار الإشعار بعد إضافته مباشرة
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+                
+                // إغلاق الإشعار عند النقر على الزر
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', () => {
+                    closeNotification(notification);
+                });
+                
+                // إغلاق الإشعار تلقائياً بعد 5 ثواني
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        closeNotification(notification);
+                    }
+                }, 5000);
+            }
+
+            function closeNotification(notification) {
+                notification.classList.remove('show');
+                notification.classList.add('hide');
+                
+                // إزالة الإشعار من الـ DOM بعد انتهاء الرسوم المتحركة
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }
+
+            // ===== تهيئة الصفحة عند التحميل =====
+            initializePage();
+        });
+    </script>
+</body>
+</html>
