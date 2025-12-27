@@ -61,49 +61,42 @@
             color: var(--error);
         }
         
-        /* تحسينات للأزرار */
-        .btn {
-            padding: 12px 25px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
+        /* قسم دخول الأدمن */
+        .admin-login-toggle {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .btn-primary {
-            background: var(--gold);
-            color: var(--dark-blue);
-        }
-        
-        .btn-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-        }
-        
-        .btn-secondary {
+        .admin-login-btn {
             background: rgba(212, 175, 55, 0.1);
             border: 2px solid var(--gold);
             color: var(--gold);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
         
-        .btn-secondary:hover {
+        .admin-login-btn:hover {
             background: var(--gold);
             color: var(--dark-blue);
+            transform: translateY(-2px);
         }
         
-        /* إصلاح التمرير */
-        .auth-wrapper {
-            max-height: 85vh;
-            overflow-y: auto;
+        /* زر تسجيل الدخول كأدمن */
+        .submit-btn.admin-mode {
+            background: linear-gradient(135deg, #ff6b35, #ffa500);
         }
         
-        /* تحسين الحقول */
-        .form-input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        .submit-btn.admin-mode:hover {
+            background: linear-gradient(135deg, #ffa500, #ff6b35);
         }
         
         /* تحسين الشعار الصغير */
@@ -126,6 +119,20 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        
+        /* وضع الأدمن */
+        .admin-mode-indicator {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #ff6b35;
+            color: #ff6b35;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+        }
     </style>
 </head>
 <body class="auth-page">
@@ -143,8 +150,13 @@
                 <div class="clan-logo-small">
                     <img src="assets/images/clan-logo.png" alt="شعار GR CLAN">
                 </div>
-                <h1 class="auth-title">تسجيل الدخول</h1>
-                <p class="auth-subtitle">أدخل بيانات حسابك للدخول إلى GR CLAN</p>
+                <h1 class="auth-title" id="pageTitle">تسجيل الدخول</h1>
+                <p class="auth-subtitle" id="pageSubtitle">أدخل بيانات حسابك للدخول إلى GR CLAN</p>
+                
+                <!-- مؤشر وضع الأدمن -->
+                <div class="admin-mode-indicator" id="adminModeIndicator">
+                    ⚡ وضع تسجيل دخول الأدمن
+                </div>
             </div>
             
             <!-- رسائل التنبيه -->
@@ -195,10 +207,16 @@
                         <input type="checkbox" id="rememberMe">
                         <label for="rememberMe">تذكرني على هذا الجهاز</label>
                     </div>
+                    <div class="form-option">
+                        <input type="checkbox" id="adminMode">
+                        <label for="adminMode" style="color: #ff6b35; font-weight: 700;">
+                            تسجيل دخول كأدمن
+                        </label>
+                    </div>
                 </div>
                 
                 <!-- زر تسجيل الدخول -->
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="submitBtn">
                     <span class="btn-icon">🔐</span>
                     تسجيل الدخول
                 </button>
@@ -207,12 +225,26 @@
                 <div class="auth-link">
                     <p>ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a></p>
                 </div>
+                
+                <!-- قسم دخول الأدمن -->
+                <div class="admin-login-toggle">
+                    <p style="color: var(--medium-gray); margin-bottom: 10px; font-size: 0.9rem;">
+                        لديك صلاحيات إدارية؟
+                    </p>
+                    <a href="admin/login.html" class="admin-login-btn">
+                        <span>⚡</span>
+                        دخول لوحة الأدمن المتقدمة
+                    </a>
+                </div>
             </form>
         </div>
     </div>
 
+    <!-- نظام المصادقة الإدارية -->
+    <script src="js/admin-auth.js"></script>
+    
     <script>
-        // ===== نظام تسجيل الدخول =====
+        // ===== نظام تسجيل الدخول المعدل =====
         
         // تهيئة بيانات المستخدمين إذا لم تكن موجودة
         function initializeUsers() {
@@ -230,11 +262,63 @@
                             kills: 1250,
                             kd: 3.2
                         }
+                    },
+                    {
+                        id: 2,
+                        username: 'player1',
+                        password: 'player123',
+                        pubgId: '5123456790',
+                        joinDate: new Date().toISOString(),
+                        stats: {
+                            matches: 80,
+                            wins: 35,
+                            kills: 650,
+                            kd: 2.8
+                        }
                     }
                 ];
                 localStorage.setItem('users', JSON.stringify(defaultUsers));
                 console.log('✅ تم تهيئة بيانات المستخدمين');
             }
+        }
+        
+        // التحكم في وضع الأدمن
+        const adminModeCheckbox = document.getElementById('adminMode');
+        const adminModeIndicator = document.getElementById('adminModeIndicator');
+        const pageTitle = document.getElementById('pageTitle');
+        const pageSubtitle = document.getElementById('pageSubtitle');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        if (adminModeCheckbox) {
+            adminModeCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    // تم تفعيل وضع الأدمن
+                    adminModeIndicator.style.display = 'block';
+                    pageTitle.textContent = 'تسجيل دخول الأدمن';
+                    pageSubtitle.textContent = 'أدخل بيانات حساب الأدمن أو المالك';
+                    submitBtn.classList.add('admin-mode');
+                    submitBtn.querySelector('.btn-icon').textContent = '⚡';
+                    
+                    // تغيير نصوص الحقول
+                    document.querySelector('label[for="loginUsername"]').textContent = 'اسم المستخدم الإداري';
+                    document.querySelector('label[for="loginPassword"]').textContent = 'كلمة المرور الإدارية';
+                    document.getElementById('loginUsername').placeholder = 'أدخل اسم المستخدم الإداري';
+                    document.getElementById('loginPassword').placeholder = 'أدخل كلمة المرور الإدارية';
+                } else {
+                    // تم إلغاء وضع الأدمن
+                    adminModeIndicator.style.display = 'none';
+                    pageTitle.textContent = 'تسجيل الدخول';
+                    pageSubtitle.textContent = 'أدخل بيانات حسابك للدخول إلى GR CLAN';
+                    submitBtn.classList.remove('admin-mode');
+                    submitBtn.querySelector('.btn-icon').textContent = '🔐';
+                    
+                    // إعادة النصوص الأصلية
+                    document.querySelector('label[for="loginUsername"]').textContent = 'اسم المستخدم';
+                    document.querySelector('label[for="loginPassword"]').textContent = 'كلمة المرور';
+                    document.getElementById('loginUsername').placeholder = 'أدخل اسم المستخدم';
+                    document.getElementById('loginPassword').placeholder = 'أدخل كلمة المرور';
+                }
+            });
         }
         
         // استدعاء التهيئة عند تحميل الصفحة
@@ -308,12 +392,14 @@
             
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            const isAdminMode = adminModeCheckbox ? adminModeCheckbox.checked : false;
             
             let isValid = true;
             
             // التحقق من اسم المستخدم
             if (!username) {
-                showFieldError('loginUsername', '⚠️ يرجى إدخال اسم المستخدم');
+                const errorMsg = isAdminMode ? '⚠️ يرجى إدخال اسم المستخدم الإداري' : '⚠️ يرجى إدخال اسم المستخدم';
+                showFieldError('loginUsername', errorMsg);
                 isValid = false;
             } else if (username.length < 3) {
                 showFieldError('loginUsername', '⚠️ اسم المستخدم قصير جداً');
@@ -322,7 +408,8 @@
             
             // التحقق من كلمة المرور
             if (!password) {
-                showFieldError('loginPassword', '⚠️ يرجى إدخال كلمة المرور');
+                const errorMsg = isAdminMode ? '⚠️ يرجى إدخال كلمة المرور الإدارية' : '⚠️ يرجى إدخال كلمة المرور';
+                showFieldError('loginPassword', errorMsg);
                 isValid = false;
             } else if (password.length < 6) {
                 showFieldError('loginPassword', '⚠️ كلمة المرور قصيرة جداً');
@@ -332,8 +419,8 @@
             return isValid;
         }
         
-        // عملية تسجيل الدخول
-        function loginUser(username, password, rememberMe) {
+        // عملية تسجيل الدخول العادي
+        function loginRegularUser(username, password, rememberMe) {
             const users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.username === username && u.password === password);
             
@@ -366,6 +453,45 @@
             }
         }
         
+        // عملية تسجيل الدخول كأدمن
+        function loginAsAdmin(username, password) {
+            if (typeof AdminAuthSystem !== 'undefined') {
+                const result = AdminAuthSystem.adminLogin(username, password);
+                
+                if (result.success) {
+                    // أيضاً قم بتسجيل دخول كعضو عادي
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const regularUser = users.find(u => u.username === username);
+                    
+                    if (regularUser) {
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            id: regularUser.id,
+                            username: regularUser.username,
+                            pubgId: regularUser.pubgId || 'ADMIN_ACCOUNT',
+                            joinDate: regularUser.joinDate || new Date().toISOString(),
+                            stats: regularUser.stats || {}
+                        }));
+                    } else {
+                        // إنشاء حساب مؤقت للأدمن إذا لم يكن موجوداً
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            id: 999,
+                            username: username,
+                            pubgId: 'ADMIN_ACCOUNT',
+                            joinDate: new Date().toISOString(),
+                            stats: {}
+                        }));
+                    }
+                }
+                
+                return result;
+            } else {
+                return { 
+                    success: false, 
+                    message: 'نظام المصادقة الإدارية غير متوفر' 
+                };
+            }
+        }
+        
         // معالجة إرسال النموذج
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
@@ -376,19 +502,34 @@
                     const username = document.getElementById('loginUsername').value.trim();
                     const password = document.getElementById('loginPassword').value;
                     const rememberMe = document.getElementById('rememberMe').checked;
+                    const isAdminMode = adminModeCheckbox ? adminModeCheckbox.checked : false;
                     
                     // تغيير نص الزر أثناء المعالجة
                     const submitBtn = loginForm.querySelector('.submit-btn');
                     const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<span class="btn-icon">⏳</span> جاري التحقق...';
+                    submitBtn.innerHTML = isAdminMode 
+                        ? '<span class="btn-icon">⚡</span> جاري التحقق كأدمن...'
+                        : '<span class="btn-icon">⏳</span> جاري التحقق...';
                     submitBtn.disabled = true;
                     
                     // محاكاة تأخير للمعالجة
                     setTimeout(() => {
-                        const result = loginUser(username, password, rememberMe);
+                        let result;
+                        
+                        if (isAdminMode) {
+                            // محاولة الدخول كأدمن
+                            result = loginAsAdmin(username, password);
+                        } else {
+                            // دخول عادي
+                            result = loginRegularUser(username, password, rememberMe);
+                        }
                         
                         if (result.success) {
-                            showAlert('✅ تم تسجيل الدخول بنجاح!', 'success');
+                            const successMsg = isAdminMode 
+                                ? `✅ تم تسجيل دخول الأدمن بنجاح! مرحباً ${result.user.fullName || result.user.username}`
+                                : '✅ تم تسجيل الدخول بنجاح!';
+                            
+                            showAlert(successMsg, 'success');
                             
                             // توجيه إلى الصفحة الرئيسية بعد تأخير قصير
                             setTimeout(() => {
@@ -425,8 +566,20 @@
                 }
             }
             
+            // التحقق إذا كان هناك جلسة أدمن نشطة
+            if (typeof AdminAuthSystem !== 'undefined' && AdminAuthSystem.getCurrentAdmin()) {
+                adminModeCheckbox.checked = true;
+                adminModeCheckbox.dispatchEvent(new Event('change'));
+            }
+            
             // التركيز على حقل اسم المستخدم
             document.getElementById('loginUsername').focus();
+            
+            // إضافة رسالة ترحيب في الكونسول
+            console.log('🌐 صفحة تسجيل الدخول - GR CLAN جاهزة');
+            console.log('👤 المستخدم العادي: admin / كلمة المرور: admin123');
+            console.log('👑 الأدمن: gr_owner / كلمة المرور: OwnerPass2024!');
+            console.log('⭐ الأدمن: gr_admin1 / كلمة المرور: Admin1Pass2024!');
         });
         
         // إضافة تأثير عند الضغط على زر الإدخال
@@ -443,11 +596,6 @@
                 }
             }
         });
-        
-        // إضافة رسالة ترحيب في الكونسول
-        console.log('🌐 صفحة تسجيل الدخول - GR CLAN جاهزة');
-        console.log('👤 المستخدم الافتراضي: admin');
-        console.log('🔐 كلمة المرور: admin123');
     </script>
 </body>
 </html>
