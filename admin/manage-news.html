@@ -692,6 +692,107 @@
             transform: rotate(90deg);
         }
         
+        /* ===== نافذة تأكيد الحذف ===== */
+        .delete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .delete-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .delete-box {
+            background: linear-gradient(135deg, #0A1931, #162447);
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 3px solid #ff6b81;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+        
+        .delete-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ff6b81;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.5));
+        }
+        
+        .delete-title {
+            color: #ff6b81;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        
+        .delete-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .delete-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .delete-confirm-btn {
+            padding: 15px 35px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .delete-yes {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+        
+        .delete-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
+        }
+        
+        .delete-no {
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+        
+        .delete-no:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.3);
+        }
+        
         /* ===== التصميم المتجاوب ===== */
         @media (max-width: 768px) {
             .admin-header {
@@ -727,8 +828,16 @@
                 max-width: 300px;
             }
             
-            .modal {
+            .modal, .delete-box {
                 padding: 30px 25px;
+            }
+            
+            .delete-buttons {
+                flex-direction: column;
+            }
+            
+            .delete-confirm-btn {
+                width: 100%;
             }
         }
         
@@ -978,6 +1087,25 @@
         </div>
     </div>
 
+    <!-- نافذة تأكيد الحذف -->
+    <div class="delete-modal" id="deleteModal">
+        <div class="delete-box">
+            <div class="delete-icon">🗑️</div>
+            <h2 class="delete-title">تأكيد الحذف</h2>
+            <p class="delete-message" id="deleteMessage">هل أنت متأكد من حذف هذا الخبر؟</p>
+            <div class="delete-buttons">
+                <button class="delete-confirm-btn delete-yes" id="confirmDelete">
+                    <span>✅</span>
+                    نعم، احذف
+                </button>
+                <button class="delete-confirm-btn delete-no" id="cancelDelete">
+                    <span>❌</span>
+                    لا، إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- حاوية الإشعارات -->
     <div class="notification-container" id="notificationContainer"></div>
 
@@ -986,11 +1114,9 @@
         
         // 1. التحقق من صلاحية الأدمن
         function checkAdminAccess() {
-            // جلب جلسة الأدمن
             const adminSession = localStorage.getItem('adminSession');
             
             if (!adminSession) {
-                // إذا لم يكن هناك جلسة أدمن، توجيه للصفحة الرئيسية
                 showNotification(
                     '⛔ الوصول مرفوض',
                     'يجب أن تكون مسؤولاً للوصول إلى هذه الصفحة',
@@ -1006,16 +1132,11 @@
             
             try {
                 const adminData = JSON.parse(adminSession);
-                
-                // عرض معلومات الأدمن
                 document.getElementById('adminName').textContent = adminData.fullName || adminData.username;
                 document.getElementById('adminBadge').textContent = adminData.role === 'owner' ? '👑' : '⭐';
-                
                 console.log(`👑 الأدمن: ${adminData.username} (${adminData.role})`);
                 return true;
-                
             } catch (error) {
-                console.error('❌ خطأ في تحليل جلسة الأدمن:', error);
                 window.location.href = '../main.html';
                 return false;
             }
@@ -1026,7 +1147,6 @@
             const container = document.getElementById('notificationContainer');
             if (!container) return;
             
-            // إنشاء الإشعار
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.innerHTML = `
@@ -1045,45 +1165,28 @@
                 <div class="notification-progress"></div>
             `;
             
-            // إضافة للإشعار للحاوية
             container.appendChild(notification);
             
-            // إظهار الإشعار بعد تأخير بسيط
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
+            setTimeout(() => notification.classList.add('show'), 10);
             
-            // إضافة حدث إغلاق
-            const closeBtn = notification.querySelector('.notification-close');
-            closeBtn.addEventListener('click', () => {
+            notification.querySelector('.notification-close').addEventListener('click', () => {
                 notification.classList.remove('show');
                 notification.classList.add('hide');
-                
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
+                setTimeout(() => container.removeChild(notification), 300);
             });
             
-            // إغلاق تلقائي بعد المدة
             setTimeout(() => {
                 if (notification.classList.contains('show')) {
                     notification.classList.remove('show');
                     notification.classList.add('hide');
-                    
                     setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
-                        }
+                        if (notification.parentNode) container.removeChild(notification);
                     }, 300);
                 }
             }, duration);
-            
-            return notification;
         }
         
-        // 3. معاينة الصورة عند التحميل
+        // 3. معاينة الصور
         function previewImage(event) {
             const input = event.target;
             const preview = document.getElementById('imagePreview');
@@ -1091,12 +1194,10 @@
             
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                
                 reader.onload = function(e) {
                     previewImg.src = e.target.result;
                     preview.style.display = 'block';
-                }
-                
+                };
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -1108,27 +1209,20 @@
             
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                
                 reader.onload = function(e) {
                     previewImg.src = e.target.result;
                     preview.style.display = 'block';
-                }
-                
+                };
                 reader.readAsDataURL(input.files[0]);
             }
         }
         
-        // 4. جلب الأخبار من النظام
+        // 4. تحميل الأخبار
         function loadNews() {
             const newsList = document.getElementById('newsList');
-            
-            // جلب الأخبار من localStorage
             let news = JSON.parse(localStorage.getItem('clanNews')) || [];
-            
-            // ترتيب الأخبار من الأحدث إلى الأقدم
             news.sort((a, b) => new Date(b.date) - new Date(a.date));
             
-            // عرض الأخبار
             newsList.innerHTML = '';
             
             if (news.length === 0) {
@@ -1155,7 +1249,7 @@
                             <button class="action-btn edit-btn" onclick="openEditModal(${index})">
                                 ✏️
                             </button>
-                            <button class="action-btn delete-btn" onclick="deleteNews(${index})">
+                            <button class="action-btn delete-btn" onclick="openDeleteModal(${index}, '${item.title}')">
                                 🗑️
                             </button>
                         </div>
@@ -1181,21 +1275,16 @@
             const diffHours = Math.floor(diffMs / 3600000);
             const diffDays = Math.floor(diffMs / 86400000);
             
-            if (diffMins < 60) {
-                return `قبل ${diffMins} دقيقة`;
-            } else if (diffHours < 24) {
-                return `قبل ${diffHours} ساعة`;
-            } else if (diffDays === 1) {
-                return 'أمس';
-            } else if (diffDays < 7) {
-                return `قبل ${diffDays} أيام`;
-            } else {
-                return date.toLocaleDateString('ar-EG', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-            }
+            if (diffMins < 60) return `قبل ${diffMins} دقيقة`;
+            if (diffHours < 24) return `قبل ${diffHours} ساعة`;
+            if (diffDays === 1) return 'أمس';
+            if (diffDays < 7) return `قبل ${diffDays} أيام`;
+            
+            return date.toLocaleDateString('ar-EG', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
         
         // 6. نشر خبر جديد
@@ -1206,21 +1295,13 @@
             const content = document.getElementById('newsContent').value.trim();
             const imageFile = document.getElementById('newsImage').files[0];
             
-            // التحقق من البيانات
             if (!title || !content) {
-                showNotification(
-                    '⚠️ بيانات ناقصة',
-                    'يرجى ملء جميع الحقول المطلوبة',
-                    'error',
-                    3000
-                );
+                showNotification('⚠️ بيانات ناقصة', 'يرجى ملء جميع الحقول المطلوبة', 'error', 3000);
                 return;
             }
             
-            // جلب معلومات الأدمن
             const adminSession = JSON.parse(localStorage.getItem('adminSession') || '{}');
             
-            // معالجة الصورة
             let imageBase64 = '';
             if (imageFile) {
                 const reader = new FileReader();
@@ -1235,10 +1316,7 @@
         });
         
         function saveNews(title, content, image, adminSession) {
-            // جلب الأخبار الحالية
             let news = JSON.parse(localStorage.getItem('clanNews')) || [];
-            
-            // إنشاء خبر جديد
             const newNews = {
                 id: Date.now(),
                 title: title,
@@ -1248,30 +1326,19 @@
                 image: image
             };
             
-            // إضافة الخبر الجديد
             news.unshift(newNews);
-            
-            // حفظ في localStorage
             localStorage.setItem('clanNews', JSON.stringify(news));
             
-            // إظهار رسالة نجاح
-            showNotification(
-                '✅ تم النشر بنجاح',
-                'تم نشر الخبر الجديد بنجاح',
-                'success',
-                3000
-            );
+            showNotification('✅ تم النشر بنجاح', 'تم نشر الخبر الجديد بنجاح', 'success', 3000);
             
-            // إعادة تعيين النموذج
             document.getElementById('newsForm').reset();
             document.getElementById('imagePreview').style.display = 'none';
             document.getElementById('previewImage').src = '';
             
-            // تحديث قائمة الأخبار
             loadNews();
         }
         
-        // 7. البحث في الأخبار
+        // 7. البحث
         function searchNews() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const newsList = document.getElementById('newsList');
@@ -1314,7 +1381,7 @@
                             <button class="action-btn edit-btn" onclick="openEditModal(${originalIndex})">
                                 ✏️
                             </button>
-                            <button class="action-btn delete-btn" onclick="deleteNews(${originalIndex})">
+                            <button class="action-btn delete-btn" onclick="openDeleteModal(${originalIndex}, '${item.title}')">
                                 🗑️
                             </button>
                         </div>
@@ -1331,8 +1398,9 @@
             });
         }
         
-        // 8. فتح نافذة التعديل
+        // 8. التعديل
         let currentEditIndex = -1;
+        let currentDeleteIndex = -1;
         
         function openEditModal(index) {
             currentEditIndex = index;
@@ -1340,12 +1408,10 @@
             
             if (news[index]) {
                 const item = news[index];
-                
                 document.getElementById('editNewsId').value = item.id;
                 document.getElementById('editNewsTitle').value = item.title;
                 document.getElementById('editNewsContent').value = item.content;
                 
-                // عرض الصورة الحالية
                 const editImagePreview = document.getElementById('editImagePreview');
                 const editPreviewImage = document.getElementById('editPreviewImage');
                 
@@ -1357,7 +1423,6 @@
                     editPreviewImage.src = '';
                 }
                 
-                // إظهار النافذة
                 document.getElementById('editModal').classList.add('active');
             }
         }
@@ -1370,126 +1435,3 @@
             currentEditIndex = -1;
         }
         
-        // 9. حفظ التعديلات
-        document.getElementById('editForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const id = parseInt(document.getElementById('editNewsId').value);
-            const title = document.getElementById('editNewsTitle').value.trim();
-            const content = document.getElementById('editNewsContent').value.trim();
-            const imageFile = document.getElementById('editNewsImage').files[0];
-            
-            // التحقق من البيانات
-            if (!title || !content) {
-                showNotification(
-                    '⚠️ بيانات ناقصة',
-                    'يرجى ملء جميع الحقول المطلوبة',
-                    'error',
-                    3000
-                );
-                return;
-            }
-            
-            // جلب الأخبار الحالية
-            let news = JSON.parse(localStorage.getItem('clanNews')) || [];
-            
-            // تحديث الصورة
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    updateNews(id, title, content, e.target.result);
-                };
-                reader.readAsDataURL(imageFile);
-            } else {
-                // الحفاظ على الصورة الحالية
-                const currentImage = news[currentEditIndex]?.image || '';
-                updateNews(id, title, content, currentImage);
-            }
-        });
-        
-        function updateNews(id, title, content, image) {
-            let news = JSON.parse(localStorage.getItem('clanNews')) || [];
-            const index = news.findIndex(item => item.id === id);
-            
-            if (index !== -1) {
-                // تحديث الخبر
-                news[index] = {
-                    ...news[index],
-                    title: title,
-                    content: content,
-                    image: image,
-                    lastEdited: new Date().toISOString()
-                };
-                
-                // حفظ التعديلات
-                localStorage.setItem('clanNews', JSON.stringify(news));
-                
-                // إظهار رسالة نجاح
-                showNotification(
-                    '✅ تم التعديل بنجاح',
-                    'تم تحديث الخبر بنجاح',
-                    'success',
-                    3000
-                );
-                
-                // إغلاق النافذة وتحديث القائمة
-                closeEditModal();
-                loadNews();
-            }
-        }
-        
-        // 10. حذف الخبر
-        function deleteNews(index) {
-            if (!confirm('هل أنت متأكد من حذف هذا الخبر؟')) {
-                return;
-            }
-            
-            let news = JSON.parse(localStorage.getItem('clanNews')) || [];
-            
-            if (index >= 0 && index < news.length) {
-                // حذف الخبر
-                news.splice(index, 1);
-                
-                // حفظ التغييرات
-                localStorage.setItem('clanNews', JSON.stringify(news));
-                
-                // إظهار رسالة نجاح
-                showNotification(
-                    '🗑️ تم الحذف بنجاح',
-                    'تم حذف الخبر بنجاح',
-                    'success',
-                    3000
-                );
-                
-                // تحديث القائمة
-                loadNews();
-            }
-        }
-        
-        // 11. تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 صفحة إدارة الأخبار محملة');
-            
-            // التحقق من صلاحيات الأدمن
-            if (!checkAdminAccess()) return;
-            
-            // تحميل الأخبار
-            loadNews();
-            
-            // إضافة حدث البحث عند الكتابة
-            document.getElementById('searchInput').addEventListener('input', function() {
-                if (this.value === '') {
-                    loadNews();
-                }
-            });
-            
-            // إضافة حدث للضغط على Enter في البحث
-            document.getElementById('searchInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchNews();
-                }
-            });
-        });
-    </script>
-</body>
-</html>
