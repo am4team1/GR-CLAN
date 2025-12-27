@@ -744,6 +744,9 @@
     <!-- الهيدر -->
     <header class="account-header">
         <div class="header-left">
+            <a href="main.html" class="back-home-btn">
+                <i class="fas fa-arrow-right"></i>
+                الصفحة الرئيسية
             </a>
             <div class="clan-logo-small">
                 <img id="header-profile-pic" src="assets/images/clan-logo2.png" alt="GR CLAN Logo">
@@ -753,7 +756,6 @@
         
         <div class="header-right">
             <div id="user-id-display">جاري التحميل...</div>
-            <!-- تم إزالة زر تسجيل الخروج من هنا -->
         </div>
     </header>
 
@@ -998,38 +1000,13 @@
             // تهيئة الصفحة
             initializePage();
             setupEventListeners();
-            
-            // تهيئة نظام الحفظ الدائم
-            initPermanentStorage();
         });
 
         // ===== نظام الحفظ الدائم =====
-        function initPermanentStorage() {
-            // تهيئة IndexedDB للحفظ الدائم
-            if (!window.indexedDB) {
-                console.warn('IndexedDB غير مدعوم في هذا المتصفح');
-                return;
-            }
-            
-            const request = indexedDB.open('GR_CLAN_DB', 1);
-            
-            request.onerror = function(event) {
-                console.error('خطأ في فتح قاعدة البيانات:', event);
-            };
-            
-            request.onupgradeneeded = function(event) {
-                const db = event.target.result;
-                
-                // إنشاء مخزن للصور
-                if (!db.objectStoreNames.contains('profile_images')) {
-                    db.createObjectStore('profile_images', { keyPath: 'userId' });
-                }
-                
-                // إنشاء مخزن للبيانات الشخصية
-                if (!db.objectStoreNames.contains('user_data')) {
-                    db.createObjectStore('user_data', { keyPath: 'userId' });
-                }
-            };
+        
+        // مفتاح تخزين البيانات لكل مستخدم
+        function getUserStorageKey(userId) {
+            return `gr_clan_user_${userId}`;
         }
 
         // ===== الدوال المساعدة =====
@@ -1040,147 +1017,132 @@
             return user !== null;
         }
 
-        async function loadUserData() {
+        function loadUserData() {
             // الحصول على بيانات المستخدم من localStorage
             const userStr = localStorage.getItem('currentUser');
             if (!userStr) return null;
             
             const user = JSON.parse(userStr);
             
-            // محاولة تحميل الصورة من IndexedDB أولاً
-            const profilePic = await getProfileImageFromDB(user.id);
+            // جلب بيانات المستخدم المحفوظة (الصورة والمعلومات الإضافية)
+            const userKey = getUserStorageKey(user.id || user.username);
+            const savedData = localStorage.getItem(userKey);
             
-            // محاولة تحميل البيانات الشخصية من IndexedDB
-            const userData = await getUserDataFromDB(user.id);
+            if (savedData) {
+                try {
+                    const parsedData = JSON.parse(savedData);
+                    // دمج البيانات الأساسية مع البيانات المحفوظة
+                    return {
+                        ...user,
+                        ...parsedData,
+                        // التأكد من وجود الحقول الأساسية
+                        id: user.id || user.username,
+                        username: user.username,
+                        email: user.email,
+                        role: user.role || 'عضو',
+                        joinDate: parsedData.joinDate || user.joinDate || getCurrentDate(),
+                        lastUpdate: parsedData.lastUpdate || getCurrentDateTime()
+                    };
+                } catch (e) {
+                    console.error('خطأ في تحليل البيانات المحفوظة:', e);
+                }
+            }
             
-            // دمج البيانات (الأولوية للبيانات المحفوظة حديثاً)
+            // إذا لم توجد بيانات محفوظة، إنشاء بيانات افتراضية
             return {
                 ...user,
-                profilePic: profilePic || user.profilePic || 'assets/images/default-avatar.png',
-                phone: userData?.phone || user.phone || '-',
-                pubgId: userData?.pubgId || user.pubgId || '-',
-                joinDate: user.joinDate || new Date().toISOString().split('T')[0],
-                lastUpdate: new Date().toLocaleString('ar-EG')
+                id: user.id || user.username,
+                username: user.username,
+                email: user.email,
+                role: user.role || 'عضو',
+                profilePic: 'assets/images/default-avatar.png',
+                phone: '',
+                pubgId: '',
+                joinDate: user.joinDate || getCurrentDate(),
+                lastUpdate: getCurrentDateTime()
             };
         }
 
-        async function saveUserDataPermanently(userData) {
-            // حفظ في localStorage (للوصول السريع)
-            localStorage.setItem('currentUser', JSON.stringify(userData));
+        function saveUserData(userData) {
+            // حفظ البيانات الأساسية في currentUser
+            const { profilePic, phone, pubgId, joinDate, lastUpdate, ...basicData } = userData;
+            localStorage.setItem('currentUser', JSON.stringify(basicData));
             
-            // حفظ الصورة في IndexedDB
-            if (userData.profilePic && userData.profilePic.startsWith('data:')) {
-                await saveProfileImageToDB(userData.id, userData.profilePic);
-            }
-            
-            // حفظ البيانات الشخصية في IndexedDB
-            await saveUserDataToDB(userData.id, {
+            // حفظ البيانات الإضافية تحت مفتاح المستخدم الخاص
+            const userKey = getUserStorageKey(userData.id);
+            const additionalData = {
+                profilePic: userData.profilePic,
                 phone: userData.phone,
                 pubgId: userData.pubgId,
-                lastUpdate: new Date().toISOString()
-            });
+                joinDate: userData.joinDate,
+                lastUpdate: userData.lastUpdate,
+                savedAt: Date.now()
+            };
             
-            // حفظ في sessionStorage أيضاً للنسخ الاحتياطي
-            sessionStorage.setItem(`user_backup_${userData.id}`, JSON.stringify(userData));
+            localStorage.setItem(userKey, JSON.stringify(additionalData));
+            
+            // إضافة المستخدم إلى قائمة المستخدمين المحفوظين
+            saveUserToList(userData.id, userData.username);
         }
 
-        // ===== وظائف IndexedDB =====
-        function getDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open('GR_CLAN_DB', 1);
+        // حفظ قائمة بجميع المستخدمين الذين لديهم بيانات محفوظة
+        function saveUserToList(userId, username) {
+            let usersList = localStorage.getItem('gr_clan_users_list');
+            let users = [];
+            
+            if (usersList) {
+                users = JSON.parse(usersList);
+            }
+            
+            // التحقق من عدم وجود المستخدم مسبقاً
+            const exists = users.find(user => user.id === userId);
+            if (!exists) {
+                users.push({
+                    id: userId,
+                    username: username,
+                    savedAt: Date.now()
+                });
                 
-                request.onsuccess = function(event) {
-                    resolve(event.target.result);
-                };
-                
-                request.onerror = function(event) {
-                    reject('فشل فتح قاعدة البيانات');
-                };
+                localStorage.setItem('gr_clan_users_list', JSON.stringify(users));
+            }
+        }
+
+        // جلب بيانات مستخدم محدد (إذا كان مسجلاً من قبل)
+        function getUserSavedData(userId) {
+            const userKey = getUserStorageKey(userId);
+            const savedData = localStorage.getItem(userKey);
+            
+            if (savedData) {
+                try {
+                    return JSON.parse(savedData);
+                } catch (e) {
+                    console.error('خطأ في تحليل البيانات المحفوظة:', e);
+                }
+            }
+            
+            return null;
+        }
+
+        // الحصول على التاريخ الحالي
+        function getCurrentDate() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        // الحصول على التاريخ والوقت الحالي
+        function getCurrentDateTime() {
+            const now = new Date();
+            return now.toLocaleString('ar-EG', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
             });
-        }
-
-        async function saveProfileImageToDB(userId, imageData) {
-            try {
-                const db = await getDB();
-                const transaction = db.transaction(['profile_images'], 'readwrite');
-                const store = transaction.objectStore('profile_images');
-                
-                store.put({ userId, imageData, timestamp: Date.now() });
-                
-                return new Promise((resolve, reject) => {
-                    transaction.oncomplete = () => resolve();
-                    transaction.onerror = () => reject();
-                });
-            } catch (error) {
-                console.error('خطأ في حفظ الصورة:', error);
-                // إذا فشل IndexedDB، احفظ في localStorage كنسخة احتياطية
-                localStorage.setItem(`profilePic_backup_${userId}`, imageData);
-            }
-        }
-
-        async function getProfileImageFromDB(userId) {
-            try {
-                const db = await getDB();
-                const transaction = db.transaction(['profile_images'], 'readonly');
-                const store = transaction.objectStore('profile_images');
-                const request = store.get(userId);
-                
-                return new Promise((resolve, reject) => {
-                    request.onsuccess = function(event) {
-                        const result = event.target.result;
-                        resolve(result ? result.imageData : null);
-                    };
-                    request.onerror = () => reject(null);
-                });
-            } catch (error) {
-                // إذا فشل IndexedDB، جرب localStorage
-                return localStorage.getItem(`profilePic_backup_${userId}`);
-            }
-        }
-
-        async function saveUserDataToDB(userId, data) {
-            try {
-                const db = await getDB();
-                const transaction = db.transaction(['user_data'], 'readwrite');
-                const store = transaction.objectStore('user_data');
-                
-                store.put({ userId, ...data, timestamp: Date.now() });
-                
-                return new Promise((resolve, reject) => {
-                    transaction.oncomplete = () => resolve();
-                    transaction.onerror = () => reject();
-                });
-            } catch (error) {
-                console.error('خطأ في حفظ البيانات:', error);
-                // احفظ في localStorage كنسخة احتياطية
-                localStorage.setItem(`userData_backup_${userId}`, JSON.stringify(data));
-            }
-        }
-
-        async function getUserDataFromDB(userId) {
-            try {
-                const db = await getDB();
-                const transaction = db.transaction(['user_data'], 'readonly');
-                const store = transaction.objectStore('user_data');
-                const request = store.get(userId);
-                
-                return new Promise((resolve, reject) => {
-                    request.onsuccess = function(event) {
-                        const result = event.target.result;
-                        resolve(result || null);
-                    };
-                    request.onerror = () => reject(null);
-                });
-            } catch (error) {
-                // إذا فشل IndexedDB، جرب localStorage
-                const backup = localStorage.getItem(`userData_backup_${userId}`);
-                return backup ? JSON.parse(backup) : null;
-            }
         }
 
         // ===== تهيئة الصفحة =====
-        async function initializePage() {
-            const userData = await loadUserData();
+        function initializePage() {
+            const userData = loadUserData();
             
             if (!userData) {
                 showNotification('خطأ', 'لم يتم العثور على بيانات المستخدم', 'error');
@@ -1201,11 +1163,14 @@
             // تعيين صورة الملف الشخصي
             const profilePic = document.getElementById('profile-picture');
             const headerPic = document.getElementById('header-profile-pic');
-            profilePic.src = userData.profilePic;
-            headerPic.src = userData.profilePic;
+            
+            // استخدام الصورة المحفوظة أو الصورة الافتراضية
+            const imageSrc = userData.profilePic || 'assets/images/default-avatar.png';
+            profilePic.src = imageSrc;
+            headerPic.src = imageSrc;
             
             // تعبئة حقول التعديل
-            document.getElementById('edit-name').value = userData.name || userData.username;
+            document.getElementById('edit-name').value = userData.name || userData.username || '';
             document.getElementById('edit-email').value = userData.email || '';
             document.getElementById('edit-phone').value = userData.phone || '';
             document.getElementById('edit-pubg-id').value = userData.pubgId || '';
@@ -1216,12 +1181,16 @@
 
         function formatDate(dateString) {
             if (!dateString) return '-';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('ar-EG', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('ar-EG', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } catch (e) {
+                return dateString;
+            }
         }
 
         // ===== التبديل بين تبويبات الإعدادات =====
@@ -1273,7 +1242,7 @@
         }
 
         // ===== تغيير صورة الملف الشخصي =====
-        async function handleProfilePictureChange(e) {
+        function handleProfilePictureChange(e) {
             if (e.target.files.length > 0) {
                 const file = e.target.files[0];
                 
@@ -1290,7 +1259,7 @@
                 }
                 
                 const reader = new FileReader();
-                reader.onload = async function(event) {
+                reader.onload = function(event) {
                     // تحديث الصورة في الملف الشخصي
                     const profilePic = document.getElementById('profile-picture');
                     const headerPic = document.getElementById('header-profile-pic');
@@ -1298,15 +1267,16 @@
                     profilePic.src = event.target.result;
                     headerPic.src = event.target.result;
                     
-                    // حفظ الصورة للأبد في IndexedDB
-                    const userData = await loadUserData();
+                    // تحديث بيانات المستخدم وحفظها
+                    const userData = loadUserData();
                     userData.profilePic = event.target.result;
-                    userData.lastUpdate = new Date().toLocaleString('ar-EG');
-                    
-                    await saveUserDataPermanently(userData);
+                    userData.lastUpdate = getCurrentDateTime();
                     
                     // تحديث عرض آخر تحديث
                     document.getElementById('last-update').textContent = userData.lastUpdate;
+                    
+                    // حفظ البيانات
+                    saveUserData(userData);
                     
                     // إشعار النجاح
                     showNotification('تم التحديث', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
@@ -1316,7 +1286,7 @@
         }
 
         // ===== حفظ معلومات الحساب =====
-        async function saveProfileInfo() {
+        function saveProfileInfo() {
             const newName = document.getElementById('edit-name').value;
             const newEmail = document.getElementById('edit-email').value;
             const newPhone = document.getElementById('edit-phone').value;
@@ -1340,48 +1310,48 @@
             document.getElementById('user-phone').textContent = newPhone || '-';
             
             // تحديث آخر تحديث
-            const lastUpdate = new Date().toLocaleString('ar-EG');
+            const lastUpdate = getCurrentDateTime();
             document.getElementById('last-update').textContent = lastUpdate;
             
-            // تحديث بيانات المستخدم وحفظها للأبد
-            const userData = await loadUserData();
+            // تحديث بيانات المستخدم وحفظها
+            const userData = loadUserData();
             userData.name = newName;
             userData.email = newEmail;
             userData.phone = newPhone;
             userData.pubgId = newPubgId;
             userData.lastUpdate = lastUpdate;
             
-            await saveUserDataPermanently(userData);
+            // إذا لم يكن هناك تاريخ انضمام محفوظ، احفظ التاريخ الحالي
+            if (!userData.joinDate) {
+                userData.joinDate = getCurrentDate();
+                document.getElementById('user-join-date').textContent = formatDate(userData.joinDate);
+            }
+            
+            saveUserData(userData);
             
             // إشعار النجاح
             showNotification('تم الحفظ', 'تم تحديث معلومات الحساب بنجاح', 'success');
         }
 
         // ===== حفظ إعدادات الإشعارات =====
-        async function saveNotificationSettings() {
+        function saveNotificationSettings() {
             const emailNotifications = document.getElementById('email-notifications').checked;
             const paymentNotifications = document.getElementById('payment-notifications').checked;
             const teamNotifications = document.getElementById('team-notifications').checked;
             
-            // حفظ في IndexedDB للأبد
-            const settings = {
+            // حفظ في localStorage
+            const userData = loadUserData();
+            userData.notificationSettings = {
                 emailNotifications,
                 paymentNotifications,
                 teamNotifications,
-                timestamp: Date.now()
+                savedAt: Date.now()
             };
             
-            try {
-                const userData = await loadUserData();
-                await saveUserDataToDB(userData.id, { notificationSettings: settings });
-                
-                // إشعار النجاح
-                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
-            } catch (error) {
-                // إذا فشل IndexedDB، احفظ في localStorage
-                localStorage.setItem('notificationSettings', JSON.stringify(settings));
-                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
-            }
+            saveUserData(userData);
+            
+            // إشعار النجاح
+            showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
         }
 
         // ===== تغيير كلمة المرور =====
@@ -1417,30 +1387,19 @@
         }
 
         // ===== حذف الحساب =====
-        async function deleteAccount() {
+        function deleteAccount() {
             if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
                 // هنا يمكنك إرسال طلب حذف الحساب إلى الخادم
                 
-                // مسح جميع البيانات المحفوظة
-                const userData = await loadUserData();
+                // مسح جميع البيانات المحفوظة للمستخدم الحالي
+                const userData = loadUserData();
+                const userKey = getUserStorageKey(userData.id);
                 
-                // مسح من IndexedDB
-                try {
-                    const db = await getDB();
-                    const transaction = db.transaction(['profile_images', 'user_data'], 'readwrite');
-                    transaction.objectStore('profile_images').delete(userData.id);
-                    transaction.objectStore('user_data').delete(userData.id);
-                } catch (error) {
-                    console.error('خطأ في مسح البيانات:', error);
-                }
-                
-                // مسح من localStorage
+                localStorage.removeItem(userKey);
                 localStorage.removeItem('currentUser');
-                localStorage.removeItem(`profilePic_backup_${userData.id}`);
-                localStorage.removeItem(`userData_backup_${userData.id}`);
                 
-                // مسح من sessionStorage
-                sessionStorage.removeItem(`user_backup_${userData.id}`);
+                // إزالة المستخدم من القائمة
+                removeUserFromList(userData.id);
                 
                 showNotification('تم الحذف', 'تم حذف الحساب وكل البيانات المحفوظة بنجاح', 'info');
                 
@@ -1448,6 +1407,16 @@
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 3000);
+            }
+        }
+
+        // إزالة مستخدم من قائمة المستخدمين المحفوظين
+        function removeUserFromList(userId) {
+            let usersList = localStorage.getItem('gr_clan_users_list');
+            if (usersList) {
+                let users = JSON.parse(usersList);
+                users = users.filter(user => user.id !== userId);
+                localStorage.setItem('gr_clan_users_list', JSON.stringify(users));
             }
         }
 
