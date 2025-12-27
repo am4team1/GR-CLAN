@@ -744,7 +744,7 @@
     <!-- الهيدر -->
     <header class="account-header">
         <div class="header-left">
-        
+            
             <div class="clan-logo-small">
                 <img id="header-profile-pic" src="assets/images/clan-logo2.png" alt="GR CLAN Logo">
             </div>
@@ -980,9 +980,9 @@
     </main>
 
     <!-- ملفات JavaScript -->
-    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
     <script>
-        // ===== ملف JavaScript مع حفظ دائم للبيانات =====
+        // ===== ملف JavaScript مع الحل النهائي =====
 
         document.addEventListener('DOMContentLoaded', function() {
             // التحقق من تسجيل الدخول
@@ -997,13 +997,58 @@
             // تهيئة الصفحة
             initializePage();
             setupEventListeners();
+            
+            // فحص وإصلاح بيانات المستخدم
+            fixUserDataIfNeeded();
         });
 
-        // ===== نظام الحفظ الدائم =====
-        
-        // مفتاح تخزين البيانات لكل مستخدم
-        function getUserStorageKey(userId) {
-            return `gr_clan_user_${userId}`;
+        // ===== الحل: فصل بيانات المستخدمين =====
+        function fixUserDataIfNeeded() {
+            const userData = loadUserData();
+            if (!userData) return;
+            
+            // التحقق إذا كانت البيانات تستخدم username كمفتاح قديم
+            const oldKeyByUsername = `gr_clan_user_${userData.username}`;
+            const newKeyById = `gr_clan_user_${userData.id}`;
+            
+            // إذا كانت هناك بيانات مخزنة بالمفتاح القديم
+            const oldData = localStorage.getItem(oldKeyByUsername);
+            if (oldData && !localStorage.getItem(newKeyById)) {
+                try {
+                    const parsedOldData = JSON.parse(oldData);
+                    
+                    // إذا كانت البيانات القديمة تخص مستخدم آخر (مشتركة)
+                    if (parsedOldData.isSharedData) {
+                        // تجاهل البيانات القديمة المشتركة
+                        console.log('تجاهل بيانات قديمة مشتركة');
+                        
+                        // إنشاء بيانات جديدة للمستخدم الحالي
+                        const newUserData = {
+                            profilePic: 'assets/images/default-avatar.png',
+                            phone: '',
+                            pubgId: userData.pubgId || '',
+                            joinDate: userData.joinDate || getCurrentDate(),
+                            lastUpdate: getCurrentDateTime(),
+                            savedAt: Date.now(),
+                            userId: userData.id, // إضافة userId لتأكيد الملكية
+                            isPrivate: true // علامة أن هذه البيانات خاصة
+                        };
+                        
+                        localStorage.setItem(newKeyById, JSON.stringify(newUserData));
+                        
+                        showNotification('معلومة', 'تم إنشاء بيانات خاصة لحسابك', 'info');
+                    } else {
+                        // إذا كانت البيانات تخص المستخدم الحالي، انقلها للمفتاح الجديد
+                        parsedOldData.userId = userData.id; // تحديث userId
+                        parsedOldData.migratedAt = Date.now();
+                        
+                        localStorage.setItem(newKeyById, JSON.stringify(parsedOldData));
+                        console.log('تم ترحيل البيانات للمفتاح الجديد');
+                    }
+                } catch (e) {
+                    console.error('خطأ في فحص البيانات القديمة:', e);
+                }
+            }
         }
 
         // ===== الدوال المساعدة =====
@@ -1021,24 +1066,42 @@
             
             const user = JSON.parse(userStr);
             
-            // جلب بيانات المستخدم المحفوظة (الصورة والمعلومات الإضافية)
-            const userKey = getUserStorageKey(user.id || user.username);
+            // التأكد من وجود ID فريد
+            if (!user.id && user.username) {
+                // إنشاء ID فريد إذا لم يكن موجوداً
+                user.id = generateUniqueId(user.username);
+                
+                // تحديث البيانات في localStorage
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+            
+            // جلب البيانات الشخصية باستخدام ID الفريد
+            const userKey = `gr_clan_user_${user.id}`;
             const savedData = localStorage.getItem(userKey);
             
             if (savedData) {
                 try {
                     const parsedData = JSON.parse(savedData);
+                    
+                    // التحقق من ملكية البيانات (تأكيد أن البيانات تخص هذا المستخدم)
+                    if (parsedData.userId && parsedData.userId !== user.id) {
+                        console.warn('تحذير: البيانات لا تخص المستخدم الحالي');
+                        // تجاهل البيانات وإرجاع بيانات افتراضية
+                        return createDefaultUserData(user);
+                    }
+                    
                     // دمج البيانات الأساسية مع البيانات المحفوظة
                     return {
                         ...user,
                         ...parsedData,
                         // التأكد من وجود الحقول الأساسية
-                        id: user.id || user.username,
+                        id: user.id,
                         username: user.username,
-                        email: user.email,
+                        email: user.email || '',
                         role: user.role || 'عضو',
                         joinDate: parsedData.joinDate || user.joinDate || getCurrentDate(),
-                        lastUpdate: parsedData.lastUpdate || getCurrentDateTime()
+                        lastUpdate: parsedData.lastUpdate || getCurrentDateTime(),
+                        profilePic: parsedData.profilePic || 'assets/images/default-avatar.png'
                     };
                 } catch (e) {
                     console.error('خطأ في تحليل البيانات المحفوظة:', e);
@@ -1046,34 +1109,52 @@
             }
             
             // إذا لم توجد بيانات محفوظة، إنشاء بيانات افتراضية
+            return createDefaultUserData(user);
+        }
+
+        function createDefaultUserData(user) {
             return {
                 ...user,
-                id: user.id || user.username,
+                id: user.id || generateUniqueId(user.username),
                 username: user.username,
-                email: user.email,
+                email: user.email || '',
+                phone: '',
+                pubgId: user.pubgId || '',
                 role: user.role || 'عضو',
                 profilePic: 'assets/images/default-avatar.png',
-                phone: '',
-                pubgId: '',
                 joinDate: user.joinDate || getCurrentDate(),
                 lastUpdate: getCurrentDateTime()
             };
         }
 
+        // إنشاء ID فريد
+        function generateUniqueId(username) {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substr(2, 9);
+            return `${username}_${timestamp}_${random}`;
+        }
+
         function saveUserData(userData) {
+            // التأكد من وجود ID فريد
+            if (!userData.id) {
+                userData.id = generateUniqueId(userData.username);
+            }
+            
             // حفظ البيانات الأساسية في currentUser
             const { profilePic, phone, pubgId, joinDate, lastUpdate, ...basicData } = userData;
             localStorage.setItem('currentUser', JSON.stringify(basicData));
             
-            // حفظ البيانات الإضافية تحت مفتاح المستخدم الخاص
-            const userKey = getUserStorageKey(userData.id);
+            // حفظ البيانات الإضافية تحت مفتاح المستخدم الخاص (باستخدام ID الفريد)
+            const userKey = `gr_clan_user_${userData.id}`;
             const additionalData = {
                 profilePic: userData.profilePic,
                 phone: userData.phone,
                 pubgId: userData.pubgId,
                 joinDate: userData.joinDate,
                 lastUpdate: userData.lastUpdate,
-                savedAt: Date.now()
+                savedAt: Date.now(),
+                userId: userData.id, // تأكيد ملكية البيانات
+                isPrivate: true // علامة أن هذه البيانات خاصة
             };
             
             localStorage.setItem(userKey, JSON.stringify(additionalData));
@@ -1102,22 +1183,6 @@
                 
                 localStorage.setItem('gr_clan_users_list', JSON.stringify(users));
             }
-        }
-
-        // جلب بيانات مستخدم محدد (إذا كان مسجلاً من قبل)
-        function getUserSavedData(userId) {
-            const userKey = getUserStorageKey(userId);
-            const savedData = localStorage.getItem(userKey);
-            
-            if (savedData) {
-                try {
-                    return JSON.parse(savedData);
-                } catch (e) {
-                    console.error('خطأ في تحليل البيانات المحفوظة:', e);
-                }
-            }
-            
-            return null;
         }
 
         // الحصول على التاريخ الحالي
@@ -1386,17 +1451,18 @@
         // ===== حذف الحساب =====
         function deleteAccount() {
             if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
-                // هنا يمكنك إرسال طلب حذف الحساب إلى الخادم
-                
                 // مسح جميع البيانات المحفوظة للمستخدم الحالي
                 const userData = loadUserData();
-                const userKey = getUserStorageKey(userData.id);
+                const userKey = `gr_clan_user_${userData.id}`;
                 
                 localStorage.removeItem(userKey);
                 localStorage.removeItem('currentUser');
                 
                 // إزالة المستخدم من القائمة
                 removeUserFromList(userData.id);
+                
+                // مسح بيانات المستخدم من قاعدة بيانات المستخدمين
+                removeUserFromDatabase(userData.username);
                 
                 showNotification('تم الحذف', 'تم حذف الحساب وكل البيانات المحفوظة بنجاح', 'info');
                 
@@ -1405,6 +1471,13 @@
                     window.location.href = 'index.html';
                 }, 3000);
             }
+        }
+
+        // إزالة مستخدم من قاعدة بيانات المستخدمين
+        function removeUserFromDatabase(username) {
+            let users = JSON.parse(localStorage.getItem('gr_users')) || [];
+            users = users.filter(user => user.username !== username);
+            localStorage.setItem('gr_users', JSON.stringify(users));
         }
 
         // إزالة مستخدم من قائمة المستخدمين المحفوظين
