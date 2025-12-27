@@ -1,1 +1,184 @@
-
+{
+  "version": "2.0",
+  "created": 1640995200000,
+  "lastUpdate": 1640995200000,
+  "count": 12,
+  "items": {
+    "admin_gr_owner1_1640995200000_abc123xyz": {
+      "username": "gr_owner1",
+      "hash": "admin_gr_owner1_1640995200000_abc123xyz",
+      "role": "owner",
+      "fullName": "مالك الكلان الأول",
+      "email": "owner1@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["all"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_owner2_1640995200000_def456uvw": {
+      "username": "gr_owner2",
+      "hash": "admin_gr_owner2_1640995200000_def456uvw",
+      "role": "owner",
+      "fullName": "مالك الكلان الثاني",
+      "email": "owner2@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["all"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin1_1640995200000_ghi789rst": {
+      "username": "gr_admin1",
+      "hash": "admin_gr_admin1_1640995200000_ghi789rst",
+      "role": "admin",
+      "fullName": "المشرف الأول",
+      "email": "admin1@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_news", "manage_applications", "view_stats", "manage_members"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin2_1640995200000_jkl012opq": {
+      "username": "gr_admin2",
+      "hash": "admin_gr_admin2_1640995200000_jkl012opq",
+      "role": "admin",
+      "fullName": "المشرف الثاني",
+      "email": "admin2@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_news", "manage_applications", "view_stats"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin3_1640995200000_mno345stu": {
+      "username": "gr_admin3",
+      "hash": "admin_gr_admin3_1640995200000_mno345stu",
+      "role": "admin",
+      "fullName": "المشرف الثالث",
+      "email": "admin3@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_news", "view_stats"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin4_1640995200000_pqr678vwx": {
+      "username": "gr_admin4",
+      "hash": "admin_gr_admin4_1640995200000_pqr678vwx",
+      "role": "admin",
+      "fullName": "المشرف الرابع",
+      "email": "admin4@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_applications", "manage_members"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin5_1640995200000_stu901yza": {
+      "username": "gr_admin5",
+      "hash": "admin_gr_admin5_1640995200000_stu901yza",
+      "role": "admin",
+      "fullName": "المشرف الخامس",
+      "email": "admin5@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_news", "manage_applications"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin6_1640995200000_vwx234bcd": {
+      "username": "gr_admin6",
+      "hash": "admin_gr_admin6_1640995200000_vwx234bcd",
+      "role": "admin",
+      "fullName": "المشرف السادس",
+      "email": "admin6@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["view_stats", "manage_members"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin7_1640995200000_yza567efg": {
+      "username": "gr_admin7",
+      "hash": "admin_gr_admin7_1640995200000_yza567efg",
+      "role": "admin",
+      "fullName": "المشرف السابع",
+      "email": "admin7@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_news"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin8_1640995200000_bcd890hij": {
+      "username": "gr_admin8",
+      "hash": "admin_gr_admin8_1640995200000_bcd890hij",
+      "role": "admin",
+      "fullName": "المشرف الثامن",
+      "email": "admin8@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_applications"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin9_1640995200000_efg123klm": {
+      "username": "gr_admin9",
+      "hash": "admin_gr_admin9_1640995200000_efg123klm",
+      "role": "admin",
+      "fullName": "المشرف التاسع",
+      "email": "admin9@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["view_stats"],
+      "status": "active",
+      "created": 1640995200000
+    },
+    "admin_gr_admin10_1640995200000_hij456nop": {
+      "username": "gr_admin10",
+      "hash": "admin_gr_admin10_1640995200000_hij456nop",
+      "role": "admin",
+      "fullName": "المشرف العاشر",
+      "email": "admin10@grclan.com",
+      "joinDate": "2024-01-01T00:00:00.000Z",
+      "lastLogin": null,
+      "permissions": ["manage_members"],
+      "status": "active",
+      "created": 1640995200000
+    }
+  },
+  "metadata": {
+    "description": "فهرس جميع الأدمنز والمالكين - كل أدمن له هاش فريد 150 حرف",
+    "storageEngine": "GR_CLAN_v2",
+    "securityLevel": "high",
+    "maxLoginAttempts": 5,
+    "sessionTimeout": 3600000,
+    "passwordPolicy": {
+      "minLength": 12,
+      "requireSpecialChars": true,
+      "requireNumbers": true,
+      "requireUppercase": true,
+      "expirationDays": 90
+    }
+  },
+  "statistics": {
+    "totalAdmins": 12,
+    "owners": 2,
+    "admins": 10,
+    "activeSessions": 0,
+    "totalLogins": 0,
+    "failedLogins": 0,
+    "lastAdminActivity": null
+  },
+  "security": {
+    "hashAlgorithm": "SHA512_base64_extended",
+    "hashLength": 150,
+    "encryptionEnabled": true,
+    "sessionEncryption": true,
+    "twoFactorEnabled": false,
+    "ipWhitelist": [],
+    "lastSecurityAudit": null
+  }
+}
