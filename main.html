@@ -1291,7 +1291,34 @@
                         
                         burgerItems.appendChild(link);
                     });
-                
+                    
+                    // زر تسجيل خروج الأدمن
+                    const adminLogoutItem = document.createElement('a');
+                    adminLogoutItem.href = '#';
+                    adminLogoutItem.className = 'burger-item';
+                    adminLogoutItem.style.background = 'rgba(255, 71, 87, 0.1)';
+                    adminLogoutItem.style.color = '#ff6b81';
+                    adminLogoutItem.innerHTML = `
+                        <span class="burger-icon"></span>
+                        <span class="burger-label"></span>
+                    `;
+                    
+                    adminLogoutItem.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (confirm('هل تريد تسجيل خروج الأدمن؟')) {
+                            window.AdminAuthSystem.adminLogout();
+                            localStorage.removeItem('adminHidden'); // مسح حالة الإخفاء
+                            alert('✅ تم تسجيل خروج الأدمن بنجاح');
+                            updateBurgerMenu(); // تحديث القائمة
+                            burgerBtn.classList.remove('active');
+                            burgerMenu.classList.remove('active');
+                        }
+                    });
+                    
+                    burgerItems.appendChild(adminLogoutItem);
+                }
+            }
+            // تم إزالة قسم "دخول الأدمن" نهائياً
             
             console.log(`🍔 تم تحديث قائمة البرجر بـ ${burgerItems.children.length} عنصر`);
         }
