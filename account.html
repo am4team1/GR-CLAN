@@ -145,28 +145,6 @@
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
         }
         
-        /* زر تسجيل الخروج */
-        .logout-btn {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.3);
-        }
-        
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
-            background: linear-gradient(135deg, #ff6b81, #ff4757);
-        }
-        
         /* ===== محتوى الصفحة ===== */
         .profile-content {
             padding-top: 100px;
@@ -363,6 +341,31 @@
         .stat-value {
             color: var(--secondary-gold);
             font-weight: 700;
+        }
+        
+        /* زر تسجيل الخروج في البطاقة */
+        .card-logout-btn {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.3);
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .card-logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
         }
         
         /* ===== قسم الإعدادات ===== */
@@ -726,6 +729,9 @@
             box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
             border: none;
             cursor: pointer;
+            margin-bottom: 15px;
+            width: 100%;
+            justify-content: center;
         }
         
         .back-to-home:hover {
@@ -746,6 +752,11 @@
                 <img id="header-profile-pic" src="assets/images/clan-logo2.png" alt="GR CLAN Logo">
             </div>
             <div class="clan-name-header">GR CLAN</div>
+        </div>
+        
+        <div class="header-right">
+            <div id="user-id-display">جاري التحميل...</div>
+            <!-- تم إزالة زر تسجيل الخروج من هنا -->
         </div>
     </header>
 
@@ -794,15 +805,21 @@
                         <span class="stat-value" id="user-join-date">-</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">آخر دخول:</span>
-                        <span class="stat-value" id="last-login">-</span>
+                        <span class="stat-label">آخر تحديث:</span>
+                        <span class="stat-value" id="last-update">-</span>
                     </div>
                 </div>
                 
-                <a href="main.html" class="back-to-home" style="margin-top: 30px;">
+                <!-- أزرار البطاقة -->
+                <a href="main.html" class="back-to-home">
                     <i class="fas fa-home"></i>
                     العودة للشاشة الرئيسية
                 </a>
+                
+                <button class="card-logout-btn" id="card-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
             </div>
 
             <!-- قسم الإعدادات -->
@@ -969,7 +986,7 @@
     <!-- ملفات JavaScript -->
     <script src="js/main.js"></script>
     <script>
-        // ===== ملف JavaScript مصحح لصفحة الحساب =====
+        // ===== ملف JavaScript مع حفظ دائم للبيانات =====
 
         document.addEventListener('DOMContentLoaded', function() {
             // التحقق من تسجيل الدخول
@@ -984,7 +1001,39 @@
             // تهيئة الصفحة
             initializePage();
             setupEventListeners();
+            
+            // تهيئة نظام الحفظ الدائم
+            initPermanentStorage();
         });
+
+        // ===== نظام الحفظ الدائم =====
+        function initPermanentStorage() {
+            // تهيئة IndexedDB للحفظ الدائم
+            if (!window.indexedDB) {
+                console.warn('IndexedDB غير مدعوم في هذا المتصفح');
+                return;
+            }
+            
+            const request = indexedDB.open('GR_CLAN_DB', 1);
+            
+            request.onerror = function(event) {
+                console.error('خطأ في فتح قاعدة البيانات:', event);
+            };
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                
+                // إنشاء مخزن للصور
+                if (!db.objectStoreNames.contains('profile_images')) {
+                    db.createObjectStore('profile_images', { keyPath: 'userId' });
+                }
+                
+                // إنشاء مخزن للبيانات الشخصية
+                if (!db.objectStoreNames.contains('user_data')) {
+                    db.createObjectStore('user_data', { keyPath: 'userId' });
+                }
+            };
+        }
 
         // ===== الدوال المساعدة =====
 
@@ -994,50 +1043,147 @@
             return user !== null;
         }
 
-        function loadUserData() {
+        async function loadUserData() {
             // الحصول على بيانات المستخدم من localStorage
             const userStr = localStorage.getItem('currentUser');
             if (!userStr) return null;
             
             const user = JSON.parse(userStr);
             
-            // الحصول على صورة المستخدم المحفوظة
-            const savedProfilePic = localStorage.getItem(`profilePic_${user.id}`);
-            const savedPhone = localStorage.getItem(`phone_${user.id}`);
-            const savedPubgId = localStorage.getItem(`pubgId_${user.id}`);
+            // محاولة تحميل الصورة من IndexedDB أولاً
+            const profilePic = await getProfileImageFromDB(user.id);
             
-            // دمج البيانات
+            // محاولة تحميل البيانات الشخصية من IndexedDB
+            const userData = await getUserDataFromDB(user.id);
+            
+            // دمج البيانات (الأولوية للبيانات المحفوظة حديثاً)
             return {
                 ...user,
-                profilePic: savedProfilePic || 'assets/images/default-avatar.png',
-                phone: savedPhone || user.phone || '-',
-                pubgId: savedPubgId || user.pubgId || '-',
+                profilePic: profilePic || user.profilePic || 'assets/images/default-avatar.png',
+                phone: userData?.phone || user.phone || '-',
+                pubgId: userData?.pubgId || user.pubgId || '-',
                 joinDate: user.joinDate || new Date().toISOString().split('T')[0],
-                lastLogin: new Date().toLocaleString('ar-EG')
+                lastUpdate: new Date().toLocaleString('ar-EG')
             };
         }
 
-        function saveUserData(userData) {
-            // حفظ البيانات الأساسية
+        async function saveUserDataPermanently(userData) {
+            // حفظ في localStorage (للوصول السريع)
             localStorage.setItem('currentUser', JSON.stringify(userData));
             
-            // حفظ البيانات الإضافية
-            if (userData.profilePic && userData.profilePic !== 'assets/images/default-avatar.png') {
-                localStorage.setItem(`profilePic_${userData.id}`, userData.profilePic);
+            // حفظ الصورة في IndexedDB
+            if (userData.profilePic && userData.profilePic.startsWith('data:')) {
+                await saveProfileImageToDB(userData.id, userData.profilePic);
             }
             
-            if (userData.phone) {
-                localStorage.setItem(`phone_${userData.id}`, userData.phone);
-            }
+            // حفظ البيانات الشخصية في IndexedDB
+            await saveUserDataToDB(userData.id, {
+                phone: userData.phone,
+                pubgId: userData.pubgId,
+                lastUpdate: new Date().toISOString()
+            });
             
-            if (userData.pubgId) {
-                localStorage.setItem(`pubgId_${userData.id}`, userData.pubgId);
+            // حفظ في sessionStorage أيضاً للنسخ الاحتياطي
+            sessionStorage.setItem(`user_backup_${userData.id}`, JSON.stringify(userData));
+        }
+
+        // ===== وظائف IndexedDB =====
+        function getDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('GR_CLAN_DB', 1);
+                
+                request.onsuccess = function(event) {
+                    resolve(event.target.result);
+                };
+                
+                request.onerror = function(event) {
+                    reject('فشل فتح قاعدة البيانات');
+                };
+            });
+        }
+
+        async function saveProfileImageToDB(userId, imageData) {
+            try {
+                const db = await getDB();
+                const transaction = db.transaction(['profile_images'], 'readwrite');
+                const store = transaction.objectStore('profile_images');
+                
+                store.put({ userId, imageData, timestamp: Date.now() });
+                
+                return new Promise((resolve, reject) => {
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = () => reject();
+                });
+            } catch (error) {
+                console.error('خطأ في حفظ الصورة:', error);
+                // إذا فشل IndexedDB، احفظ في localStorage كنسخة احتياطية
+                localStorage.setItem(`profilePic_backup_${userId}`, imageData);
+            }
+        }
+
+        async function getProfileImageFromDB(userId) {
+            try {
+                const db = await getDB();
+                const transaction = db.transaction(['profile_images'], 'readonly');
+                const store = transaction.objectStore('profile_images');
+                const request = store.get(userId);
+                
+                return new Promise((resolve, reject) => {
+                    request.onsuccess = function(event) {
+                        const result = event.target.result;
+                        resolve(result ? result.imageData : null);
+                    };
+                    request.onerror = () => reject(null);
+                });
+            } catch (error) {
+                // إذا فشل IndexedDB، جرب localStorage
+                return localStorage.getItem(`profilePic_backup_${userId}`);
+            }
+        }
+
+        async function saveUserDataToDB(userId, data) {
+            try {
+                const db = await getDB();
+                const transaction = db.transaction(['user_data'], 'readwrite');
+                const store = transaction.objectStore('user_data');
+                
+                store.put({ userId, ...data, timestamp: Date.now() });
+                
+                return new Promise((resolve, reject) => {
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = () => reject();
+                });
+            } catch (error) {
+                console.error('خطأ في حفظ البيانات:', error);
+                // احفظ في localStorage كنسخة احتياطية
+                localStorage.setItem(`userData_backup_${userId}`, JSON.stringify(data));
+            }
+        }
+
+        async function getUserDataFromDB(userId) {
+            try {
+                const db = await getDB();
+                const transaction = db.transaction(['user_data'], 'readonly');
+                const store = transaction.objectStore('user_data');
+                const request = store.get(userId);
+                
+                return new Promise((resolve, reject) => {
+                    request.onsuccess = function(event) {
+                        const result = event.target.result;
+                        resolve(result || null);
+                    };
+                    request.onerror = () => reject(null);
+                });
+            } catch (error) {
+                // إذا فشل IndexedDB، جرب localStorage
+                const backup = localStorage.getItem(`userData_backup_${userId}`);
+                return backup ? JSON.parse(backup) : null;
             }
         }
 
         // ===== تهيئة الصفحة =====
-        function initializePage() {
-            const userData = loadUserData();
+        async function initializePage() {
+            const userData = await loadUserData();
             
             if (!userData) {
                 showNotification('خطأ', 'لم يتم العثور على بيانات المستخدم', 'error');
@@ -1053,7 +1199,7 @@
             document.getElementById('user-email').textContent = userData.email || '-';
             document.getElementById('user-phone').textContent = userData.phone || '-';
             document.getElementById('user-join-date').textContent = formatDate(userData.joinDate);
-            document.getElementById('last-login').textContent = userData.lastLogin || '-';
+            document.getElementById('last-update').textContent = userData.lastUpdate || '-';
             
             // تعيين صورة الملف الشخصي
             const profilePic = document.getElementById('profile-picture');
@@ -1125,12 +1271,12 @@
             // حذف الحساب
             document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
             
-            // تسجيل الخروج
-            document.getElementById('logout-btn').addEventListener('click', logout);
+            // تسجيل الخروج (الزر الجديد في البطاقة)
+            document.getElementById('card-logout-btn').addEventListener('click', logout);
         }
 
         // ===== تغيير صورة الملف الشخصي =====
-        function handleProfilePictureChange(e) {
+        async function handleProfilePictureChange(e) {
             if (e.target.files.length > 0) {
                 const file = e.target.files[0];
                 
@@ -1147,7 +1293,7 @@
                 }
                 
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = async function(event) {
                     // تحديث الصورة في الملف الشخصي
                     const profilePic = document.getElementById('profile-picture');
                     const headerPic = document.getElementById('header-profile-pic');
@@ -1155,10 +1301,15 @@
                     profilePic.src = event.target.result;
                     headerPic.src = event.target.result;
                     
-                    // حفظ الصورة في localStorage
-                    const userData = loadUserData();
+                    // حفظ الصورة للأبد في IndexedDB
+                    const userData = await loadUserData();
                     userData.profilePic = event.target.result;
-                    saveUserData(userData);
+                    userData.lastUpdate = new Date().toLocaleString('ar-EG');
+                    
+                    await saveUserDataPermanently(userData);
+                    
+                    // تحديث عرض آخر تحديث
+                    document.getElementById('last-update').textContent = userData.lastUpdate;
                     
                     // إشعار النجاح
                     showNotification('تم التحديث', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
@@ -1168,7 +1319,7 @@
         }
 
         // ===== حفظ معلومات الحساب =====
-        function saveProfileInfo() {
+        async function saveProfileInfo() {
             const newName = document.getElementById('edit-name').value;
             const newEmail = document.getElementById('edit-email').value;
             const newPhone = document.getElementById('edit-phone').value;
@@ -1191,34 +1342,49 @@
             document.getElementById('user-email').textContent = newEmail;
             document.getElementById('user-phone').textContent = newPhone || '-';
             
-            // تحديث بيانات المستخدم في localStorage
-            const userData = loadUserData();
+            // تحديث آخر تحديث
+            const lastUpdate = new Date().toLocaleString('ar-EG');
+            document.getElementById('last-update').textContent = lastUpdate;
+            
+            // تحديث بيانات المستخدم وحفظها للأبد
+            const userData = await loadUserData();
             userData.name = newName;
             userData.email = newEmail;
             userData.phone = newPhone;
             userData.pubgId = newPubgId;
-            saveUserData(userData);
+            userData.lastUpdate = lastUpdate;
+            
+            await saveUserDataPermanently(userData);
             
             // إشعار النجاح
             showNotification('تم الحفظ', 'تم تحديث معلومات الحساب بنجاح', 'success');
         }
 
         // ===== حفظ إعدادات الإشعارات =====
-        function saveNotificationSettings() {
+        async function saveNotificationSettings() {
             const emailNotifications = document.getElementById('email-notifications').checked;
             const paymentNotifications = document.getElementById('payment-notifications').checked;
             const teamNotifications = document.getElementById('team-notifications').checked;
             
-            // حفظ في localStorage
+            // حفظ في IndexedDB للأبد
             const settings = {
                 emailNotifications,
                 paymentNotifications,
-                teamNotifications
+                teamNotifications,
+                timestamp: Date.now()
             };
-            localStorage.setItem('notificationSettings', JSON.stringify(settings));
             
-            // إشعار النجاح
-            showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
+            try {
+                const userData = await loadUserData();
+                await saveUserDataToDB(userData.id, { notificationSettings: settings });
+                
+                // إشعار النجاح
+                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
+            } catch (error) {
+                // إذا فشل IndexedDB، احفظ في localStorage
+                localStorage.setItem('notificationSettings', JSON.stringify(settings));
+                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
+            }
         }
 
         // ===== تغيير كلمة المرور =====
@@ -1254,14 +1420,32 @@
         }
 
         // ===== حذف الحساب =====
-        function deleteAccount() {
+        async function deleteAccount() {
             if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
                 // هنا يمكنك إرسال طلب حذف الحساب إلى الخادم
                 
-                // مسح بيانات المستخدم من localStorage
-                localStorage.removeItem('currentUser');
+                // مسح جميع البيانات المحفوظة
+                const userData = await loadUserData();
                 
-                showNotification('تم الحذف', 'تم حذف الحساب بنجاح، سيتم توجيهك إلى الصفحة الرئيسية', 'info');
+                // مسح من IndexedDB
+                try {
+                    const db = await getDB();
+                    const transaction = db.transaction(['profile_images', 'user_data'], 'readwrite');
+                    transaction.objectStore('profile_images').delete(userData.id);
+                    transaction.objectStore('user_data').delete(userData.id);
+                } catch (error) {
+                    console.error('خطأ في مسح البيانات:', error);
+                }
+                
+                // مسح من localStorage
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem(`profilePic_backup_${userData.id}`);
+                localStorage.removeItem(`userData_backup_${userData.id}`);
+                
+                // مسح من sessionStorage
+                sessionStorage.removeItem(`user_backup_${userData.id}`);
+                
+                showNotification('تم الحذف', 'تم حذف الحساب وكل البيانات المحفوظة بنجاح', 'info');
                 
                 // إعادة التوجيه بعد 3 ثواني
                 setTimeout(() => {
@@ -1273,9 +1457,7 @@
         // ===== تسجيل الخروج =====
         function logout() {
             if (confirm('هل تريد تسجيل الخروج؟')) {
-                // مسح بيانات الجلسة
-                localStorage.removeItem('currentUser');
-                
+                // لا نمسح البيانات المحفوظة، فقط نخرج من الجلسة الحالية
                 showNotification('تم الخروج', 'تم تسجيل الخروج بنجاح', 'info');
                 
                 // إعادة التوجيه بعد 2 ثانية
