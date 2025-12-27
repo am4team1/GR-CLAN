@@ -27,6 +27,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
         }
         
         /* تأثيرات خلفية متحركة */
@@ -264,6 +265,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid var(--dark-bg);
+            background-color: var(--dark-bg);
         }
         
         .change-photo-btn {
@@ -739,117 +741,47 @@
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
         }
         
-        /* قسم النسخ الاحتياطية */
-        .backup-section {
-            background: rgba(10, 25, 49, 0.5);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-        }
-        
-        .backup-title {
-            color: var(--primary-gold);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .backup-images {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        
-        .backup-image-item {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* حالة التحميل */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
             position: relative;
         }
         
-        .backup-image-item:hover {
-            transform: scale(1.05);
-            border-color: var(--primary-gold);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-        }
-        
-        .backup-image-item.active {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-        }
-        
-        .backup-image-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .backup-image-number {
+        .loading::after {
+            content: '';
             position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: rgba(10, 25, 49, 0.8);
-            color: var(--secondary-gold);
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: inherit;
+        }
+        
+        /* رسائل الخطأ */
+        .error-message {
+            color: #ff6b81;
+            background: rgba(255, 107, 129, 0.1);
+            border: 1px solid #ff6b81;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        /* الصورة الافتراضية */
+        .default-avatar {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-        
-        .restore-btn {
-            background: linear-gradient(135deg, #2ed573, #1dd1a1);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3);
-            width: 100%;
-            justify-content: center;
-        }
-        
-        .restore-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(46, 213, 115, 0.4);
-            background: linear-gradient(135deg, #1dd1a1, #2ed573);
-        }
-        
-        /* رمز الهاش */
-        .hash-display {
-            background: rgba(10, 25, 49, 0.7);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            font-family: monospace;
-            word-break: break-all;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .hash-label {
-            color: var(--primary-gold);
-            font-size: 1rem;
-            margin-bottom: 8px;
-            font-weight: 600;
+            color: var(--dark-bg);
+            font-size: 4rem;
         }
     </style>
 </head>
@@ -920,34 +852,6 @@
                         <span class="stat-label">آخر تحديث:</span>
                         <span class="stat-value" id="last-update">-</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-label">آخر دخول:</span>
-                        <span class="stat-value" id="last-login">-</span>
-                    </div>
-                </div>
-                
-                <!-- قسم النسخ الاحتياطية -->
-                <div class="backup-section">
-                    <h3 class="backup-title">
-                        <i class="fas fa-history"></i>
-                        النسخ الاحتياطية
-                    </h3>
-                    <div class="backup-images" id="backup-images-container">
-                        <!-- سيتم ملؤها بالنسخ الاحتياطية -->
-                    </div>
-                    <button class="restore-btn" id="restore-backup-btn">
-                        <i class="fas fa-undo"></i>
-                        استعادة النسخة المحددة
-                    </button>
-                </div>
-                
-                <!-- رمز الهاش -->
-                <div class="hash-display">
-                    <div class="hash-label">
-                        <i class="fas fa-fingerprint"></i>
-                        المعرف الفريد:
-                    </div>
-                    <div id="user-hash">جاري التحميل...</div>
                 </div>
                 
                 <!-- أزرار البطاقة -->
@@ -979,10 +883,6 @@
                     <div class="settings-tab" data-tab="security-settings">
                         <i class="fas fa-shield-alt"></i>
                         الأمان
-                    </div>
-                    <div class="settings-tab" data-tab="backup-settings">
-                        <i class="fas fa-database"></i>
-                        النسخ الاحتياطي
                     </div>
                 </div>
 
@@ -1021,6 +921,8 @@
                             </label>
                             <input type="text" id="edit-pubg-id" class="form-input" placeholder="GR#XXXXXXX">
                         </div>
+                        
+                        <div class="error-message" id="account-form-error"></div>
                         
                         <button type="button" class="save-btn" id="save-account-info">
                             <i class="fas fa-save"></i>
@@ -1065,6 +967,8 @@
                             </div>
                         </div>
                         
+                        <div class="error-message" id="notification-form-error"></div>
+                        
                         <button type="button" class="save-btn" id="save-notification-settings">
                             <i class="fas fa-save"></i>
                             حفظ إعدادات الإشعارات
@@ -1099,26 +1003,13 @@
                             <input type="password" id="confirm-password" class="form-input" placeholder="أعد إدخال كلمة المرور الجديدة">
                         </div>
                         
+                        <div class="error-message" id="security-form-error"></div>
+                        
                         <button type="button" class="save-btn" id="save-password">
                             <i class="fas fa-save"></i>
                             تغيير كلمة المرور
                         </button>
                     </form>
-                    
-                    <!-- قسم النسخ الاحتياطية الكاملة -->
-                    <div class="backup-section">
-                        <h3 class="backup-title">
-                            <i class="fas fa-download"></i>
-                            نسخة احتياطية كاملة
-                        </h3>
-                        <p class="danger-text" style="color: rgba(255, 255, 255, 0.7);">
-                            قم بإنشاء نسخة احتياطية كاملة من جميع بياناتك وحفظها على جهازك.
-                        </p>
-                        <button class="save-btn" id="create-backup-btn" style="background: linear-gradient(135deg, #3742fa, #5352ed);">
-                            <i class="fas fa-download"></i>
-                            إنشاء نسخة احتياطية
-                        </button>
-                    </div>
                     
                     <!-- قسم حذف الحساب -->
                     <div class="danger-zone">
@@ -1135,69 +1026,6 @@
                         </button>
                     </div>
                 </div>
-                
-                <!-- تبويب النسخ الاحتياطي -->
-                <div id="backup-settings" class="tab-content">
-                    <div class="settings-form">
-                        <div class="toggle-switch">
-                            <div>
-                                <div class="toggle-label">النسخ الاحتياطي التلقائي</div>
-                                <div class="toggle-description">إنشاء نسخ احتياطية تلقائية عند تغيير الصورة</div>
-                            </div>
-                            <div class="toggle-container">
-                                <input type="checkbox" id="auto-backup" class="toggle-checkbox" checked>
-                                <label for="auto-backup" class="toggle-slider"></label>
-                            </div>
-                        </div>
-                        
-                        <div class="toggle-switch">
-                            <div>
-                                <div class="toggle-label">ضغط الصور</div>
-                                <div class="toggle-description">ضغط الصور تلقائياً لتوفير المساحة</div>
-                            </div>
-                            <div class="toggle-container">
-                                <input type="checkbox" id="compress-images" class="toggle-checkbox" checked>
-                                <label for="compress-images" class="toggle-slider"></label>
-                            </div>
-                        </div>
-                        
-                        <div class="toggle-switch">
-                            <div>
-                                <div class="toggle-label">حفظ الصور المصغرة</div>
-                                <div class="toggle-description">إنشاء صور مصغرة للعرض السريع</div>
-                            </div>
-                            <div class="toggle-container">
-                                <input type="checkbox" id="save-thumbnails" class="toggle-checkbox" checked>
-                                <label for="save-thumbnails" class="toggle-slider"></label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-hdd"></i>
-                                مساحة التخزين المستخدمة
-                            </label>
-                            <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <span style="color: rgba(255, 255, 255, 0.8);">الاستخدام الحالي:</span>
-                                    <span id="storage-used" style="color: var(--secondary-gold); font-weight: 700;">جاري التحميل...</span>
-                                </div>
-                                <div style="width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; overflow: hidden;">
-                                    <div id="storage-bar" style="height: 100%; background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold)); width: 0%; transition: width 0.5s ease;"></div>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                                    <span style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">0%</span>
-                                    <span style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">100%</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button type="button" class="save-btn" id="save-backup-settings">
-                            <i class="fas fa-save"></i>
-                            حفظ إعدادات النسخ الاحتياطي
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
         
@@ -1206,219 +1034,207 @@
     </main>
 
     <!-- ملفات JavaScript -->
+    <script src="js/auth.js"></script>
     <script src="js/storage-engine.js"></script>
     <script src="js/user-manager.js"></script>
     <script src="js/file-manager.js"></script>
+    
     <script>
-        // ===== ملف account.html المعدل للنظام الجديد =====
-
-        document.addEventListener('DOMContentLoaded', function() {
+        // ===== ملف JavaScript المعدل للنظام الجديد =====
+        
+        // 1. تهيئة الأنظمة عند التحميل
+        document.addEventListener('DOMContentLoaded', async function() {
             console.log('🚀 بدء تحميل صفحة الحساب...');
             
-            // التحقق من أن الأنظمة محملة
-            if (!window.UserManager || !window.StorageEngine || !window.FileManager) {
-                showNotification('خطأ', 'أنظمة التخزين غير محملة', 'error');
-                setTimeout(() => window.location.href = 'login.html', 3000);
-                return;
+            try {
+                // التحقق من تسجيل الدخول
+                if (!checkLogin()) {
+                    showNotification('تحذير', 'يجب تسجيل الدخول أولاً', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                    return;
+                }
+                
+                // تهيئة الأنظمة
+                await initializeSystems();
+                
+                // تحميل بيانات المستخدم
+                await loadUserProfile();
+                
+                // إعداد المستمعين للأحداث
+                setupEventListeners();
+                
+                console.log('✅ صفحة الحساب جاهزة');
+                
+            } catch (error) {
+                console.error('❌ خطأ في تحميل الصفحة:', error);
+                showNotification('خطأ', 'حدث خطأ في تحميل الصفحة', 'error');
             }
-            
-            // تهيئة الأنظمة
-            StorageEngine.init();
-            UserManager.init();
-            FileManager.init();
-            
-            // تحميل بيانات المستخدم
-            loadUserData();
-            
-            // تهيئة الصفحة
-            initializePage();
-            setupEventListeners();
         });
-
-        // ===== تحميل بيانات المستخدم =====
-        function loadUserData() {
-            console.log('📥 جلب بيانات المستخدم...');
+        
+        // 2. تهيئة الأنظمة
+        async function initializeSystems() {
+            console.log('🔧 تهيئة الأنظمة...');
             
-            const userData = UserManager.loadCurrentUser();
+            try {
+                // تهيئة StorageEngine
+                if (window.StorageEngine) {
+                    const storageInit = StorageEngine.init();
+                    console.log('✅ StorageEngine:', storageInit);
+                } else {
+                    throw new Error('StorageEngine غير محمل');
+                }
+                
+                // تهيئة UserManager
+                if (window.UserManager) {
+                    const userManagerInit = UserManager.init();
+                    console.log('✅ UserManager:', userManagerInit);
+                } else {
+                    throw new Error('UserManager غير محمل');
+                }
+                
+                // تهيئة FileManager
+                if (window.FileManager) {
+                    const fileManagerInit = FileManager.init();
+                    console.log('✅ FileManager:', fileManagerInit);
+                }
+                
+                return true;
+                
+            } catch (error) {
+                console.error('❌ خطأ في تهيئة الأنظمة:', error);
+                showNotification('خطأ', 'خطأ في تهيئة النظام', 'error');
+                throw error;
+            }
+        }
+        
+        // 3. تحميل بيانات المستخدم
+        async function loadUserProfile() {
+            console.log('👤 جلب بيانات المستخدم...');
             
-            if (!userData) {
-                showNotification('خطأ', 'لم يتم تسجيل الدخول', 'error');
-                setTimeout(() => window.location.href = 'login.html', 2000);
+            try {
+                // إضافة حالة التحميل
+                document.getElementById('profile-content').classList.add('loading');
+                
+                // الحصول على المستخدم الحالي
+                const currentUser = UserManager.loadCurrentUser();
+                
+                if (!currentUser) {
+                    throw new Error('لم يتم العثور على بيانات المستخدم');
+                }
+                
+                console.log('📊 بيانات المستخدم:', {
+                    username: currentUser.username,
+                    userHash: currentUser.userHash ? currentUser.userHash.substring(0, 20) + '...' : 'غير موجود'
+                });
+                
+                // تحديث واجهة المستخدم
+                updateUI(currentUser);
+                
+                // إزالة حالة التحميل
+                document.getElementById('profile-content').classList.remove('loading');
+                
+                return currentUser;
+                
+            } catch (error) {
+                console.error('❌ خطأ في جلب بيانات المستخدم:', error);
+                
+                // عرض بيانات افتراضية
+                updateUI({
+                    username: 'مستخدم',
+                    role: 'عضو',
+                    email: '-',
+                    phone: '-',
+                    pubgId: '-',
+                    joinDate: new Date().toISOString(),
+                    lastUpdate: new Date().toISOString(),
+                    profilePic: getDefaultAvatar()
+                });
+                
+                showNotification('تحذير', 'لا يمكن تحميل البيانات الكاملة', 'warning');
+                
                 return null;
             }
-            
-            console.log('✅ تم تحميل بيانات المستخدم:', userData.username);
-            return userData;
         }
-
-        // ===== تهيئة الصفحة =====
-        function initializePage() {
-            const userData = loadUserData();
+        
+        // 4. تحديث واجهة المستخدم
+        function updateUI(userData) {
+            console.log('🎨 تحديث واجهة المستخدم...');
             
-            if (!userData) return;
-            
-            // تعبئة بيانات المستخدم
-            document.getElementById('user-id-display').textContent = userData.username || 'مستخدم';
-            document.getElementById('display-name').textContent = userData.name || userData.username;
-            document.getElementById('user-role').textContent = userData.role || 'عضو';
-            document.getElementById('user-id').textContent = userData.pubgId || '-';
-            document.getElementById('user-email').textContent = userData.email || '-';
-            document.getElementById('user-phone').textContent = userData.phone || '-';
-            document.getElementById('last-login').textContent = formatDateTime(userData.lastLogin);
-            document.getElementById('last-update').textContent = formatDateTime(userData.lastUpdate);
-            
-            // تنسيق تاريخ الانضمام
-            if (userData.joinDate) {
-                const joinDate = new Date(userData.joinDate);
-                document.getElementById('user-join-date').textContent = joinDate.toLocaleDateString('ar-EG', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-            } else {
-                document.getElementById('user-join-date').textContent = '-';
-            }
-            
-            // عرض رمز الهاش
-            if (userData.userHash) {
-                document.getElementById('user-hash').textContent = userData.userHash;
-            } else {
-                document.getElementById('user-hash').textContent = 'غير متوفر';
-            }
-            
-            // تحميل الصورة الشخصية
-            loadProfilePicture(userData.userHash);
-            
-            // تعبئة حقول التعديل
-            document.getElementById('edit-name').value = userData.name || userData.username || '';
-            document.getElementById('edit-email').value = userData.email || '';
-            document.getElementById('edit-phone').value = userData.phone || '';
-            document.getElementById('edit-pubg-id').value = userData.pubgId || '';
-            
-            // تحميل النسخ الاحتياطية
-            loadBackupImages(userData.userHash);
-            
-            // حساب مساحة التخزين
-            calculateStorageUsage(userData.userHash);
-            
-            // تهيئة التبويبات
-            initializeTabs();
-            
-            console.log('✅ تم تهيئة الصفحة بنجاح');
-        }
-
-        function formatDateTime(dateString) {
-            if (!dateString) return '-';
             try {
-                const date = new Date(dateString);
-                return date.toLocaleString('ar-EG', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-            } catch (e) {
-                return dateString;
-            }
-        }
-
-        // ===== تحميل الصورة الشخصية =====
-        function loadProfilePicture(userHash) {
-            if (!userHash) {
-                console.warn('لا يوجد userHash لتحميل الصورة');
-                return;
-            }
-            
-            const profilePicResult = FileManager.getProfilePicture(userHash, 'original');
-            
-            if (profilePicResult.success) {
+                // الهيدر
+                document.getElementById('user-id-display').textContent = userData.username || 'مستخدم';
+                document.getElementById('display-name').textContent = userData.username || 'مستخدم';
+                
+                // الدور
+                const roleElement = document.getElementById('user-role');
+                if (userData.role === 'owner') {
+                    roleElement.textContent = 'مالك الكلان';
+                    roleElement.style.background = 'linear-gradient(135deg, #D4AF37, #FFD700)';
+                    roleElement.style.color = '#061025';
+                } else if (userData.role === 'admin') {
+                    roleElement.textContent = 'مشرف';
+                    roleElement.style.background = 'linear-gradient(135deg, #2E8B57, #32CD32)';
+                } else {
+                    roleElement.textContent = userData.role || 'عضو';
+                }
+                
+                // الإحصائيات
+                document.getElementById('user-id').textContent = userData.pubgId || '-';
+                document.getElementById('user-email').textContent = userData.email || '-';
+                document.getElementById('user-phone').textContent = userData.phone || '-';
+                document.getElementById('user-join-date').textContent = formatDate(userData.joinDate);
+                document.getElementById('last-update').textContent = formatDateTime(userData.lastUpdate);
+                
+                // الصورة الشخصية
                 const profilePic = document.getElementById('profile-picture');
                 const headerPic = document.getElementById('header-profile-pic');
                 
-                profilePic.src = profilePicResult.imageData;
-                headerPic.src = profilePicResult.imageData;
+                if (userData.profilePic && userData.profilePic !== 'assets/images/default-avatar.png') {
+                    profilePic.src = userData.profilePic;
+                    headerPic.src = userData.profilePic;
+                } else {
+                    // استخدام الصورة الافتراضية
+                    const defaultAvatar = getDefaultAvatar();
+                    profilePic.src = defaultAvatar;
+                    headerPic.src = defaultAvatar;
+                }
                 
-                console.log('✅ تم تحميل الصورة الشخصية');
-            } else {
-                console.error('❌ فشل في تحميل الصورة:', profilePicResult.error);
-            }
-        }
-
-        // ===== تحميل النسخ الاحتياطية =====
-        function loadBackupImages(userHash) {
-            if (!userHash) return;
-            
-            const imagesResult = FileManager.getUserImages(userHash);
-            const container = document.getElementById('backup-images-container');
-            
-            if (!imagesResult.success || imagesResult.images.length === 0) {
-                container.innerHTML = '<p style="color: rgba(255,255,255,0.6); text-align: center; width: 100%;">لا توجد نسخ احتياطية</p>';
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            // عرض الصورة الحالية أولاً
-            const currentImage = imagesResult.images.find(img => img.type === 'current');
-            if (currentImage) {
-                const imgElement = createBackupImageElement(currentImage.data, 0, true);
-                container.appendChild(imgElement);
-            }
-            
-            // عرض النسخ الاحتياطية
-            imagesResult.images
-                .filter(img => img.type === 'backup')
-                .forEach((backup, index) => {
-                    const imgElement = createBackupImageElement(backup.data, backup.index, false);
-                    container.appendChild(imgElement);
-                });
-        }
-
-        function createBackupImageElement(imageData, index, isCurrent = false) {
-            const div = document.createElement('div');
-            div.className = `backup-image-item ${isCurrent ? 'active' : ''}`;
-            div.dataset.index = index;
-            
-            if (!isCurrent) {
-                div.addEventListener('click', function() {
-                    // إزالة النشاط من جميع العناصر
-                    document.querySelectorAll('.backup-image-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    // إضافة النشاط للعنصر المحدد
-                    this.classList.add('active');
-                });
-            }
-            
-            div.innerHTML = `
-                <img src="${imageData}" alt="نسخة احتياطية ${index}">
-                ${!isCurrent ? `<div class="backup-image-number">${index}</div>` : ''}
-            `;
-            
-            return div;
-        }
-
-        // ===== حساب مساحة التخزين =====
-        function calculateStorageUsage(userHash) {
-            if (!userHash) return;
-            
-            const statsResult = FileManager.getFileStats(userHash);
-            
-            if (statsResult.success) {
-                const used = statsResult.stats.totalSize || 0;
-                const maxSize = 10 * 1024 * 1024; // 10MB
-                const percentage = Math.min((used / maxSize) * 100, 100);
+                // حقول التعديل
+                document.getElementById('edit-name').value = userData.username || '';
+                document.getElementById('edit-email').value = userData.email || '';
+                document.getElementById('edit-phone').value = userData.phone || '';
+                document.getElementById('edit-pubg-id').value = userData.pubgId || '';
                 
-                document.getElementById('storage-used').textContent = 
-                    `${(used / 1024 / 1024).toFixed(2)} MB / 10 MB`;
+                // تهيئة التبويبات
+                initializeTabs();
                 
-                document.getElementById('storage-bar').style.width = `${percentage}%`;
+                console.log('✅ تم تحديث واجهة المستخدم');
+                
+            } catch (error) {
+                console.error('❌ خطأ في تحديث واجهة المستخدم:', error);
             }
         }
-
-        // ===== التبديل بين تبويبات الإعدادات =====
+        
+        // 5. التحقق من تسجيل الدخول
+        function checkLogin() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                console.log('❌ لم يتم تسجيل الدخول');
+                return false;
+            }
+            
+            try {
+                const user = JSON.parse(currentUser);
+                return user && user.username;
+            } catch (e) {
+                console.error('❌ خطأ في تحليل بيانات الجلسة:', e);
+                return false;
+            }
+        }
+        
+        // 6. تهيئة التبويبات
         function initializeTabs() {
             const tabs = document.querySelectorAll('.settings-tab');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -1437,9 +1253,11 @@
                 });
             });
         }
-
-        // ===== إعداد المستمعين للأحداث =====
+        
+        // 7. إعداد المستمعين للأحداث
         function setupEventListeners() {
+            console.log('🎯 إعداد المستمعين للأحداث...');
+            
             // تغيير صورة الملف الشخصي
             const changePhotoBtn = document.getElementById('change-photo-btn');
             const photoInput = document.getElementById('photo-input');
@@ -1451,281 +1269,363 @@
             photoInput.addEventListener('change', handleProfilePictureChange);
             
             // حفظ معلومات الحساب
-            document.getElementById('save-account-info').addEventListener('click', saveProfileInfo);
+            document.getElementById('save-account-info').addEventListener('click', saveAccountInfo);
             
             // حفظ إعدادات الإشعارات
             document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
             
-            // حفظ إعدادات النسخ الاحتياطي
-            document.getElementById('save-backup-settings').addEventListener('click', saveBackupSettings);
-            
             // تغيير كلمة المرور
             document.getElementById('save-password').addEventListener('click', changePassword);
-            
-            // إنشاء نسخة احتياطية كاملة
-            document.getElementById('create-backup-btn').addEventListener('click', createFullBackup);
-            
-            // استعادة نسخة احتياطية
-            document.getElementById('restore-backup-btn').addEventListener('click', restoreBackup);
             
             // حذف الحساب
             document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
             
             // تسجيل الخروج
             document.getElementById('card-logout-btn').addEventListener('click', logout);
+            
+            console.log('✅ تم إعداد جميع المستمعين');
         }
-
-        // ===== تغيير صورة الملف الشخصي =====
-        function handleProfilePictureChange(e) {
-            if (e.target.files.length > 0) {
-                const file = e.target.files[0];
-                const userData = UserManager.loadCurrentUser();
-                
-                if (!userData || !userData.userHash) {
-                    showNotification('خطأ', 'لم يتم تسجيل الدخول', 'error');
+        
+        // 8. تغيير صورة الملف الشخصي
+        async function handleProfilePictureChange(e) {
+            if (!e.target.files.length) return;
+            
+            const file = e.target.files[0];
+            
+            try {
+                // التحقق من نوع الملف
+                if (!file.type.startsWith('image/')) {
+                    showNotification('خطأ', 'الرجاء اختيار ملف صورة فقط', 'error');
                     return;
                 }
                 
-                showNotification('جاري التحميل', 'جاري تحميل الصورة...', 'info');
-                
-                FileManager.uploadImage(file, userData.userHash, 'profile')
-                    .then(result => {
-                        if (result.success) {
-                            // تحديث الصورة في الواجهة
-                            const profilePic = document.getElementById('profile-picture');
-                            const headerPic = document.getElementById('header-profile-pic');
-                            
-                            profilePic.src = result.imageData;
-                            headerPic.src = result.imageData;
-                            
-                            // تحديث تاريخ التحديث
-                            document.getElementById('last-update').textContent = formatDateTime(new Date());
-                            
-                            // إعادة تحميل النسخ الاحتياطية
-                            loadBackupImages(userData.userHash);
-                            
-                            // تحديث مساحة التخزين
-                            calculateStorageUsage(userData.userHash);
-                            
-                            showNotification('تم التحديث', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
-                        } else {
-                            showNotification('خطأ', 'فشل في تحميل الصورة', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        showNotification('خطأ', error.message, 'error');
-                    });
-            }
-        }
-
-        // ===== حفظ معلومات الحساب =====
-        function saveProfileInfo() {
-            const newName = document.getElementById('edit-name').value;
-            const newEmail = document.getElementById('edit-email').value;
-            const newPhone = document.getElementById('edit-phone').value;
-            const newPubgId = document.getElementById('edit-pubg-id').value;
-            
-            // التحقق من صحة البيانات
-            if (!newName || !newEmail) {
-                showNotification('خطأ', 'الاسم والبريد الإلكتروني حقلان مطلوبان', 'error');
-                return;
-            }
-            
-            const updates = {
-                name: newName,
-                email: newEmail,
-                phone: newPhone,
-                pubgId: newPubgId
-            };
-            
-            const result = UserManager.updateUserProfile(updates);
-            
-            if (result.success) {
-                // تحديث الواجهة
-                document.getElementById('display-name').textContent = newName;
-                document.getElementById('user-id-display').textContent = newName;
-                document.getElementById('user-email').textContent = newEmail;
-                document.getElementById('user-phone').textContent = newPhone || '-';
-                document.getElementById('user-id').textContent = newPubgId || '-';
-                document.getElementById('last-update').textContent = formatDateTime(new Date());
-                
-                showNotification('تم الحفظ', 'تم تحديث معلومات الحساب بنجاح', 'success');
-            } else {
-                showNotification('خطأ', result.error, 'error');
-            }
-        }
-
-        // ===== حفظ إعدادات الإشعارات =====
-        function saveNotificationSettings() {
-            const emailNotifications = document.getElementById('email-notifications').checked;
-            const paymentNotifications = document.getElementById('payment-notifications').checked;
-            const teamNotifications = document.getElementById('team-notifications').checked;
-            
-            const updates = {
-                notificationSettings: {
-                    email: emailNotifications,
-                    payment: paymentNotifications,
-                    team: teamNotifications
+                // التحقق من حجم الملف
+                if (file.size > 5 * 1024 * 1024) { // 5MB
+                    showNotification('خطأ', 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'error');
+                    return;
                 }
-            };
-            
-            const result = UserManager.updateUserProfile(updates);
-            
-            if (result.success) {
-                showNotification('تم الحفظ', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
-            } else {
-                showNotification('خطأ', result.error, 'error');
+                
+                // إظهار حالة التحميل
+                const saveBtn = document.getElementById('save-account-info');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...';
+                saveBtn.disabled = true;
+                
+                // تحميل الصورة
+                const currentUser = UserManager.loadCurrentUser();
+                if (!currentUser || !currentUser.userHash) {
+                    throw new Error('لم يتم تسجيل الدخول');
+                }
+                
+                const result = await FileManager.uploadImage(file, currentUser.userHash, 'profile');
+                
+                if (result.success) {
+                    // تحديث الصورة في الواجهة
+                    const profilePic = document.getElementById('profile-picture');
+                    const headerPic = document.getElementById('header-profile-pic');
+                    
+                    // عرض صورة مصغرة أثناء التحميل
+                    if (result.thumbnail) {
+                        profilePic.src = result.thumbnail;
+                        headerPic.src = result.thumbnail;
+                    }
+                    
+                    // بعد ثانية، عرض الصورة الكاملة
+                    setTimeout(() => {
+                        profilePic.src = result.imageData;
+                        headerPic.src = result.imageData;
+                    }, 1000);
+                    
+                    showNotification('نجاح', 'تم تغيير صورة الملف الشخصي بنجاح', 'success');
+                    
+                    // تحديث آخر تحديث
+                    document.getElementById('last-update').textContent = formatDateTime(new Date());
+                }
+                
+            } catch (error) {
+                console.error('❌ خطأ في تغيير الصورة:', error);
+                showNotification('خطأ', error.message || 'حدث خطأ في تغيير الصورة', 'error');
+                
+            } finally {
+                // إعادة تعيين زر الحفظ
+                const saveBtn = document.getElementById('save-account-info');
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+                
+                // إعادة تعيين حقل الملف
+                e.target.value = '';
             }
         }
-
-        // ===== حفظ إعدادات النسخ الاحتياطي =====
-        function saveBackupSettings() {
-            const autoBackup = document.getElementById('auto-backup').checked;
-            const compressImages = document.getElementById('compress-images').checked;
-            const saveThumbnails = document.getElementById('save-thumbnails').checked;
+        
+        // 9. حفظ معلومات الحساب
+        async function saveAccountInfo() {
+            const editName = document.getElementById('edit-name').value.trim();
+            const editEmail = document.getElementById('edit-email').value.trim();
+            const editPhone = document.getElementById('edit-phone').value.trim();
+            const editPubgId = document.getElementById('edit-pubg-id').value.trim();
             
-            // هنا يمكنك حفظ الإعدادات في StorageEngine
-            showNotification('تم الحفظ', 'تم حفظ إعدادات النسخ الاحتياطي', 'success');
+            try {
+                // التحقق من البيانات
+                if (!editName) {
+                    showFormError('account-form-error', 'الاسم مطلوب');
+                    return;
+                }
+                
+                if (!editEmail || !isValidEmail(editEmail)) {
+                    showFormError('account-form-error', 'البريد الإلكتروني غير صالح');
+                    return;
+                }
+                
+                // إظهار حالة التحميل
+                const saveBtn = document.getElementById('save-account-info');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+                saveBtn.disabled = true;
+                
+                // تحديث بيانات المستخدم
+                const updates = {
+                    username: editName,
+                    email: editEmail,
+                    phone: editPhone,
+                    pubgId: editPubgId,
+                    lastUpdate: new Date().toISOString()
+                };
+                
+                const result = await UserManager.updateUserProfile(updates);
+                
+                if (result && result.success) {
+                    // تحديث الواجهة
+                    updateUI(result.session || result.profile);
+                    
+                    showNotification('نجاح', 'تم تحديث معلومات الحساب بنجاح', 'success');
+                    
+                    // إخفاء رسالة الخطأ
+                    hideFormError('account-form-error');
+                } else {
+                    throw new Error(result?.error || 'فشل في تحديث البيانات');
+                }
+                
+            } catch (error) {
+                console.error('❌ خطأ في حفظ بيانات الحساب:', error);
+                showFormError('account-form-error', error.message || 'حدث خطأ في الحفظ');
+                
+            } finally {
+                // إعادة تعيين زر الحفظ
+                const saveBtn = document.getElementById('save-account-info');
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
         }
-
-        // ===== تغيير كلمة المرور =====
-        function changePassword() {
+        
+        // 10. حفظ إعدادات الإشعارات
+        async function saveNotificationSettings() {
+            try {
+                const emailNotifications = document.getElementById('email-notifications').checked;
+                const paymentNotifications = document.getElementById('payment-notifications').checked;
+                const teamNotifications = document.getElementById('team-notifications').checked;
+                
+                // إظهار حالة التحميل
+                const saveBtn = document.getElementById('save-notification-settings');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+                saveBtn.disabled = true;
+                
+                // هنا يمكنك إرسال الإعدادات للخادم
+                // مؤقتاً: حفظ في localStorage
+                const settings = {
+                    emailNotifications,
+                    paymentNotifications,
+                    teamNotifications,
+                    savedAt: Date.now()
+                };
+                
+                const currentUser = UserManager.loadCurrentUser();
+                if (currentUser && currentUser.userHash) {
+                    StorageEngine.saveToVirtualFS(
+                        `data/users/${currentUser.userHash}/settings.json`,
+                        { notifications: settings }
+                    );
+                }
+                
+                // محاكاة التأخير
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                showNotification('نجاح', 'تم حفظ إعدادات الإشعارات بنجاح', 'success');
+                
+            } catch (error) {
+                console.error('❌ خطأ في حفظ إعدادات الإشعارات:', error);
+                showFormError('notification-form-error', 'حدث خطأ في الحفظ');
+                
+            } finally {
+                // إعادة تعيين زر الحفظ
+                const saveBtn = document.getElementById('save-notification-settings');
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> حفظ إعدادات الإشعارات';
+                saveBtn.disabled = false;
+            }
+        }
+        
+        // 11. تغيير كلمة المرور
+        async function changePassword() {
             const currentPassword = document.getElementById('current-password').value;
             const newPassword = document.getElementById('new-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             
-            // التحقق من صحة البيانات
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                showNotification('خطأ', 'الرجاء ملء جميع الحقول', 'error');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showNotification('خطأ', 'كلمة المرور الجديدة وتأكيدها غير متطابقين', 'error');
-                return;
-            }
-            
-            if (newPassword.length < 6) {
-                showNotification('خطأ', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
-                return;
-            }
-            
-            // هنا يمكنك إرسال البيانات إلى الخادم
-            
-            // إفراغ الحقول بعد النجاح
-            document.getElementById('current-password').value = '';
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
-            
-            showNotification('تم التغيير', 'تم تغيير كلمة المرور بنجاح', 'success');
-        }
-
-        // ===== إنشاء نسخة احتياطية كاملة =====
-        function createFullBackup() {
-            const userData = UserManager.loadCurrentUser();
-            
-            if (!userData || !userData.userHash) {
-                showNotification('خطأ', 'لم يتم تسجيل الدخول', 'error');
-                return;
-            }
-            
-            showNotification('جاري الإنشاء', 'جاري إنشاء نسخة احتياطية...', 'info');
-            
-            // استخدام StorageEngine لإنشاء نسخة احتياطية
-            const backupData = StorageEngine.createBackup(userData.userHash);
-            
-            if (backupData) {
-                // تحويل إلى JSON وتنزيله
-                const backupStr = JSON.stringify(backupData, null, 2);
-                const blob = new Blob([backupStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
+            try {
+                // التحقق من البيانات
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    showFormError('security-form-error', 'جميع الحقول مطلوبة');
+                    return;
+                }
                 
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `gr_clan_backup_${userData.username}_${Date.now()}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                if (newPassword !== confirmPassword) {
+                    showFormError('security-form-error', 'كلمات المرور غير متطابقة');
+                    return;
+                }
                 
-                showNotification('تم الإنشاء', 'تم إنشاء وتنزيل النسخة الاحتياطية بنجاح', 'success');
-            } else {
-                showNotification('خطأ', 'فشل في إنشاء النسخة الاحتياطية', 'error');
+                if (newPassword.length < 6) {
+                    showFormError('security-form-error', 'كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                    return;
+                }
+                
+                // إظهار حالة التحميل
+                const saveBtn = document.getElementById('save-password');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التغيير...';
+                saveBtn.disabled = true;
+                
+                // محاكاة تغيير كلمة المرور
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // إفراغ الحقول
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+                
+                showNotification('نجاح', 'تم تغيير كلمة المرور بنجاح', 'success');
+                
+                // إخفاء رسالة الخطأ
+                hideFormError('security-form-error');
+                
+            } catch (error) {
+                console.error('❌ خطأ في تغيير كلمة المرور:', error);
+                showFormError('security-form-error', error.message || 'حدث خطأ في تغيير كلمة المرور');
+                
+            } finally {
+                // إعادة تعيين زر الحفظ
+                const saveBtn = document.getElementById('save-password');
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> تغيير كلمة المرور';
+                saveBtn.disabled = false;
             }
         }
-
-        // ===== استعادة نسخة احتياطية =====
-        function restoreBackup() {
-            const selectedBackup = document.querySelector('.backup-image-item.active');
-            
-            if (!selectedBackup || selectedBackup.dataset.index === '0') {
-                showNotification('تحذير', 'الرجاء اختيار نسخة احتياطية للاستعادة', 'warning');
+        
+        // 12. حذف الحساب
+        async function deleteAccount() {
+            if (!confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
                 return;
             }
             
-            const backupIndex = parseInt(selectedBackup.dataset.index);
-            const userData = UserManager.loadCurrentUser();
-            
-            if (!userData || !userData.userHash) {
-                showNotification('خطأ', 'لم يتم تسجيل الدخول', 'error');
-                return;
-            }
-            
-            if (confirm(`هل تريد استعادة النسخة الاحتياطية #${backupIndex}؟`)) {
-                showNotification('جاري الاستعادة', 'جاري استعادة النسخة الاحتياطية...', 'info');
-                
-                // استخدام FileManager لاستعادة النسخة
-                const result = FileManager.restoreBackupImage(userData.userHash, backupIndex);
+            try {
+                const result = await UserManager.deleteUserAccount();
                 
                 if (result.success) {
-                    // إعادة تحميل الصورة
-                    loadProfilePicture(userData.userHash);
+                    showNotification('معلومات', 'تم حذف حسابك بنجاح', 'info');
                     
-                    // تحديث الواجهة
-                    document.getElementById('last-update').textContent = formatDateTime(new Date());
-                    
-                    showNotification('تم الاستعادة', `تم استعادة النسخة الاحتياطية #${backupIndex} بنجاح`, 'success');
+                    // إعادة التوجيه بعد 3 ثواني
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
                 } else {
-                    showNotification('خطأ', result.error, 'error');
+                    throw new Error(result.error);
                 }
+                
+            } catch (error) {
+                console.error('❌ خطأ في حذف الحساب:', error);
+                showNotification('خطأ', error.message || 'حدث خطأ في حذف الحساب', 'error');
             }
         }
-
-        // ===== حذف الحساب =====
-        function deleteAccount() {
-            if (confirm('⚠️ هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!')) {
-                if (confirm('⚠️⚠️ تأكيد نهائي: هل أنت متأكد تماماً؟ سيتم حذف جميع بياناتك بشكل دائم!')) {
-                    showNotification('جاري الحذف', 'جاري حذف حسابك وبياناتك...', 'info');
-                    
-                    const result = UserManager.deleteUserAccount();
-                    
-                    if (result.success) {
-                        showNotification('تم الحذف', 'تم حذف الحساب بنجاح، سيتم توجيهك للصفحة الرئيسية', 'info');
-                        
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 3000);
-                    } else {
-                        showNotification('خطأ', result.error, 'error');
-                    }
-                }
-            }
-        }
-
-        // ===== تسجيل الخروج =====
+        
+        // 13. تسجيل الخروج
         function logout() {
-            if (confirm('هل تريد تسجيل الخروج؟')) {
+            if (!confirm('هل تريد تسجيل الخروج؟')) {
+                return;
+            }
+            
+            try {
                 UserManager.logoutUser();
+                showNotification('معلومات', 'تم تسجيل الخروج بنجاح', 'info');
                 
-                showNotification('تم الخروج', 'تم تسجيل الخروج بنجاح', 'info');
-                
+                // إعادة التوجيه بعد 2 ثانية
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 2000);
+                
+            } catch (error) {
+                console.error('❌ خطأ في تسجيل الخروج:', error);
+                showNotification('خطأ', 'حدث خطأ في تسجيل الخروج', 'error');
             }
         }
-
-        // ===== نظام الإشعارات =====
+        
+        // 14. دوال مساعدة
+        function showFormError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+                
+                // إخفاء الرسالة بعد 5 ثواني
+                setTimeout(() => {
+                    errorElement.classList.remove('show');
+                }, 5000);
+            }
+        }
+        
+        function hideFormError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                errorElement.classList.remove('show');
+            }
+        }
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('ar-EG', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } catch (e) {
+                return dateString;
+            }
+        }
+        
+        function formatDateTime(dateString) {
+            if (!dateString) return '-';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleString('ar-EG', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (e) {
+                return dateString;
+            }
+        }
+        
+        function getDefaultAvatar() {
+            return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNTAiIGZpbGw9IiNEMEFGMzciLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjQwIiByPSIyMCIgZmlsbD0iIzA2MTAyNSIvPjxwYXRoIGQ9Ik0zMCA4MEw3MCA4MEw2MCA2MEw0MCA2MEwzMCA4MFoiIGZpbGw9IiMwNjEwMjUiLz48L3N2Zz4=';
+        }
+        
+        // 15. نظام الإشعارات
         function showNotification(title, message, type = 'info') {
             const container = document.getElementById('notification-container');
             
@@ -1735,12 +1635,21 @@
             
             // تحديد أيقونة حسب النوع
             let icon = 'fa-info-circle';
-            if (type === 'success') icon = 'fa-check-circle';
-            if (type === 'error') icon = 'fa-exclamation-circle';
-            if (type === 'warning') icon = 'fa-exclamation-triangle';
+            let iconColor = '#D4AF37';
+            
+            if (type === 'success') {
+                icon = 'fa-check-circle';
+                iconColor = '#2E8B57';
+            } else if (type === 'error') {
+                icon = 'fa-exclamation-circle';
+                iconColor = '#ff4757';
+            } else if (type === 'warning') {
+                icon = 'fa-exclamation-triangle';
+                iconColor = '#FFA500';
+            }
             
             notification.innerHTML = `
-                <div class="notification-icon">
+                <div class="notification-icon" style="background: ${iconColor}20; color: ${iconColor};">
                     <i class="fas ${icon}"></i>
                 </div>
                 <div class="notification-content">
@@ -1775,7 +1684,7 @@
             
             return notification;
         }
-
+        
         function closeNotification(notification) {
             notification.classList.remove('show');
             notification.classList.add('hide');
