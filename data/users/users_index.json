@@ -1,1 +1,33 @@
-
+{
+  "version": "2.0",
+  "created": 1640995200000,
+  "lastUpdate": 1640995200000,
+  "count": 0,
+  "items": {},
+  "metadata": {
+    "description": "فهرس جميع المستخدمين المسجلين في النظام - كل مستخدم له هاش فريد 150 حرف",
+    "storageEngine": "GR_CLAN_v2",
+    "autoBackup": true,
+    "maxEntries": 10000,
+    "searchIndex": {
+      "byUsername": {},
+      "byPubgId": {},
+      "byJoinDate": {}
+    }
+  },
+  "statistics": {
+    "totalRegistrations": 0,
+    "activeUsers": 0,
+    "inactiveUsers": 0,
+    "deletedUsers": 0,
+    "lastUserAdded": null,
+    "registrationByDate": {}
+  },
+  "security": {
+    "hashAlgorithm": "SHA256_base64_extended",
+    "hashLength": 150,
+    "encryptionEnabled": false,
+    "lastSecurityCheck": null,
+    "integrityCheck": true
+  }
+}
