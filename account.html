@@ -7,696 +7,1132 @@
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .account-page {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* ===== تصميم صفحة حسابي الأسطوري ===== */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #FFD700;
+            --dark-bg: #0A1931;
+            --darker-bg: #061025;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-glow: 0 0 10px rgba(212, 175, 55, 0.5);
+            --gradient-gold: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
         }
         
+        body {
+            background: linear-gradient(45deg, 
+                var(--darker-bg) 0%, 
+                var(--dark-bg) 50%, 
+                #0f2a5c 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* تأثيرات خلفية متحركة */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s infinite alternate;
+        }
+        
+        @keyframes backgroundShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(1deg); }
+        }
+        
+        /* ===== الهيدر ===== */
         .account-header {
+            background: rgba(6, 16, 37, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid var(--primary-gold);
+            padding: 15px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .account-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            animation: logoGlow 2s infinite alternate;
+        }
+        
+        @keyframes logoGlow {
+            0% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+            100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+        }
+        
+        .account-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .account-title {
-            color: var(--gold);
-            font-size: 2rem;
-        }
-        
-        .account-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .account-sections {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
-        .account-section {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .account-section:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-        
-        .section-title {
-            color: var(--gold);
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section-title i {
             font-size: 1.5rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
         }
         
-        .info-grid {
-            display: grid;
-            gap: 15px;
-        }
-        
-        .info-item {
+        .header-right {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 20px;
         }
         
-        .info-label {
-            color: var(--gold);
-            font-weight: bold;
-        }
-        
-        .info-value {
-            color: var(--white);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        
-        .stat-card {
-            background-color: rgba(212, 175, 55, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--gold);
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .edit-btn {
-            background-color: rgba(212, 175, 55, 0.2);
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 5px 15px;
-            border-radius: 5px;
+        .back-to-main {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 0.9rem;
             transition: all 0.3s ease;
-        }
-        
-        .edit-btn:hover {
-            background-color: var(--gold);
-            color: var(--dark-blue);
-        }
-        
-        .clan-rank {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(10, 25, 49, 0.5));
-            border-radius: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.3);
         }
         
-        .rank-icon {
-            font-size: 3rem;
+        .back-to-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
         }
         
-        .rank-info h3 {
-            color: var(--gold);
-            margin-bottom: 5px;
+        /* ===== المحتوى الرئيسي ===== */
+        .account-content {
+            padding-top: 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px 40px;
         }
         
-        .rank-info p {
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            margin-top: 10px;
+        /* البانر الشخصي */
+        .profile-banner {
+            background: linear-gradient(135deg, 
+                rgba(6, 16, 37, 0.9) 0%, 
+                rgba(10, 25, 49, 0.7) 100%);
+            border-radius: 25px;
+            padding: 60px 50px;
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            margin-bottom: 50px;
+            position: relative;
             overflow: hidden;
         }
         
-        .progress-fill {
+        .profile-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-gold);
+        }
+        
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .profile-avatar {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+        
+        .avatar-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--primary-gold);
+            box-shadow: 
+                0 0 40px rgba(212, 175, 55, 0.5),
+                inset 0 0 20px rgba(212, 175, 55, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .avatar-container img {
+            width: 100%;
             height: 100%;
-            background-color: var(--gold);
-            border-radius: 4px;
-            width: 65%; /* يمكن تغييرها ديناميكياً */
+            object-fit: cover;
         }
         
-        .recent-activity {
-            list-style: none;
+        .avatar-ring {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, 
+                var(--primary-gold), 
+                var(--secondary-gold), 
+                transparent 70%) border-box;
+            animation: rotateRing 10s linear infinite;
+            z-index: 1;
         }
         
-        .activity-item {
+        @keyframes rotateRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 3.5rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            text-shadow: var(--text-glow);
+            font-weight: 900;
+        }
+        
+        .profile-badge {
+            display: inline-block;
+            background: var(--gradient-gold);
+            color: var(--dark-bg);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        /* ===== شبكة البطاقات ===== */
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+        
+        .account-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px 35px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-gold);
+        }
+        
+        .account-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary-gold);
+            box-shadow: 0 25px 70px rgba(212, 175, 55, 0.2);
+        }
+        
+        .card-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
         }
         
-        .activity-icon {
-            background-color: rgba(212, 175, 55, 0.2);
-            width: 40px;
-            height: 40px;
+        .card-icon {
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            background: rgba(212, 175, 55, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--primary-gold);
+        }
+        
+        .card-title {
+            color: var(--primary-gold);
+            font-size: 1.8rem;
+            font-weight: 800;
+            flex: 1;
+        }
+        
+        /* ===== معلومات الحساب ===== */
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--primary-gold);
+            transform: translateX(-5px);
+        }
+        
+        .info-icon {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            margin-left: 15px;
+            min-width: 30px;
+        }
+        
+        .info-content {
+            flex: 1;
+        }
+        
+        .info-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: white;
             font-size: 1.2rem;
+            font-weight: 600;
         }
         
-        .activity-details h4 {
-            color: var(--gold);
-            margin-bottom: 3px;
+        .info-badge {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--primary-gold);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
         
-        .activity-details p {
+        /* ===== نموذج التعديل ===== */
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.05);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .password-input {
+            padding-left: 50px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary-gold);
+            cursor: pointer;
+            font-size: 1.3rem;
+        }
+        
+        /* ===== الإعدادات ===== */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .setting-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--primary-gold);
+            transform: translateX(-5px);
+        }
+        
+        .setting-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .setting-icon {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            min-width: 40px;
+        }
+        
+        .setting-text h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .setting-text p {
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
         }
         
-        .activity-time {
-            margin-right: auto;
+        /* التبديل */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 2px;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-gold);
+            border-color: var(--primary-gold);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-color: white;
+        }
+        
+        /* ===== الأزرار ===== */
+        .btn {
+            padding: 15px 30px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--dark-bg);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: translateY(-5px);
+        }
+        
+        /* ===== نافذة حذف الحساب ===== */
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .confirm-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .confirm-box {
+            background: linear-gradient(135deg, #0A1931, #162447);
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 3px solid #ff6b81;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                transform: translateY(50px) scale(0.9);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .confirm-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ff6b81;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.5));
+        }
+        
+        .confirm-title {
+            color: #ff6b81;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        
+        .confirm-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .confirm-btn {
+            padding: 15px 35px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .confirm-yes {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+        
+        .confirm-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
+        }
+        
+        .confirm-no {
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+        
+        .confirm-no:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* ===== إشعارات ===== */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+        
+        .notification {
+            background: rgba(10, 25, 49, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--primary-gold);
+            border-radius: 15px;
+            padding: 20px 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .notification.hide {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        
+        .notification-icon {
+            font-size: 2rem;
+            min-width: 40px;
+            height: 40px;
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-gold);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .notification-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
             color: rgba(255, 255, 255, 0.5);
-            font-size: 0.8rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-close:hover {
+            color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.1);
+            transform: rotate(90deg);
+        }
+        
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-gold);
+            width: 100%;
+            transform: scaleX(1);
+            transform-origin: left;
+            animation: progressBar 4s linear forwards;
+        }
+        
+        @keyframes progressBar {
+            from { transform: scaleX(1); }
+            to { transform: scaleX(0); }
+        }
+        
+        /* ===== التصميم المتجاوب ===== */
+        @media (max-width: 1200px) {
+            .account-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
         }
         
         @media (max-width: 768px) {
             .account-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                padding: 12px 20px;
             }
             
-            .stats-grid {
+            .account-content {
+                padding: 120px 20px 60px;
+            }
+            
+            .profile-banner {
+                padding: 40px 30px;
+            }
+            
+            .profile-name {
+                font-size: 2.5rem;
+            }
+            
+            .profile-avatar {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .avatar-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .account-card {
+                padding: 30px 25px;
+            }
+            
+            .confirm-box {
+                padding: 40px 25px;
+            }
+            
+            .confirm-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .confirm-btn {
+                width: 100%;
+            }
+            
+            .notification-container {
+                right: 10px;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .account-title {
+                font-size: 1.2rem;
+            }
+            
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .stat-item {
+                min-width: 100px;
+            }
+            
+            .account-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .confirm-title {
+                font-size: 1.8rem;
+            }
+            
+            .confirm-message {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
     <!-- الهيدر -->
-    <header class="main-header">
+    <header class="account-header">
         <div class="header-left">
-            <img src="assets/images/clan-logo.png" alt="شعار GR CLAN" class="clan-logo">
-            <span class="clan-name">GR CLAN</span>
-        </div>
-        <div class="header-right">
-            <span id="user-id-display">زائر</span>
-            <div class="auth-buttons" id="headerAuthButtons">
-                <a href="login.html" class="btn btn-login">تسجيل الدخول</a>
-                <a href="register.html" class="btn btn-register">إنشاء حساب</a>
+            <div class="account-logo">
+                <img src="assets/images/clan-logo2.png" alt="شعار GR CLAN">
             </div>
+            <span class="account-title">حسابي الشخصي</span>
+        </div>
+        
+        <div class="header-right">
+            <a href="main.html" class="back-to-main">
+                <span>🏠</span>
+                العودة للرئيسية
+            </a>
         </div>
     </header>
 
-    <!-- صفحة الحساب -->
-    <div class="account-page">
-        <div class="account-header">
-            <h1 class="account-title">👤 حسابي الشخصي</h1>
-            <div class="account-actions">
-                <button class="btn edit-btn" id="editProfileBtn">تعديل الملف الشخصي</button>
-                <button class="btn btn-login" id="logoutBtn">تسجيل الخروج</button>
+    <!-- المحتوى الرئيسي -->
+    <main class="account-content">
+        <!-- البانر الشخصي -->
+        <section class="profile-banner">
+            <div class="banner-content">
+                <!-- الصورة الشخصية -->
+                <div class="profile-avatar">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-container" id="avatarContainer">
+                        <!-- سيتم تحميل الصورة ديناميكياً -->
+                    </div>
+                </div>
+                
+                <!-- معلومات المستخدم -->
+                <div class="profile-info">
+                    <h1 class="profile-name" id="userName">جارٍ التحميل...</h1>
+                    <div class="profile-badge" id="userRole">مستخدم</div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="statMatches">0</div>
+                            <div class="stat-label">المباريات</div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-number" id="statWins">0</div>
+                            <div class="stat-label">الانتصارات</div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-number" id="statKills">0</div>
+                            <div class="stat-label">التصفيات</div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-number" id="statKD">0.0</div>
+                            <div class="stat-label">نسبة التصفية</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="account-sections">
+        </section>
+
+        <!-- شبكة البطاقات -->
+        <div class="account-grid">
             <!-- معلومات الحساب -->
-            <div class="account-section">
-                <h2 class="section-title">📋 معلومات الحساب</h2>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-label">اسم المستخدم:</span>
-                        <span class="info-value" id="accountUsername">---</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">معرف الببجي:</span>
-                        <span class="info-value" id="accountPubgId">---</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">تاريخ الانضمام:</span>
-                        <span class="info-value" id="accountJoinDate">---</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">رقم العضو:</span>
-                        <span class="info-value" id="accountMemberId">---</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">حالة العضو:</span>
-                        <span class="info-value" id="accountStatus">---</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- إحصائيات اللعب -->
-            <div class="account-section">
-                <h2 class="section-title">📊 إحصائيات اللعب</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number" id="statMatches">0</div>
-                        <div class="stat-label">المباريات</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="statWins">0</div>
-                        <div class="stat-label">عدد الانتصارات</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="statKills">0</div>
-                        <div class="stat-label">عمليات القتل</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="statKD">0.0</div>
-                        <div class="stat-label">نسبة القتل/الموت</div>
-                    </div>
+            <div class="account-card">
+                <div class="card-header">
+                    <div class="card-icon">👤</div>
+                    <h2 class="card-title">معلومات الحساب</h2>
                 </div>
                 
-                <div class="clan-rank">
-                    <div class="rank-icon">🏆</div>
-                    <div class="rank-info">
-                        <h3 id="accountRank">---</h3>
-                        <p>رتبة في الكلان</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="rankProgress"></div>
+                <div class="info-list">
+                    <div class="info-item">
+                        <div class="info-icon">🆔</div>
+                        <div class="info-content">
+                            <div class="info-label">معرف اللاعب</div>
+                            <div class="info-value" id="infoPubgId">غير محدد</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">📅</div>
+                        <div class="info-content">
+                            <div class="info-label">تاريخ الانضمام</div>
+                            <div class="info-value" id="infoJoinDate">غير محدد</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">🎯</div>
+                        <div class="info-content">
+                            <div class="info-label">الرتبة الحالية</div>
+                            <div class="info-value">
+                                <span class="info-badge" id="infoRank">غير محدد</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">👑</div>
+                        <div class="info-content">
+                            <div class="info-label">الدور في الكلان</div>
+                            <div class="info-value">
+                                <span class="info-badge" id="infoClanRole">عضو</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- النشاط الأخير -->
-            <div class="account-section">
-                <h2 class="section-title">🕒 النشاط الأخير</h2>
-                <ul class="recent-activity" id="recentActivity">
-                    <!-- سيتم ملؤها ديناميكياً -->
-                    <li class="activity-item">
-                        <div class="activity-icon">🎮</div>
-                        <div class="activity-details">
-                            <h4>جارٍ تحميل النشاط...</h4>
-                            <p>جاري تحميل سجل النشاطات</p>
-                        </div>
-                        <span class="activity-time">الآن</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <!-- إعدادات الحساب -->
-            <div class="account-section">
-                <h2 class="section-title">⚙️ إعدادات الحساب</h2>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-label">الإشعارات:</span>
-                        <label class="switch">
-                            <input type="checkbox" id="notificationsToggle" checked>
-                            <span class="slider"></span>
+
+            <!-- تعديل الملف الشخصي -->
+            <div class="account-card">
+                <div class="card-header">
+                    <div class="card-icon">✏️</div>
+                    <h2 class="card-title">تعديل الملف الشخصي</h2>
+                </div>
+                
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="editUsername" class="form-label">
+                            <span>👤</span>
+                            اسم المستخدم
                         </label>
+                        <input 
+                            type="text" 
+                            id="editUsername" 
+                            class="form-input"
+                            placeholder="اسم المستخدم الجديد"
+                        >
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">الخصوصية:</span>
-                        <select id="privacySetting" class="info-value" style="background-color: rgba(255,255,255,0.1); color: white; border: 1px solid var(--gold); padding: 5px; border-radius: 5px;">
-                            <option value="public">عام</option>
-                            <option value="friends">الأصدقاء فقط</option>
-                            <option value="private">خاص</option>
-                        </select>
+                    
+                    <div class="form-group">
+                        <label for="editPubgId" class="form-label">
+                            <span>🎮</span>
+                            معرف PUBG
+                        </label>
+                        <input 
+                            type="text" 
+                            id="editPubgId" 
+                            class="form-input"
+                            placeholder="معرف اللعبة الجديد"
+                        >
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">لغة الواجهة:</span>
-                        <select id="languageSetting" class="info-value" style="background-color: rgba(255,255,255,0.1); color: white; border: 1px solid var(--gold); padding: 5px; border-radius: 5px;">
-                            <option value="ar">العربية</option>
-                            <option value="en">English</option>
-                        </select>
+                    
+                    <div class="form-group">
+                        <label for="editBio" class="form-label">
+                            <span>📝</span>
+                            نبذة عنك
+                        </label>
+                        <textarea 
+                            id="editBio" 
+                            class="form-input"
+                            placeholder="اكتب نبذة مختصرة عنك..."
+                            rows="3"
+                        ></textarea>
                     </div>
-                </div>
-                
-                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
-                    <button class="btn edit-btn" id="changePasswordBtn">تغيير كلمة المرور</button>
-                    <button class="btn edit-btn" id="deleteAccountBtn" style="color: #ff6b6b; border-color: #ff6b6b;">حذف الحساب</button>
-                </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span>💾</span>
+                        حفظ التعديلات
+                    </button>
+                </form>
             </div>
-        </div>
-    </div>
 
-    <!-- الشريط السفلي -->
-    <nav class="taskbar">
-        <div class="taskbar-items">
-            <a href="index.html" class="taskbar-item">
-                <span>🏠</span>
-                <span>الرئيسية</span>
-            </a>
-            <a href="account.html" class="taskbar-item active">
-                <span>👤</span>
-                <span>حسابك</span>
-            </a>
-            <a href="#" class="taskbar-item">
-                <span>🏆</span>
-                <span>البطولات</span>
-            </a>
-            <a href="#" class="taskbar-item">
-                <span>👥</span>
-                <span>الأعضاء</span>
-            </a>
-            <a href="#" class="taskbar-item">
-                <span>⚙️</span>
-                <span>الإعدادات</span>
-            </a>
-        </div>
-    </nav>
-
-    <!-- نافذة تعديل الملف الشخصي -->
-    <div id="editProfileModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h2>تعديل الملف الشخصي</h2>
-            <form id="editProfileForm">
-                <div class="form-group">
-                    <label for="editUsername">اسم المستخدم</label>
-                    <input type="text" id="editUsername">
+            <!-- تغيير كلمة المرور -->
+            <div class="account-card">
+                <div class="card-header">
+                    <div class="card-icon">🔐</div>
+                    <h2 class="card-title">تغيير كلمة المرور</h2>
                 </div>
-                <div class="form-group">
-                    <label for="editPubgId">معرف الببجي</label>
-                    <input type="text" id="editPubgId">
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
-                    <button type="button" class="btn btn-secondary" id="cancelEditBtn">إلغاء</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="js/app.js"></script>
-    <script>
-        // سكريبت خاص بصفحة الحساب
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAccountData();
-            setupEventListeners();
-        });
-        
-        function loadAccountData() {
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            if (!currentUser) {
-                // إذا لم يكن مسجلاً، توجيه إلى تسجيل الدخول
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // البحث عن بيانات المستخدم الكاملة
-            const userData = users.find(user => user.username === currentUser.username);
-            
-            if (userData) {
-                // تعبئة بيانات الحساب
-                document.getElementById('accountUsername').textContent = userData.username;
-                document.getElementById('accountPubgId').textContent = userData.pubgId;
                 
-                if (userData.joinDate) {
-                    const joinDate = new Date(userData.joinDate);
-                    document.getElementById('accountJoinDate').textContent = joinDate.toLocaleDateString('ar-SA');
-                }
-                
-                document.getElementById('accountMemberId').textContent = userData.id || 'GR-' + Math.floor(Math.random() * 10000);
-                document.getElementById('accountStatus').textContent = 'نشط';
-                document.getElementById('accountStatus').style.color = '#4CAF50';
-                
-                // تحديث شاشة الهيدر
-                document.getElementById('user-id-display').textContent = userData.username;
-                
-                // إخفاء أزرار التسجيل/الدخول وإظهار زر تسجيل الخروج
-                document.getElementById('headerAuthButtons').innerHTML = `
-                    <button class="btn btn-login" id="logoutBtnHeader">تسجيل الخروج</button>
-                `;
-                
-                document.getElementById('logoutBtnHeader').addEventListener('click', function() {
-                    localStorage.removeItem('currentUser');
-                    window.location.href = 'index.html';
-                });
-            }
-            
-            // تحميل الإحصائيات (بيانات وهمية للعرض)
-            loadStatistics();
-            
-            // تحميل النشاطات
-            loadRecentActivity();
-        }
-        
-        function loadStatistics() {
-            // إحصائيات وهمية (يمكن استبدالها ببيانات حقيقية)
-            document.getElementById('statMatches').textContent = Math.floor(Math.random() * 500) + 50;
-            document.getElementById('statWins').textContent = Math.floor(Math.random() * 100) + 10;
-            document.getElementById('statKills').textContent = Math.floor(Math.random() * 2000) + 200;
-            
-            const kd = (Math.random() * 5 + 1).toFixed(2);
-            document.getElementById('statKD').textContent = kd;
-            
-            // رتبة الكلان
-            const ranks = ['مبتدئ', 'عضو نشط', 'محترف', 'نخبة', 'أسطورة'];
-            const randomRank = ranks[Math.floor(Math.random() * ranks.length)];
-            document.getElementById('accountRank').textContent = randomRank;
-            
-            // شريط التقدم
-            const progress = Math.floor(Math.random() * 100);
-            document.getElementById('rankProgress').style.width = progress + '%';
-        }
-        
-        function loadRecentActivity() {
-            const activities = [
-                { icon: '🎮', title: 'مباراة فريقية', desc: 'فوز مع فريق الكلان', time: 'قبل 2 ساعة' },
-                { icon: '📈', title: 'تحسن في الرتبة', desc: 'تقدم من رتبة فضية إلى ذهبية', time: 'قبل 6 ساعات' },
-                { icon: '👥', title: 'انضمام جديد', desc: 'انضم محمد إلى الكلان', time: 'أمس' },
-                { icon: '🏆', title: 'فوز في بطولة', desc: 'المركز الأول في بطولة الجمعة', time: 'قبل 3 أيام' },
-                { icon: '💬', title: 'نشاط في المحادثة', desc: 'شارك في مناقشة استراتيجية', time: 'قبل أسبوع' }
-            ];
-            
-            const activityList = document.getElementById('recentActivity');
-            activityList.innerHTML = '';
-            
-            activities.forEach(activity => {
-                const li = document.createElement('li');
-                li.className = 'activity-item';
-                li.innerHTML = `
-                    <div class="activity-icon">${activity.icon}</div>
-                    <div class="activity-details">
-                        <h4>${activity.title}</h4>
-                        <p>${activity.desc}</p>
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword" class="form-label">
+                            <span>🔑</span>
+                            كلمة المرور الحالية
+                        </label>
+                        <div class="password-container">
+                            <input 
+                                type="password" 
+                                id="currentPassword" 
+                                class="form-input password-input"
+                                placeholder="أدخل كلمة المرور الحالية"
+                                required
+                            >
+                            <button type="button" class="toggle-password" data-target="currentPassword">
+                                👁️
+                            </button>
+                        </div>
                     </div>
-                    <span class="activity-time">${activity.time}</span>
-                `;
-                activityList.appendChild(li);
-            });
-        }
-        
-        function setupEventListeners() {
-            // زر تسجيل الخروج
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            });
-            
-            // زر تعديل الملف الشخصي
-            document.getElementById('editProfileBtn').addEventListener('click', function() {
-                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                document.getElementById('editUsername').value = currentUser.username;
-                document.getElementById('editPubgId').value = currentUser.pubgId;
-                document.getElementById('editProfileModal').style.display = 'flex';
-            });
-            
-            // إلغاء التعديل
-            document.getElementById('cancelEditBtn').addEventListener('click', function() {
-                document.getElementById('editProfileModal').style.display = 'none';
-            });
-            
-            // حفظ التعديلات
-            document.getElementById('editProfileForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const newUsername = document.getElementById('editUsername').value;
-                const newPubgId = document.getElementById('editPubgId').value;
-                
-                // تحديث البيانات في localStorage
-                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                const users = JSON.parse(localStorage.getItem('users')) || [];
-                
-                // تحديث بيانات المستخدم
-                const userIndex = users.findIndex(user => user.username === currentUser.username);
-                if (userIndex !== -1) {
-                    users[userIndex].username = newUsername;
-                    users[userIndex].pubgId = newPubgId;
-                    localStorage.setItem('users', JSON.stringify(users));
-                }
-                
-                // تحديث جلسة المستخدم الحالية
-                currentUser.username = newUsername;
-                currentUser.pubgId = newPubgId;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
-                // إغلاق النافذة وإعادة تحميل البيانات
-                document.getElementById('editProfileModal').style.display = 'none';
-                loadAccountData();
-                
-                alert('تم تحديث الملف الشخصي بنجاح!');
-            });
-            
-            // تغيير كلمة المرور
-            document.getElementById('changePasswordBtn').addEventListener('click', function() {
-                const newPassword = prompt('أدخل كلمة المرور الجديدة:');
-                if (newPassword && newPassword.length >= 6) {
-                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                    const users = JSON.parse(localStorage.getItem('users')) || [];
                     
-                    const userIndex = users.findIndex(user => user.username === currentUser.username);
-                    if (userIndex !== -1) {
-                        users[userIndex].password = newPassword;
-                        localStorage.setItem('users', JSON.stringify(users));
-                        alert('تم تغيير كلمة المرور بنجاح!');
-                    }
-                } else if (newPassword) {
-                    alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل!');
-                }
-            });
-            
-            // حذف الحساب
-            document.getElementById('deleteAccountBtn').addEventListener('click', function() {
-                if (confirm('هل أنت متأكد من حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.')) {
-                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                    let users = JSON.parse(localStorage.getItem('users')) || [];
+                    <div class="form-group">
+                        <label for="newPassword" class="form-label">
+                            <span>🆕</span>
+                            كلمة المرور الجديدة
+                        </label>
+                        <div class="password-container">
+                            <input 
+                                type="password" 
+                                id="newPassword" 
+                                class="form-input password-input"
+                                placeholder="أدخل كلمة المرور الجديدة"
+                                required
+                            >
+                            <button type="button" class="toggle-password" data-target="newPassword">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
                     
-                    // إزالة المستخدم من القائمة
-                    users = users.filter(user => user.username !== currentUser.username);
-                    localStorage.setItem('users', JSON.stringify(users));
-                    
-                    // إزالة جلسة المستخدم
-                    localStorage.removeItem('currentUser');
-                    
-                    alert('تم حذف حسابك بنجاح!');
-                    window.location.href = 'index.html';
-                }
-            });
-            
-            // إعدادات التبديل
-            document.getElementById('notificationsToggle').addEventListener('change', function() {
-                const setting = this.checked ? 'مفعل' : 'معطل';
-                localStorage.setItem('notificationsSetting', setting);
-            });
-            
-            // إعدادات الخصوصية
-            document.getElementById('privacySetting').addEventListener('change', function() {
-                localStorage.setItem('privacySetting', this.value);
-            });
-            
-            // إعدادات اللغة
-            document.getElementById('languageSetting').addEventListener('change', function() {
-                localStorage.setItem('languageSetting', this.value);
-                alert('تغيير اللغة سيتطلب إعادة تحميل الصفحة.');
-            });
-            
-            // إغلاق النافذة المنبثقة عند النقر خارجها
-            window.addEventListener('click', function(e) {
-                const modal = document.getElementById('editProfileModal');
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-        
-        // إضافة CSS للنافذة المنبثقة
-        const modalStyle = document.createElement('style');
-        modalStyle.textContent = `
-            .modal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.7);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1001;
-            }
-            
-            .modal-content {
-                background-color: var(--dark-blue);
-                padding: 30px;
-                border-radius: 15px;
-                border: 2px solid var(--gold);
-                width: 90%;
-                max-width: 500px;
-            }
-            
-            .modal-content h2 {
-                color: var(--gold);
-                margin-bottom: 20px;
-                text-align: center;
-            }
-            
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 50px;
-                height: 24px;
-            }
-            
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-            
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(255, 255, 255, 0.1);
-                transition: .4s;
-                border-radius: 24px;
-            }
-            
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 16px;
-                width: 16px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                transition: .4s;
-                border-radius: 50%;
-            }
-            
-            input:checked + .slider {
-                background-color: var(--gold);
-            }
-            
-            input:checked + .slider:before {
-                transform: translateX(26px);
-            }
-        `;
-        document.head.appendChild(modalStyle);
-    </script>
-</body>
-</html>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">
+                            <span>✅</span>
+                            تأكيد كلمة المرور
+                        </label>
+                        <div class="password-container">
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                class="form-input password-input"
+                                placeholder="أعد إدخال كلمة المرور الجديدة"
+                                required
+                            >
+                            <button type="button" class="toggle-password" data-target="confirmPassword">
+                                👁️
+                            </button>
+                        </div>
