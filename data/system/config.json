@@ -1,1 +1,210 @@
-
+{
+  "version": "2.0",
+  "created": 1640995200000,
+  "lastUpdate": 1640995200000,
+  
+  "system": {
+    "name": "GR CLAN Website",
+    "version": "2.0.0",
+    "environment": "production",
+    "maintenanceMode": false,
+    "maintenanceMessage": "جاري الصيانة... نعود قريباً",
+    "timezone": "Africa/Cairo",
+    "defaultLanguage": "ar",
+    "supportedLanguages": ["ar", "en"],
+    "maxUploadSize": 5242880,
+    "sessionTimeout": 3600000,
+    "enableCaching": true,
+    "cacheDuration": 300000,
+    "compressionEnabled": true,
+    "backupEnabled": true,
+    "autoBackupInterval": 86400000
+  },
+  
+  "storage": {
+    "engine": "GR_CLAN_v2",
+    "userHashLength": 150,
+    "adminHashLength": 150,
+    "maxUserFolders": 10000,
+    "maxFileSize": 5242880,
+    "imageQuality": 0.85,
+    "thumbnailSize": 150,
+    "maxBackupFiles": 3,
+    "cleanupInterval": 86400000,
+    "enableEncryption": false,
+    "compressionLevel": 6
+  },
+  
+  "security": {
+    "enableCaptcha": false,
+    "maxLoginAttempts": 5,
+    "lockoutDuration": 900000,
+    "passwordMinLength": 6,
+    "requireStrongPasswords": false,
+    "sessionRegeneration": true,
+    "csrfProtection": true,
+    "xssProtection": true,
+    "contentSecurityPolicy": true,
+    "hstsEnabled": true,
+    "corsEnabled": true,
+    "allowedOrigins": ["*"]
+  },
+  
+  "email": {
+    "enabled": false,
+    "smtpHost": "",
+    "smtpPort": 587,
+    "smtpUsername": "",
+    "smtpPassword": "",
+    "fromEmail": "noreply@grclan.com",
+    "fromName": "GR CLAN",
+    "verificationRequired": false,
+    "welcomeEmail": true,
+    "notificationEmail": true
+  },
+  
+  "notifications": {
+    "enabled": true,
+    "pushNotifications": false,
+    "emailNotifications": true,
+    "soundNotifications": true,
+    "desktopNotifications": false,
+    "defaultSettings": {
+      "account": true,
+      "security": true,
+      "team": true,
+      "news": true,
+      "events": true
+    }
+  },
+  
+  "user": {
+    "defaultRole": "عضو",
+    "defaultAvatar": "assets/images/default-avatar.png",
+    "profileFields": ["name", "email", "phone", "pubgId", "bio"],
+    "requiredFields": ["username", "pubgId"],
+    "minUsernameLength": 3,
+    "maxUsernameLength": 20,
+    "usernameRegex": "^[a-zA-Z0-9_]+$",
+    "allowProfileChanges": true,
+    "allowAvatarChanges": true,
+    "allowEmailChanges": true,
+    "allowUsernameChanges": false,
+    "maxAvatarsPerUser": 5,
+    "maxFilesPerUser": 50
+  },
+  
+  "admin": {
+    "maxAdmins": 20,
+    "defaultPermissions": ["view_stats"],
+    "roleHierarchy": {
+      "owner": ["all"],
+      "super_admin": ["manage_admins", "manage_settings", "view_logs"],
+      "admin": ["manage_content", "manage_users"],
+      "moderator": ["manage_comments", "view_reports"]
+    },
+    "sessionTimeout": 7200000,
+    "loginHistory": true,
+    "activityLogging": true,
+    "ipRestriction": false,
+    "twoFactorRequired": false
+  },
+  
+  "features": {
+    "registration": true,
+    "login": true,
+    "profile": true,
+    "clanInfo": true,
+    "news": true,
+    "applications": true,
+    "members": true,
+    "stats": true,
+    "chat": false,
+    "forum": false,
+    "shop": false,
+    "tournaments": false
+  },
+  
+  "performance": {
+    "cacheUsers": true,
+    "cachePages": true,
+    "cacheDuration": 300000,
+    "lazyLoading": true,
+    "imageOptimization": true,
+    "minifyCSS": true,
+    "minifyJS": true,
+    "gzipCompression": true,
+    "databaseOptimization": true,
+    "queryCaching": true
+  },
+  
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "logToConsole": true,
+    "logToFile": false,
+    "maxLogSize": 10485760,
+    "retentionDays": 30,
+    "logTypes": ["error", "warn", "info", "debug", "security", "user", "admin", "system"],
+    "maskSensitiveData": true
+  },
+  
+  "backup": {
+    "enabled": true,
+    "autoBackup": true,
+    "backupInterval": 86400000,
+    "maxBackups": 30,
+    "backupLocation": "local",
+    "cloudBackup": false,
+    "encryptBackups": false,
+    "notifyOnBackup": true,
+    "backupTypes": ["users", "admins", "system", "config", "logs"]
+  },
+  
+  "monitoring": {
+    "enabled": true,
+    "uptimeCheck": true,
+    "performanceMonitoring": true,
+    "errorTracking": true,
+    "userActivity": true,
+    "adminActivity": true,
+    "diskUsage": true,
+    "memoryUsage": true,
+    "notifyOnIssues": false,
+    "alertThresholds": {
+      "cpu": 80,
+      "memory": 85,
+      "disk": 90,
+      "errors": 10
+    }
+  },
+  
+  "ui": {
+    "theme": "dark",
+    "primaryColor": "#D4AF37",
+    "secondaryColor": "#0A1931",
+    "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    "rtl": true,
+    "animations": true,
+    "responsive": true,
+    "mobileFriendly": true,
+    "accessibility": true,
+    "highContrast": false,
+    "fontSize": "medium"
+  },
+  
+  "api": {
+    "enabled": false,
+    "version": "v1",
+    "rateLimit": 100,
+    "rateLimitWindow": 900000,
+    "requireApiKey": true,
+    "corsEnabled": true,
+    "endpoints": {
+      "users": "/api/v1/users",
+      "profile": "/api/v1/profile",
+      "auth": "/api/v1/auth",
+      "clan": "/api/v1/clan"
+    }
+  }
+}
