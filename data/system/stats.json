@@ -1,1 +1,113 @@
-
+{
+  "version": "2.0",
+  "startup": 1640995200000,
+  "lastUpdate": 1640995200000,
+  
+  "counters": {
+    "users_registered": 0,
+    "admins_registered": 12,
+    "total_logins": 0,
+    "failed_logins": 0,
+    "profile_updates": 0,
+    "avatar_changes": 0,
+    "files_uploaded": 0,
+    "files_downloaded": 0,
+    "admin_logins": 0,
+    "system_errors": 0,
+    "backups_created": 0,
+    "cleanups_performed": 0
+  },
+  
+  "users": {
+    "total": 0,
+    "active": 0,
+    "inactive": 0,
+    "deleted": 0,
+    "verified": 0,
+    "byRole": {
+      "عضو": 0,
+      "قائد": 0,
+      "نائب_قائد": 0
+    },
+    "registrationByDate": {},
+    "loginByDate": {},
+    "avgSessionDuration": 0,
+    "mostActiveUser": null,
+    "newUsersToday": 0,
+    "newUsersThisWeek": 0,
+    "newUsersThisMonth": 0
+  },
+  
+  "admins": {
+    "total": 12,
+    "owners": 2,
+    "admins": 10,
+    "active": 0,
+    "inactive": 12,
+    "byRole": {
+      "owner": 2,
+      "admin": 10
+    },
+    "loginByDate": {},
+    "mostActiveAdmin": null,
+    "actionsByAdmin": {},
+    "failedLogins": 0
+  },
+  
+  "storage": {
+    "totalUsers": 0,
+    "totalAdmins": 12,
+    "totalFiles": 0,
+    "totalImages": 0,
+    "storageUsed": 0,
+    "storageByType": {
+      "profiles": 0,
+      "images": 0,
+      "files": 0,
+      "logs": 0,
+      "backups": 0
+    },
+    "avgUserStorage": 0,
+    "largestUser": null,
+    "oldestUser": null,
+    "newestUser": null,
+    "backupCount": 0,
+    "cleanupCount": 0
+  },
+  
+  "performance": {
+    "avgPageLoad": 0,
+    "avgApiResponse": 0,
+    "uptime": 100,
+    "errorsPerDay": 0,
+    "memoryUsage": 0,
+    "cpuUsage": 0,
+    "requestsPerMinute": 0,
+    "cacheHitRate": 0,
+    "databaseQueries": 0,
+    "slowQueries": 0
+  },
+  
+  "activities": [],
+  
+  "dailyStats": {},
+  
+  "monthlyStats": {},
+  
+  "yearlyStats": {},
+  
+  "settings": {
+    "autoCollect": true,
+    "collectInterval": 3600000,
+    "retentionDays": 365,
+    "anonymizeData": true,
+    "shareStatistics": false,
+    "notifyOnThreshold": true,
+    "thresholds": {
+      "maxUsers": 10000,
+      "maxStorage": 1073741824,
+      "maxErrors": 100,
+      "minUptime": 99
+    }
+  }
+}
