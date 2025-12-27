@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* ===== تصميم صفحة حسابي الأسطوري ===== */
+        /* ===== تصميم صفحة الحساب الأسطوري ===== */
         :root {
             --primary-gold: #D4AF37;
             --secondary-gold: #FFD700;
@@ -15,7 +15,6 @@
             --darker-bg: #061025;
             --card-bg: rgba(255, 255, 255, 0.03);
             --text-glow: 0 0 10px rgba(212, 175, 55, 0.5);
-            --gradient-gold: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
         }
         
         body {
@@ -50,7 +49,7 @@
         }
         
         /* ===== الهيدر ===== */
-        .account-header {
+        .main-header {
             background: rgba(6, 16, 37, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 3px solid var(--primary-gold);
@@ -72,13 +71,14 @@
             gap: 15px;
         }
         
-        .account-logo {
-            width: 50px;
-            height: 50px;
+        .clan-logo-small {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid var(--primary-gold);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            border: 3px solid var(--primary-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            position: relative;
             animation: logoGlow 2s infinite alternate;
         }
         
@@ -87,16 +87,16 @@
             100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
         }
         
-        .account-logo img {
+        .clan-logo-small img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        .account-title {
-            font-size: 1.5rem;
+        .clan-name-header {
+            font-size: 1.8rem;
             font-weight: 900;
-            background: var(--gradient-gold);
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -109,11 +109,24 @@
             gap: 20px;
         }
         
-        .back-to-main {
+        #user-id-display {
+            background: rgba(212, 175, 55, 0.15);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--primary-gold);
+            font-weight: 700;
+            color: var(--secondary-gold);
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        /* زر تسجيل الخروج */
+        .logout-btn {
             background: linear-gradient(135deg, #ff4757, #ff6b81);
             color: white;
             border: none;
-            padding: 8px 20px;
+            padding: 10px 25px;
             border-radius: 50px;
             font-weight: 700;
             cursor: pointer;
@@ -121,284 +134,301 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
             box-shadow: 0 5px 20px rgba(255, 71, 87, 0.3);
         }
         
-        .back-to-main:hover {
+        .logout-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
             background: linear-gradient(135deg, #ff6b81, #ff4757);
         }
         
-        /* ===== المحتوى الرئيسي ===== */
-        .account-content {
+        /* ===== محتوى الصفحة ===== */
+        .profile-content {
             padding-top: 100px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 100px 40px 40px;
         }
         
-        /* البانر الشخصي */
-        .profile-banner {
+        /* البانر */
+        .profile-hero {
             background: linear-gradient(135deg, 
                 rgba(6, 16, 37, 0.9) 0%, 
                 rgba(10, 25, 49, 0.7) 100%);
             border-radius: 25px;
-            padding: 60px 50px;
+            padding: 50px 40px;
             border: 3px solid var(--primary-gold);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             margin-bottom: 50px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
         
-        .profile-banner::before {
+        .profile-hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
-            background: var(--gradient-gold);
-        }
-        
-        .banner-content {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-        
-        @media (max-width: 768px) {
-            .banner-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-        
-        .profile-avatar {
-            position: relative;
-            width: 180px;
-            height: 180px;
-        }
-        
-        .avatar-container {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid var(--primary-gold);
-            box-shadow: 
-                0 0 40px rgba(212, 175, 55, 0.5),
-                inset 0 0 20px rgba(212, 175, 55, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-        
-        .avatar-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .avatar-ring {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            border: 2px solid transparent;
+            bottom: 0;
             background: linear-gradient(45deg, 
-                var(--primary-gold), 
-                var(--secondary-gold), 
-                transparent 70%) border-box;
-            animation: rotateRing 10s linear infinite;
+                rgba(212, 175, 55, 0.1) 0%, 
+                transparent 50%);
+            z-index: 0;
+        }
+        
+        .profile-hero-content {
+            position: relative;
             z-index: 1;
         }
         
-        @keyframes rotateRing {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .profile-info {
-            flex: 1;
-        }
-        
-        .profile-name {
+        .profile-hero h1 {
             font-size: 3.5rem;
-            background: var(--gradient-gold);
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             text-shadow: var(--text-glow);
+            letter-spacing: 2px;
             font-weight: 900;
         }
         
-        .profile-badge {
-            display: inline-block;
-            background: var(--gradient-gold);
-            color: var(--dark-bg);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        .profile-hero p {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
-        .profile-stats {
+        /* شبكة الصفحة */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        @media (max-width: 992px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ===== البطاقة الشخصية ===== */
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+        
+        /* صورة الملف الشخصي */
+        .profile-picture-container {
+            position: relative;
+            margin: 0 auto 30px;
+            width: 200px;
+            height: 200px;
+        }
+        
+        .profile-picture-frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            padding: 8px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+            animation: pulse 3s infinite ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--dark-bg);
+        }
+        
+        .change-photo-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
             display: flex;
-            gap: 30px;
-            margin-top: 25px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        .change-photo-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.6);
+        }
+        
+        /* معلومات المستخدم */
+        .user-name {
+            color: var(--primary-gold);
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: var(--text-glow);
+        }
+        
+        .user-role {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--secondary-gold);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
         }
         
         .stat-item {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            min-width: 120px;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: var(--text-glow);
-        }
-        
-        .stat-label {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            margin-top: 5px;
-        }
-        
-        /* ===== شبكة البطاقات ===== */
-        .account-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin: 60px 0;
-        }
-        
-        .account-card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 40px 35px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .account-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--gradient-gold);
-        }
-        
-        .account-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--primary-gold);
-            box-shadow: 0 25px 70px rgba(212, 175, 55, 0.2);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .card-icon {
-            font-size: 2.5rem;
-            width: 60px;
-            height: 60px;
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-gold);
-        }
-        
-        .card-title {
-            color: var(--primary-gold);
-            font-size: 1.8rem;
-            font-weight: 800;
-            flex: 1;
-        }
-        
-        /* ===== معلومات الحساب ===== */
-        .info-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .info-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
+            padding: 12px 20px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid rgba(212, 175, 55, 0.1);
             transition: all 0.3s ease;
         }
         
-        .info-item:hover {
+        .stat-item:hover {
             background: rgba(212, 175, 55, 0.05);
-            border-color: var(--primary-gold);
             transform: translateX(-5px);
         }
         
-        .info-icon {
-            color: var(--primary-gold);
-            font-size: 1.5rem;
-            margin-left: 15px;
-            min-width: 30px;
-        }
-        
-        .info-content {
-            flex: 1;
-        }
-        
-        .info-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .info-value {
-            color: white;
-            font-size: 1.2rem;
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 600;
         }
         
-        .info-badge {
+        .stat-value {
+            color: var(--secondary-gold);
+            font-weight: 700;
+        }
+        
+        /* ===== قسم الإعدادات ===== */
+        .settings-section {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            color: var(--primary-gold);
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            font-weight: 800;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), transparent);
+        }
+        
+        /* أقسام الإعدادات */
+        .settings-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .settings-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-tab:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--secondary-gold);
+            transform: translateY(-3px);
+        }
+        
+        .settings-tab.active {
             background: rgba(212, 175, 55, 0.2);
+            border-color: var(--primary-gold);
             color: var(--primary-gold);
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid rgba(212, 175, 55, 0.3);
         }
         
-        /* ===== نموذج التعديل ===== */
+        /* محتوى التبويبات */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* النماذج */
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-label {
@@ -430,90 +460,48 @@
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
         }
         
-        .password-container {
-            position: relative;
-        }
-        
-        .password-input {
-            padding-left: 50px;
-        }
-        
-        .toggle-password {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--primary-gold);
-            cursor: pointer;
-            font-size: 1.3rem;
-        }
-        
-        /* ===== الإعدادات ===== */
-        .settings-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .setting-item {
+        /* المفاتيح التبديل */
+        .toggle-switch {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 20px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            border-radius: 12px;
             border: 1px solid rgba(212, 175, 55, 0.1);
+            margin-bottom: 15px;
             transition: all 0.3s ease;
-            cursor: pointer;
         }
         
-        .setting-item:hover {
+        .toggle-switch:hover {
             background: rgba(212, 175, 55, 0.05);
             border-color: var(--primary-gold);
-            transform: translateX(-5px);
         }
         
-        .setting-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .toggle-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            font-size: 1.1rem;
             flex: 1;
         }
         
-        .setting-icon {
-            color: var(--primary-gold);
-            font-size: 1.5rem;
-            min-width: 40px;
-        }
-        
-        .setting-text h4 {
-            color: white;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-        
-        .setting-text p {
-            color: rgba(255, 255, 255, 0.7);
+        .toggle-description {
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
+            margin-top: 5px;
         }
         
-        /* التبديل */
-        .switch {
+        .toggle-container {
             position: relative;
-            display: inline-block;
             width: 60px;
             height: 30px;
         }
         
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+        .toggle-checkbox {
+            display: none;
         }
         
-        .slider {
+        .toggle-slider {
             position: absolute;
             cursor: pointer;
             top: 0;
@@ -523,197 +511,97 @@
             background-color: rgba(255, 255, 255, 0.1);
             transition: .4s;
             border-radius: 34px;
-            border: 2px solid rgba(212, 175, 55, 0.3);
         }
         
-        .slider:before {
+        .toggle-slider:before {
             position: absolute;
             content: "";
             height: 22px;
             width: 22px;
             left: 4px;
-            bottom: 2px;
-            background-color: rgba(255, 255, 255, 0.5);
+            bottom: 4px;
+            background-color: white;
             transition: .4s;
             border-radius: 50%;
         }
         
-        input:checked + .slider {
+        .toggle-checkbox:checked + .toggle-slider {
             background-color: var(--primary-gold);
-            border-color: var(--primary-gold);
         }
         
-        input:checked + .slider:before {
-            transform: translateX(26px);
-            background-color: white;
+        .toggle-checkbox:checked + .toggle-slider:before {
+            transform: translateX(30px);
         }
         
-        /* ===== الأزرار ===== */
-        .btn {
-            padding: 15px 30px;
-            border-radius: 12px;
+        /* أزرار الحفظ */
+        .save-btn {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--dark-bg);
             border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-        }
-        
-        .btn-primary {
-            background: var(--gradient-gold);
-            color: var(--dark-bg);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white;
-            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
-        }
-        
-        .btn-danger:hover {
-            background: linear-gradient(135deg, #ff6b81, #ff4757);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4);
-        }
-        
-        .btn-secondary {
-            background: rgba(212, 175, 55, 0.1);
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--primary-gold);
-            color: var(--dark-bg);
-            transform: translateY(-5px);
-        }
-        
-        /* ===== نافذة حذف الحساب ===== */
-        .confirm-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .confirm-modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .confirm-box {
-            background: linear-gradient(135deg, #0A1931, #162447);
-            border-radius: 25px;
-            padding: 50px 40px;
-            border: 3px solid #ff6b81;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            animation: slideUp 0.4s ease;
-        }
-        
-        @keyframes slideUp {
-            from { 
-                transform: translateY(50px) scale(0.9);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .confirm-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: #ff6b81;
-            filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.5));
-        }
-        
-        .confirm-title {
-            color: #ff6b81;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            font-weight: 900;
-        }
-        
-        .confirm-message {
-            color: rgba(255, 255, 255, 0.9);
+            padding: 18px 40px;
+            border-radius: 12px;
             font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* قسم حذف الحساب */
+        .danger-zone {
+            background: rgba(255, 71, 87, 0.1);
+            border: 2px solid #ff4757;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        
+        .danger-title {
+            color: #ff6b81;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .danger-text {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
             line-height: 1.6;
         }
         
-        .confirm-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        
-        .confirm-btn {
-            padding: 15px 35px;
-            border-radius: 15px;
+        .delete-btn {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
             border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
         }
         
-        .confirm-yes {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white;
-            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
-        }
-        
-        .confirm-yes:hover {
+        .delete-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(255, 71, 87, 0.4);
-            background: linear-gradient(135deg, #ff6b81, #ff4757);
-        }
-        
-        .confirm-no {
-            background: rgba(212, 175, 55, 0.2);
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-        }
-        
-        .confirm-no:hover {
-            background: var(--primary-gold);
-            color: var(--dark-bg);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4);
         }
         
         /* ===== إشعارات ===== */
@@ -818,46 +706,197 @@
             to { transform: scaleX(0); }
         }
         
-        /* ===== التصميم المتجاوب ===== */
-        @media (max-width: 1200px) {
-            .account-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* ===== نافذة تأكيد الحذف ===== */
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .confirm-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .confirm-box {
+            background: linear-gradient(135deg, #0A1931, #162447);
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 3px solid #ff6b81;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                transform: translateY(50px) scale(0.9);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
             }
         }
         
+        .confirm-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ff6b81;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.5));
+        }
+        
+        .confirm-title {
+            color: #ff6b81;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        
+        .confirm-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .confirm-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid #ff6b81;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .confirm-btn {
+            padding: 15px 35px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .confirm-yes {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+        
+        .confirm-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 71, 87, 0.4);
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
+        }
+        
+        .confirm-no {
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+        
+        .confirm-no:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* ===== التصميم المتجاوب ===== */
         @media (max-width: 768px) {
-            .account-header {
+            .main-header {
                 padding: 12px 20px;
             }
             
-            .account-content {
+            .header-right {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            #user-id-display {
+                min-width: 120px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .logout-btn {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .profile-content {
                 padding: 120px 20px 60px;
             }
             
-            .profile-banner {
-                padding: 40px 30px;
+            .profile-hero {
+                padding: 40px 25px;
             }
             
-            .profile-name {
+            .profile-hero h1 {
                 font-size: 2.5rem;
             }
             
-            .profile-avatar {
-                width: 140px;
-                height: 140px;
+            .profile-hero p {
+                font-size: 1.2rem;
             }
             
-            .avatar-container {
-                width: 140px;
-                height: 140px;
-            }
-            
-            .account-card {
+            .profile-card, .settings-section {
                 padding: 30px 25px;
             }
             
+            .profile-picture-container {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .user-name {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .settings-tab {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
             .confirm-box {
-                padding: 40px 25px;
+                padding: 30px 25px;
             }
             
             .confirm-buttons {
@@ -868,36 +907,28 @@
             .confirm-btn {
                 width: 100%;
             }
-            
-            .notification-container {
-                right: 10px;
-                max-width: 300px;
-            }
         }
         
         @media (max-width: 480px) {
-            .account-title {
-                font-size: 1.2rem;
+            .clan-name-header {
+                font-size: 1.4rem;
             }
             
-            .profile-name {
+            .clan-logo-small {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .profile-hero h1 {
                 font-size: 2rem;
             }
             
-            .profile-stats {
-                justify-content: center;
+            .user-name {
+                font-size: 1.6rem;
             }
             
-            .stat-item {
-                min-width: 100px;
-            }
-            
-            .account-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .card-title {
-                font-size: 1.5rem;
+            .section-title {
+                font-size: 1.6rem;
             }
             
             .confirm-title {
@@ -912,227 +943,152 @@
 </head>
 <body>
     <!-- الهيدر -->
-    <header class="account-header">
+    <header class="main-header">
         <div class="header-left">
-            <div class="account-logo">
+            <div class="clan-logo-small">
                 <img src="assets/images/clan-logo2.png" alt="شعار GR CLAN">
             </div>
-            <span class="account-title">حسابي الشخصي</span>
+            <span class="clan-name-header">GR CLAN</span>
         </div>
         
         <div class="header-right">
-            <a href="main.html" class="back-to-main">
+            <div id="user-id-display">زائر</div>
+            <button class="logout-btn" onclick="window.location.href='main.html'">
                 <span>🏠</span>
                 العودة للرئيسية
-            </a>
+            </button>
         </div>
     </header>
 
     <!-- المحتوى الرئيسي -->
-    <main class="account-content">
-        <!-- البانر الشخصي -->
-        <section class="profile-banner">
-            <div class="banner-content">
-                <!-- الصورة الشخصية -->
-                <div class="profile-avatar">
-                    <div class="avatar-ring"></div>
-                    <div class="avatar-container" id="avatarContainer">
-                        <!-- سيتم تحميل الصورة ديناميكياً -->
-                    </div>
-                </div>
-                
-                <!-- معلومات المستخدم -->
-                <div class="profile-info">
-                    <h1 class="profile-name" id="userName">جارٍ التحميل...</h1>
-                    <div class="profile-badge" id="userRole">مستخدم</div>
-                    
-                    <div class="profile-stats">
-                        <div class="stat-item">
-                            <div class="stat-number" id="statMatches">0</div>
-                            <div class="stat-label">المباريات</div>
-                        </div>
-                        
-                        <div class="stat-item">
-                            <div class="stat-number" id="statWins">0</div>
-                            <div class="stat-label">الانتصارات</div>
-                        </div>
-                        
-                        <div class="stat-item">
-                            <div class="stat-number" id="statKills">0</div>
-                            <div class="stat-label">التصفيات</div>
-                        </div>
-                        
-                        <div class="stat-item">
-                            <div class="stat-number" id="statKD">0.0</div>
-                            <div class="stat-label">نسبة التصفية</div>
-                        </div>
-                    </div>
-                </div>
+    <main class="profile-content">
+        <!-- البانر -->
+        <section class="profile-hero">
+            <div class="profile-hero-content">
+                <h1>👑 حسابي الشخصي</h1>
+                <p>
+                    هنا يمكنك إدارة معلومات حسابك الشخصي، تحديث بياناتك، وتغيير إعداداتك الخاصة.
+                    كل التعديلات التي تقوم بها ستظهر في جميع صفحات الكلان.
+                </p>
             </div>
         </section>
 
-        <!-- شبكة البطاقات -->
-        <div class="account-grid">
-            <!-- معلومات الحساب -->
-            <div class="account-card">
-                <div class="card-header">
-                    <div class="card-icon">👤</div>
-                    <h2 class="card-title">معلومات الحساب</h2>
-                </div>
-                
-                <div class="info-list">
-                    <div class="info-item">
-                        <div class="info-icon">🆔</div>
-                        <div class="info-content">
-                            <div class="info-label">معرف اللاعب</div>
-                            <div class="info-value" id="infoPubgId">غير محدد</div>
-                        </div>
+        <!-- شبكة الصفحة -->
+        <div class="profile-grid">
+            <!-- البطاقة الشخصية -->
+            <aside class="profile-card">
+                <!-- صورة الملف الشخصي -->
+                <div class="profile-picture-container">
+                    <div class="profile-picture-frame">
+                        <img id="userProfileImage" class="profile-picture" src="assets/images/default-avatar.png" alt="صورة الملف الشخصي">
                     </div>
-                    
-                    <div class="info-item">
-                        <div class="info-icon">📅</div>
-                        <div class="info-content">
-                            <div class="info-label">تاريخ الانضمام</div>
-                            <div class="info-value" id="infoJoinDate">غير محدد</div>
-                        </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <div class="info-icon">🎯</div>
-                        <div class="info-content">
-                            <div class="info-label">الرتبة الحالية</div>
-                            <div class="info-value">
-                                <span class="info-badge" id="infoRank">غير محدد</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <div class="info-icon">👑</div>
-                        <div class="info-content">
-                            <div class="info-label">الدور في الكلان</div>
-                            <div class="info-value">
-                                <span class="info-badge" id="infoClanRole">عضو</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- تعديل الملف الشخصي -->
-            <div class="account-card">
-                <div class="card-header">
-                    <div class="card-icon">✏️</div>
-                    <h2 class="card-title">تعديل الملف الشخصي</h2>
-                </div>
-                
-                <form id="editProfileForm">
-                    <div class="form-group">
-                        <label for="editUsername" class="form-label">
-                            <span>👤</span>
-                            اسم المستخدم
-                        </label>
-                        <input 
-                            type="text" 
-                            id="editUsername" 
-                            class="form-input"
-                            placeholder="اسم المستخدم الجديد"
-                        >
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editPubgId" class="form-label">
-                            <span>🎮</span>
-                            معرف PUBG
-                        </label>
-                        <input 
-                            type="text" 
-                            id="editPubgId" 
-                            class="form-input"
-                            placeholder="معرف اللعبة الجديد"
-                        >
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editBio" class="form-label">
-                            <span>📝</span>
-                            نبذة عنك
-                        </label>
-                        <textarea 
-                            id="editBio" 
-                            class="form-input"
-                            placeholder="اكتب نبذة مختصرة عنك..."
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <span>💾</span>
-                        حفظ التعديلات
+                    <button class="change-photo-btn" onclick="document.getElementById('profileImageInput').click()">
+                        ✏️
                     </button>
-                </form>
-            </div>
-
-            <!-- تغيير كلمة المرور -->
-            <div class="account-card">
-                <div class="card-header">
-                    <div class="card-icon">🔐</div>
-                    <h2 class="card-title">تغيير كلمة المرور</h2>
+                    <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="changeProfileImage(event)">
                 </div>
                 
-                <form id="changePasswordForm">
-                    <div class="form-group">
-                        <label for="currentPassword" class="form-label">
-                            <span>🔑</span>
-                            كلمة المرور الحالية
-                        </label>
-                        <div class="password-container">
-                            <input 
-                                type="password" 
-                                id="currentPassword" 
-                                class="form-input password-input"
-                                placeholder="أدخل كلمة المرور الحالية"
-                                required
-                            >
-                            <button type="button" class="toggle-password" data-target="currentPassword">
-                                👁️
-                            </button>
-                        </div>
+                <!-- معلومات المستخدم -->
+                <h2 class="user-name" id="displayUserName">المستخدم</h2>
+                <div class="user-role" id="userRoleDisplay">👤 مستخدم</div>
+                
+                <!-- إحصائيات المستخدم -->
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">📅 تاريخ الانضمام</span>
+                        <span class="stat-value" id="joinDate">اليوم</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="newPassword" class="form-label">
-                            <span>🆕</span>
-                            كلمة المرور الجديدة
-                        </label>
-                        <div class="password-container">
-                            <input 
-                                type="password" 
-                                id="newPassword" 
-                                class="form-input password-input"
-                                placeholder="أدخل كلمة المرور الجديدة"
-                                required
-                            >
-                            <button type="button" class="toggle-password" data-target="newPassword">
-                                👁️
-                            </button>
-                        </div>
+                    <div class="stat-item">
+                        <span class="stat-label">🎮 حالة الحساب</span>
+                        <span class="stat-value" id="accountStatus">نشط</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="confirmPassword" class="form-label">
-                            <span>✅</span>
-                            تأكيد كلمة المرور
-                        </label>
-                        <div class="password-container">
+                    <div class="stat-item">
+                        <span class="stat-label">🔔 الإشعارات</span>
+                        <span class="stat-value" id="notificationsStatus">مفعلة</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">👥 دوري في الكلان</span>
+                        <span class="stat-value">غير معروف</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- قسم الإعدادات -->
+            <section class="settings-section">
+                <h2 class="section-title">⚙️ إعدادات الحساب</h2>
+                
+                <!-- تبويبات الإعدادات -->
+                <div class="settings-tabs">
+                    <div class="settings-tab active" onclick="switchTab('profile')">
+                        <span>👤</span>
+                        الملف الشخصي
+                    </div>
+                    <div class="settings-tab" onclick="switchTab('security')">
+                        <span>🔒</span>
+                        الأمان
+                    </div>
+                    <div class="settings-tab" onclick="switchTab('notifications')">
+                        <span>🔔</span>
+                        الإشعارات
+                    </div>
+                    <div class="settings-tab" onclick="switchTab('appearance')">
+                        <span>🎨</span>
+                        المظهر
+                    </div>
+                </div>
+                
+                <!-- محتوى تبويب الملف الشخصي -->
+                <div class="tab-content active" id="profileTab">
+                    <form id="profileForm" class="settings-form">
+                        <div class="form-group">
+                            <label for="userName" class="form-label">
+                                <span>👤</span>
+                                اسم المستخدم
+                            </label>
                             <input 
-                                type="password" 
-                                id="confirmPassword" 
-                                class="form-input password-input"
-                                placeholder="أعد إدخال كلمة المرور الجديدة"
+                                type="text" 
+                                id="userName" 
+                                class="form-input"
+                                placeholder="أدخل اسمك الجديد"
                                 required
                             >
-                            <button type="button" class="toggle-password" data-target="confirmPassword">
-                                👁️
-                            </button>
+                            <div class="form-hint" style="color: var(--primary-gold); margin-top: 8px;">
+                                ⚡ سيظهر هذا الاسم في جميع صفحات الكلان
+                            </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="userEmail" class="form-label">
+                                <span>📧</span>
+                                البريد الإلكتروني
+                            </label>
+                            <input 
+                                type="email" 
+                                id="userEmail" 
+                                class="form-input"
+                                placeholder="example@email.com"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="userBio" class="form-label">
+                                <span>📝</span>
+                                نبذة عنك
+                            </label>
+                            <textarea 
+                                id="userBio" 
+                                class="form-input"
+                                placeholder="اكتب نبذة مختصرة عن نفسك..."
+                                rows="4"
+                                style="resize: vertical; min-height: 100px;"
+                            ></textarea>
+                        </div>
+                        
+                        <button type="submit" class="save-btn">
+                            <span>💾</span>
+                            حفظ التعديلات
+                        </button>
+                    </form>
+                </div>
+                
