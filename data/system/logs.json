@@ -1,1 +1,44 @@
-
+{
+  "version": "2.0",
+  "created": 1640995200000,
+  "lastUpdate": 1640995200000,
+  
+  "systemLogs": [],
+  
+  "securityLogs": [],
+  
+  "userLogs": [],
+  
+  "adminLogs": [],
+  
+  "errorLogs": [],
+  
+  "fileOperations": [],
+  
+  "statistics": {
+    "totalLogs": 0,
+    "systemLogsCount": 0,
+    "securityLogsCount": 0,
+    "userLogsCount": 0,
+    "adminLogsCount": 0,
+    "errorLogsCount": 0,
+    "fileOpsCount": 0,
+    "logsByDay": {},
+    "errorsByType": {},
+    "mostActiveUsers": {},
+    "mostActiveAdmins": {}
+  },
+  
+  "settings": {
+    "maxLogs": 10000,
+    "retentionDays": 30,
+    "autoCleanup": true,
+    "logLevels": ["error", "warn", "info", "debug"],
+    "maskSensitiveData": true,
+    "logToConsole": true,
+    "compressOldLogs": true,
+    "notifyOnErrors": false
+  },
+  
+  "recentActivity": []
+}
