@@ -1064,168 +1064,181 @@
                 newsContainer.appendChild(newsCard);
             });
         }
-        
-        // 4. تحديث قائمة البرجر حسب الصلاحيات
+    
+
         function updateBurgerMenu() {
-            const burgerItems = document.getElementById('burgerItems');
+    const burgerItems = document.getElementById('burgerItems');
+    
+    // العناصر الأساسية للجميع
+    const baseItems = [
+        { icon: '🏠', label: 'معلومات العشيرة', href: 'main.html', class: 'active' },
+        { icon: '👥', label: 'الأعضاء', href: '#', class: 'coming-soon' },
+        { icon: '📝', label: 'التقديم', href: '#', class: 'coming-soon' },
+        { icon: '👤', label: 'حسابي', href: 'account.html' }
+    ];
+    
+    // مسح المحتوى الحالي
+    burgerItems.innerHTML = '';
+    
+    // إضافة العناصر الأساسية
+    baseItems.forEach(item => {
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.className = `burger-item ${item.class || ''}`;
+        link.innerHTML = `
+            <span class="burger-icon">${item.icon}</span>
+            <span class="burger-label">${item.label}</span>
+        `;
+        
+        if (item.class === 'coming-soon') {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('🚧 هذه الصفحة قيد التطوير، ستكون متاحة قريباً!');
+                burgerBtn.classList.remove('active');
+                burgerMenu.classList.remove('active');
+            });
+        }
+        
+        burgerItems.appendChild(link);
+    });
+    
+    // التحقق إذا كان المستخدم أدمن أو أونر
+    const adminSession = window.AdminAuthSystem ? window.AdminAuthSystem.getCurrentAdmin() : null;
+    
+    if (adminSession) {
+        // تحقق إذا كانت الصلاحيات مخفية
+        const isAdminHidden = localStorage.getItem('adminHidden') === 'true';
+        
+        // إضافة فاصل
+        const divider = document.createElement('div');
+        divider.className = 'burger-divider';
+        burgerItems.appendChild(divider);
+        
+        // عنوان قسم الأدمن مع زر الإخفاء
+        const adminTitle = document.createElement('div');
+        adminTitle.className = 'burger-item admin-only';
+        adminTitle.style.background = 'rgba(212, 175, 55, 0.1)';
+        adminTitle.style.color = 'var(--secondary-gold)';
+        adminTitle.innerHTML = `
+            <span class="burger-icon">${isAdminHidden ? '👁️' : '⚡'}</span>
+            <span class="burger-label">${isAdminHidden ? 'إظهار الصلاحيات' : 'لوحة التحكم'}</span>
+            <span class="burger-badge">${adminSession.role === 'owner' ? '👑' : '⭐'}</span>
+        `;
+        
+        adminTitle.addEventListener('click', function(e) {
+            e.preventDefault();
+            // تبديل حالة الإخفاء
+            const currentState = localStorage.getItem('adminHidden') === 'true';
+            localStorage.setItem('adminHidden', !currentState);
             
-            // العناصر الأساسية للجميع
-            const baseItems = [
-                { icon: '🏠', label: 'معلومات العشيرة', href: 'main.html', class: 'active' },
-                { icon: '👥', label: 'الأعضاء', href: '#', class: 'coming-soon' },
-                { icon: '📝', label: 'التقديم', href: '#', class: 'coming-soon' },
-                { icon: '👤', label: 'حسابي', href: 'account.html' }
-            ];
+            // إظهار رسالة
+            if (!currentState) {
+                alert('✅ تم إخفاء صلاحيات الأدمن');
+            } else {
+                alert('✅ تم إظهار صلاحيات الأدمن');
+            }
             
-            // مسح المحتوى الحالي
-            burgerItems.innerHTML = '';
+            // تحديث القائمة
+            updateBurgerMenu();
+            burgerBtn.classList.remove('active');
+            burgerMenu.classList.remove('active');
+        });
+        
+        burgerItems.appendChild(adminTitle);
+        
+        // عرض عناصر الأدمن فقط إذا لم تكن مخفية
+        if (!isAdminHidden) {
+            // عناصر الأدمن حسب الصلاحيات
+            const adminItems = [];
             
-            // إضافة العناصر الأساسية
-            baseItems.forEach(item => {
+            // صفحة إدارة الأخبار (للأونر والأدمن)
+            if (window.AdminAuthSystem.hasPermission('manage_news')) {
+                adminItems.push({
+                    icon: '📢',
+                    label: 'إدارة الأخبار',
+                    href: 'admin/manage-news.html',
+                    class: 'admin-only'
+                });
+            }
+            
+            // صفحة إدارة التقديمات
+            if (window.AdminAuthSystem.hasPermission('manage_applications')) {
+                adminItems.push({
+                    icon: '📝',
+                    label: 'إدارة التقديمات',
+                    href: 'admin/manage-applications.html',
+                    class: 'admin-only'
+                });
+            }
+            
+            // صفحة إدارة الأعضاء (للأونر فقط)
+            if (adminSession.role === 'owner') {
+                adminItems.push({
+                    icon: '👑',
+                    label: 'إدارة الأعضاء',
+                    href: 'admin/manage-members.html',
+                    class: 'admin-only'
+                });
+            }
+            
+            // صفحة الإحصائيات
+            if (window.AdminAuthSystem.hasPermission('view_stats')) {
+                adminItems.push({
+                    icon: '📊',
+                    label: 'الإحصائيات',
+                    href: 'admin/stats.html',
+                    class: 'admin-only'
+                });
+            }
+            
+            // إضافة عناصر الأدمن
+            adminItems.forEach(item => {
                 const link = document.createElement('a');
                 link.href = item.href;
-                link.className = `burger-item ${item.class || ''}`;
+                link.className = `burger-item ${item.class}`;
                 link.innerHTML = `
                     <span class="burger-icon">${item.icon}</span>
                     <span class="burger-label">${item.label}</span>
                 `;
                 
-                if (item.class === 'coming-soon') {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        alert('🚧 هذه الصفحة قيد التطوير، ستكون متاحة قريباً!');
-                        burgerBtn.classList.remove('active');
-                        burgerMenu.classList.remove('active');
-                    });
-                }
+                link.addEventListener('click', function() {
+                    burgerBtn.classList.remove('active');
+                    burgerMenu.classList.remove('active');
+                });
                 
                 burgerItems.appendChild(link);
             });
             
-            // التحقق إذا كان المستخدم أدمن أو أونر
-            const adminSession = window.AdminAuthSystem ? window.AdminAuthSystem.getCurrentAdmin() : null;
+            // زر تسجيل خروج الأدمن
+            const adminLogoutItem = document.createElement('a');
+            adminLogoutItem.href = '#';
+            adminLogoutItem.className = 'burger-item';
+            adminLogoutItem.style.background = 'rgba(255, 71, 87, 0.1)';
+            adminLogoutItem.style.color = '#ff6b81';
+            adminLogoutItem.innerHTML = `
+                <span class="burger-icon">🚪</span>
+                <span class="burger-label">خروج الأدمن</span>
+            `;
             
-            if (adminSession) {
-                // إضافة فاصل
-                const divider = document.createElement('div');
-                divider.className = 'burger-divider';
-                burgerItems.appendChild(divider);
-                
-                // عنوان قسم الأدمن
-                const adminTitle = document.createElement('div');
-                adminTitle.className = 'burger-item admin-only';
-                adminTitle.style.background = 'rgba(212, 175, 55, 0.1)';
-                adminTitle.style.color = 'var(--secondary-gold)';
-                adminTitle.innerHTML = `
-                    <span class="burger-icon">⚡</span>
-                    <span class="burger-label">لوحة التحكم</span>
-                    <span class="burger-badge">${adminSession.role === 'owner' ? '👑 مالك' : '⭐ أدمن'}</span>
-                `;
-                burgerItems.appendChild(adminTitle);
-                
-                // عناصر الأدمن حسب الصلاحيات
-                const adminItems = [];
-                
-                // صفحة إدارة الأخبار (للأونر والأدمن)
-                if (window.AdminAuthSystem.hasPermission('manage_news')) {
-                    adminItems.push({
-                        icon: '📢',
-                        label: 'إدارة الأخبار',
-                        href: 'admin/manage-news.html',
-                        class: 'admin-only'
-                    });
-                }
-                
-                // صفحة إدارة التقديمات
-                if (window.AdminAuthSystem.hasPermission('manage_applications')) {
-                    adminItems.push({
-                        icon: '📝',
-                        label: 'إدارة التقديمات',
-                        href: 'admin/manage-applications.html',
-                        class: 'admin-only'
-                    });
-                }
-                
-                // صفحة إدارة الأعضاء (للأونر فقط)
-                if (adminSession.role === 'owner') {
-                    adminItems.push({
-                        icon: '👑',
-                        label: 'إدارة الأعضاء',
-                        href: 'admin/manage-members.html',
-                        class: 'admin-only'
-                    });
-                }
-                
-                // صفحة الإحصائيات
-                if (window.AdminAuthSystem.hasPermission('view_stats')) {
-                    adminItems.push({
-                        icon: '📊',
-                        label: 'الإحصائيات',
-                        href: 'admin/stats.html',
-                        class: 'admin-only'
-                    });
-                }
-                
-                // إضافة عناصر الأدمن
-                adminItems.forEach(item => {
-                    const link = document.createElement('a');
-                    link.href = item.href;
-                    link.className = `burger-item ${item.class}`;
-                    link.innerHTML = `
-                        <span class="burger-icon">${item.icon}</span>
-                        <span class="burger-label">${item.label}</span>
-                    `;
-                    
-                    link.addEventListener('click', function() {
-                        burgerBtn.classList.remove('active');
-                        burgerMenu.classList.remove('active');
-                    });
-                    
-                    burgerItems.appendChild(link);
-                });
-                
-                // زر تسجيل خروج الأدمن
-                const adminLogoutItem = document.createElement('a');
-                adminLogoutItem.href = '#';
-                adminLogoutItem.className = 'burger-item';
-                adminLogoutItem.style.background = 'rgba(255, 71, 87, 0.1)';
-                adminLogoutItem.style.color = '#ff6b81';
-                adminLogoutItem.innerHTML = `
-                    <span class="burger-icon">🚪</span>
-                    <span class="burger-label">خروج الأدمن</span>
-                `;
-                
-                adminLogoutItem.addEventListener('click', function(e) {
-                    e.preventDefault();
+            adminLogoutItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('هل تريد تسجيل خروج الأدمن؟')) {
                     window.AdminAuthSystem.adminLogout();
+                    localStorage.removeItem('adminHidden'); // مسح حالة الإخفاء
                     alert('✅ تم تسجيل خروج الأدمن بنجاح');
                     updateBurgerMenu(); // تحديث القائمة
                     burgerBtn.classList.remove('active');
                     burgerMenu.classList.remove('active');
-                });
-                
-                burgerItems.appendChild(adminLogoutItem);
-            } else {
-                // إضافة خيار دخول الأدمن
-                const adminLoginItem = document.createElement('a');
-                adminLoginItem.href = 'admin/login.html';
-                adminLoginItem.className = 'burger-item';
-                adminLoginItem.innerHTML = `
-                    <span class="burger-icon">🔐</span>
-                    <span class="burger-label">دخول الأدمن</span>
-                    <span class="burger-badge">خاص</span>
-                `;
-                
-                adminLoginItem.addEventListener('click', function() {
-                    burgerBtn.classList.remove('active');
-                    burgerMenu.classList.remove('active');
-                });
-                
-                burgerItems.appendChild(adminLoginItem);
-            }
+                }
+            });
             
-            console.log(`🍔 تم تحديث قائمة البرجر بـ ${burgerItems.children.length} عنصر`);
+            burgerItems.appendChild(adminLogoutItem);
         }
+    }
+    // تم إزالة قسم "دخول الأدمن" من هنا
+    
+    console.log(`🍔 تم تحديث قائمة البرجر بـ ${burgerItems.children.length} عنصر`);
+}
         
         // 5. نافذة تأكيد تسجيل الخروج
         const logoutConfirmModal = document.getElementById('logoutConfirmModal');
